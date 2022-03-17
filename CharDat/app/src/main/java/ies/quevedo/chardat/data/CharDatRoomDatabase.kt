@@ -1,0 +1,19 @@
+package ies.quevedo.chardat.data
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import ies.quevedo.chardat.data.entities.EquipoEntity
+import ies.quevedo.chardat.data.entities.ObjetoEntity
+import ies.quevedo.chardat.data.entities.PersonajeEntity
+import ies.quevedo.chardat.data.utils.Converters
+
+@Database(
+    entities = [PersonajeEntity::class, ObjetoEntity::class, EquipoEntity::class],
+    version = 6,
+    exportSchema = true
+)
+@TypeConverters(Converters::class)
+abstract class CharDatRoomDatabase : RoomDatabase() {
+    abstract fun charDatDAO(): CharDatDAO
+}

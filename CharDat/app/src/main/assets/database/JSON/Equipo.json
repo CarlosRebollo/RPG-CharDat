@@ -1,0 +1,14 @@
+[
+    {
+        "attackHability": 110,
+        "damage": 120,
+        "description": null,
+        "id": 1,
+        "idPJ": 1,
+        "name": "HACHA_A_DOS_MANOS",
+        "parry": 75,
+        "turn": -15,
+        "value": "",
+        "weight": null
+    }
+]
