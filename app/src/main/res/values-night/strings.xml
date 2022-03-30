@@ -3,4 +3,6 @@
     <string name="addPJ">Añadir Personaje</string>
     <string name="tvName">Nombre</string>
     <string name="ivImagenDesc">Class icon</string>
+    <string name="descripcion">Descripción</string>
+    <string name="clase">Clase</string>
 </resources>

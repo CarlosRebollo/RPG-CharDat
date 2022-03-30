@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CharDat">
         <activity
-            android:name=".ui.rvPersonaje.PersonajeActivity"
+            android:name=".ui.rvPersonaje.RVPersonajeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

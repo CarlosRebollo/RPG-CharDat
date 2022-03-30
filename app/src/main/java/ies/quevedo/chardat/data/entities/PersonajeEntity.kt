@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import ies.quevedo.chardat.domain.enums.Clase
 import java.time.LocalDate
 
-@Entity(tableName = "Personaje")
+@Entity(tableName = "personaje")
 data class PersonajeEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,

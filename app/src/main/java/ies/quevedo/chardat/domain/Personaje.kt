@@ -27,6 +27,5 @@ data class Personaje(
     val power: Int,
     val will: Int,
     val creationDate: LocalDate,
-    val equipment: List<Equipo>?,
-    val inventory: List<Objeto>?
+    val equipment: List<Arma>?,
 ) : Serializable

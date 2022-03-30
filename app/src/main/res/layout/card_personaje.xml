@@ -12,64 +12,62 @@
 
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_width="205dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="16dp"
         android:text="@string/tvName"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/ivClass"
-        app:layout_constraintStart_toStartOf="@+id/ivClass"
-        app:layout_constraintTop_toBottomOf="@+id/ivClass" />
+        app:layout_constraintBottom_toBottomOf="@+id/ivClass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.093"
+        app:layout_constraintStart_toEndOf="@+id/ivClass"
+        app:layout_constraintTop_toTopOf="@+id/ivClass"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvClase"
+        android:layout_width="205dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/clase"
+        android:textAlignment="textStart"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ivClass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.085"
+        app:layout_constraintStart_toEndOf="@+id/ivClass"
+        app:layout_constraintTop_toTopOf="@+id/ivClass"
+        app:layout_constraintVertical_bias="0.482" />
+
+    <TextView
+        android:id="@+id/tvDescripcion"
+        android:layout_width="228dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/descripcion"
+        android:textAlignment="textStart"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ivClass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.127"
+        app:layout_constraintStart_toEndOf="@+id/ivClass"
+        app:layout_constraintTop_toTopOf="@+id/ivClass"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/ivClass"
-        android:layout_width="349dp"
-        android:layout_height="95dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="95dp"
+        android:layout_height="87dp"
+        android:layout_marginTop="12dp"
         android:contentDescription="@string/ivImagenDesc"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.052"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/btShow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_baseline_info_24"
-        tools:ignore="ContentDescription" />
-
-    <ImageButton
-        android:id="@+id/btEditPersonaje"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btDeletePersonaje"
-        app:layout_constraintStart_toEndOf="@+id/btShow"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
-        app:srcCompat="@drawable/ic_baseline_edit_24"
-        tools:ignore="ContentDescription" />
-
-    <ImageButton
-        android:id="@+id/btDeletePersonaje"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_baseline_delete_24"
-        tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

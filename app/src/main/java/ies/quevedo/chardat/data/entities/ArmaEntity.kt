@@ -5,7 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "Equipo",
+    tableName = "arma",
     foreignKeys = [
         ForeignKey(
             entity = PersonajeEntity::class,
@@ -14,12 +14,13 @@ import androidx.room.PrimaryKey
         )
     ]
 )
-data class EquipoEntity(
+data class ArmaEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
     val value: Int,
     val weight: Double,
+    val quality: Int,
     val turn: Int,
     val attackHability: Int,
     val damage: Int,

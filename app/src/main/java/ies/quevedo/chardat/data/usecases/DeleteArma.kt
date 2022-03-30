@@ -5,8 +5,8 @@ import ies.quevedo.chardat.data.entities.toEquipoEntity
 import ies.quevedo.chardat.domain.Arma
 import javax.inject.Inject
 
-class UpdateEquipo @Inject constructor(private val repository: Repository) {
+class DeleteArma @Inject constructor(private val repository: Repository) {
 
-    suspend fun updateEquipo(arma: Arma) = repository.updateEquipo(arma.toEquipoEntity())
+    suspend fun deleteEquipo(arma: Arma) = repository.deleteEquipo(arma.toEquipoEntity())
 
 }

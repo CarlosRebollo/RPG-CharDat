@@ -12,11 +12,7 @@ import ies.quevedo.chardat.databinding.CardPersonajeBinding
 import ies.quevedo.chardat.domain.Personaje
 import ies.quevedo.chardat.domain.enums.Clase
 
-class PersonajeAdapter(
-    private val showPersonaje: (Int) -> Unit,
-    private val editPersonaje: (Int) -> Unit,
-    private val deletePersonaje: (Int) -> Unit
-) : ListAdapter<Personaje, PersonajeAdapter.ItemViewHolder>(DiffCallback()) {
+class RVPersonajeAdapter : ListAdapter<Personaje, RVPersonajeAdapter.ItemViewHolder>(DiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -29,7 +25,7 @@ class PersonajeAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         with(holder) {
             val item = getItem(position)
-            bind(item, showPersonaje, editPersonaje, deletePersonaje)
+            bind(item)
         }
     }
 
@@ -39,23 +35,9 @@ class PersonajeAdapter(
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = CardPersonajeBinding.bind(itemView)
-        fun bind(
-            personaje: Personaje,
-            showPersonaje: (Int) -> Unit,
-            editPersonaje: (Int) -> Unit,
-            deletePersonaje: (Int) -> Unit
-        ) = with(binding) {
+        fun bind(personaje: Personaje) = with(binding) {
             tvName.text = personaje.name
             ivClass.load(getClassIcon(personaje.clase))
-            btShow.setOnClickListener {
-                showPersonaje(adapterPosition)
-            }
-            btEditPersonaje.setOnClickListener {
-                editPersonaje(adapterPosition)
-            }
-            btDeletePersonaje.setOnClickListener {
-                deletePersonaje(adapterPosition)
-            }
         }
 
         private fun getClassIcon(clase: Clase): String? {
