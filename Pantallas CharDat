@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-03-30T14:44:34.794Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36" etag="sjjmykpbOfTdUYRBMQaw" version="17.2.6" type="github">
+<mxfile host="app.diagrams.net" modified="2022-03-30T14:48:21.289Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36" etag="sNhnev0xhFr2_LGzxStu" version="17.2.6" type="github">
   <diagram id="Qzmnp-EkxHYdnVA1fpgS" name="Page-1">
     <mxGraphModel dx="2062" dy="1065" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
       <root>
@@ -28,24 +28,6 @@
         <mxCell id="h8YFtfDGqRO3FhUaN-89-8" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="520" y="40" width="360" height="680" as="geometry" />
         </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-9" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="540" y="60" width="320" height="130" as="geometry" />
-        </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-10" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="540" y="200" width="320" height="130" as="geometry" />
-        </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-12" value="ICONO&lt;br&gt;CLASE" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
-          <mxGeometry x="560" y="85" width="80" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-13" value="Nombre del personaje" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="655" y="80" width="130" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-14" value="Clase del personaje" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="655" y="110" width="120" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-15" value="Descripción del personaje" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="655" y="140" width="150" height="30" as="geometry" />
-        </mxCell>
         <mxCell id="h8YFtfDGqRO3FhUaN-89-21" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="660" y="640" width="80" height="80" as="geometry" />
         </mxCell>
@@ -67,53 +49,83 @@
         <mxCell id="h8YFtfDGqRO3FhUaN-89-24" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="1000" y="40" width="360" height="680" as="geometry" />
         </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-25" value="ICONO DEL PERSONAJE" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
-          <mxGeometry x="1040" y="70" width="90" height="90" as="geometry" />
-        </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-26" value="NOMBRE DEL PERSONAJE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="1160" y="100" width="160" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-27" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
-          <mxGeometry x="1040" y="200" width="120" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-30" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
-          <mxGeometry x="1200" y="200" width="120" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-31" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
-          <mxGeometry x="1040" y="360" width="120" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-32" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
-          <mxGeometry x="1200" y="360" width="120" height="120" as="geometry" />
-        </mxCell>
         <mxCell id="h8YFtfDGqRO3FhUaN-89-33" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="h8YFtfDGqRO3FhUaN-89-9" target="h8YFtfDGqRO3FhUaN-89-24">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="670" y="510" as="sourcePoint" />
             <mxPoint x="720" y="460" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-34" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.flash" vertex="1" parent="1">
-          <mxGeometry x="1080" y="210" width="40" height="70" as="geometry" />
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-42" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="1040" y="80" width="280" height="410" as="geometry" />
         </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-35" value="" style="whiteSpace=wrap;html=1;shape=mxgraph.basic.isocube;isoAngle=15;" vertex="1" parent="1">
-          <mxGeometry x="1070" y="370" width="60" height="60" as="geometry" />
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-25" value="ICONO DEL PERSONAJE" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry width="90" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-36" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.heart" vertex="1" parent="1">
-          <mxGeometry x="1225" y="210" width="70" height="65" as="geometry" />
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-26" value="NOMBRE DEL PERSONAJE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry x="120" y="30" width="160" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-37" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.moon" vertex="1" parent="1">
-          <mxGeometry x="1222.5" y="370" width="75" height="60" as="geometry" />
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-27" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry y="130" width="120" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-38" value="Información" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="1070" y="290" width="60" height="30" as="geometry" />
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-30" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry x="160" y="130" width="120" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-39" value="Armas y escudos" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="1210" y="290" width="100" height="30" as="geometry" />
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-31" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry y="290" width="120" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-40" value="Armaduras" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="1070" y="450" width="60" height="30" as="geometry" />
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-32" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry x="160" y="290" width="120" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="h8YFtfDGqRO3FhUaN-89-41" value="Objetos" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="1230" y="450" width="60" height="30" as="geometry" />
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-34" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.flash" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry x="40" y="140" width="40" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-35" value="" style="whiteSpace=wrap;html=1;shape=mxgraph.basic.isocube;isoAngle=15;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry x="30" y="300" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-36" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.heart" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry x="185" y="140" width="70" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-37" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.moon" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry x="182.5" y="300" width="75" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-38" value="Información" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry x="30" y="220" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-39" value="Armas y escudos" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry x="170" y="220" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-40" value="Armaduras" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry x="30" y="380" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-41" value="Objetos" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-42">
+          <mxGeometry x="190" y="380" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-43" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="540" y="120" width="320" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-9" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-43">
+          <mxGeometry width="320" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-10" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-43">
+          <mxGeometry y="140" width="320" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-12" value="ICONO&lt;br&gt;CLASE" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-43">
+          <mxGeometry x="20" y="25" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-13" value="Nombre del personaje" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-43">
+          <mxGeometry x="115" y="20" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-14" value="Clase del personaje" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-43">
+          <mxGeometry x="115" y="50" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-15" value="Descripción del personaje" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="h8YFtfDGqRO3FhUaN-89-43">
+          <mxGeometry x="115" y="80" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-44" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="40" width="360" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="h8YFtfDGqRO3FhUaN-89-46" value="" style="shape=cross;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="830" y="50" width="30" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
