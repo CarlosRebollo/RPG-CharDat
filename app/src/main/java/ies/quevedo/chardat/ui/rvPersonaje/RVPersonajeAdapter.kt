@@ -37,6 +37,7 @@ class RVPersonajeAdapter : ListAdapter<Personaje, RVPersonajeAdapter.ItemViewHol
         private val binding = CardPersonajeBinding.bind(itemView)
         fun bind(personaje: Personaje) = with(binding) {
             tvName.text = personaje.name
+
             ivClass.load(getClassIcon(personaje.clase))
         }
 

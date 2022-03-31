@@ -40,23 +40,22 @@
         app:layout_constraintHorizontal_bias="0.085"
         app:layout_constraintStart_toEndOf="@+id/ivClass"
         app:layout_constraintTop_toTopOf="@+id/ivClass"
-        app:layout_constraintVertical_bias="0.482" />
+        app:layout_constraintVertical_bias="0.448" />
 
     <TextView
-        android:id="@+id/tvDescripcion"
-        android:layout_width="228dp"
+        android:id="@+id/tvClase2"
+        android:layout_width="205dp"
         android:layout_height="29dp"
-        android:layout_marginStart="16dp"
-        android:text="@string/descripcion"
+        android:text="@string/clase"
         android:textAlignment="textStart"
-        android:textSize="11sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/ivClass"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.127"
+        app:layout_constraintHorizontal_bias="0.255"
         app:layout_constraintStart_toEndOf="@+id/ivClass"
-        app:layout_constraintTop_toTopOf="@+id/ivClass"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/tvClase"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/ivClass"

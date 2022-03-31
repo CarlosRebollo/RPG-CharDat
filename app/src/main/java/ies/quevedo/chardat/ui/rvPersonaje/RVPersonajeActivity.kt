@@ -15,7 +15,7 @@ import ies.quevedo.chardat.domain.Personaje
 class RVPersonajeActivity : AppCompatActivity() {
 
     private lateinit var binding: RecyclerPersonajeBinding
-    private lateinit var RVPersonajeAdapter: RVPersonajeAdapter
+    private lateinit var rvPersonajeAdapter: RVPersonajeAdapter
     private val viewModelRV: RVPersonajeViewModel by viewModels()
     private lateinit var createdPersonaje: Personaje
     private lateinit var updatedPersonaje: Personaje
@@ -27,7 +27,10 @@ class RVPersonajeActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.addItem -> {
+            R.id.addPersonaje -> {
+                true
+            }
+            R.id.filterPersonajes -> {
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -36,7 +39,7 @@ class RVPersonajeActivity : AppCompatActivity() {
 
     private fun observersRVPersonajes() {
         viewModelRV.personajes.observe(this) { personajes ->
-            RVPersonajeAdapter.submitList(personajes)
+            rvPersonajeAdapter.submitList(personajes)
         }
         viewModelRV.error.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
@@ -48,8 +51,8 @@ class RVPersonajeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = RecyclerPersonajeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        RVPersonajeAdapter = RVPersonajeAdapter()
-        binding.rvPersonajes.adapter = RVPersonajeAdapter
+        rvPersonajeAdapter = RVPersonajeAdapter()
+        binding.rvPersonajes.adapter = rvPersonajeAdapter
         observersRVPersonajes()
     }
 }
