@@ -1,14 +1,13 @@
 package ies.quevedo.chardat.domain
 
-import ies.quevedo.chardat.domain.enums.Clase
 import java.io.Serializable
 import java.time.LocalDate
 
 data class Personaje(
     val id: Int,
     val name: String,
-    val clase: Clase,
     val level: Int,
+    val clase: String,
     val description: String,
     val currentHP: Int,
     val totalHP: Int,

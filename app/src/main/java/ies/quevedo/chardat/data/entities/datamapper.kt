@@ -7,8 +7,8 @@ fun PersonajeWithArmasEntity.toPersonaje(): Personaje {
     return Personaje(
         this.personajeEntity.id,
         this.personajeEntity.name,
-        this.personajeEntity.clase,
         this.personajeEntity.level,
+        this.personajeEntity.clase,
         this.personajeEntity.description,
         this.personajeEntity.currentHP,
         this.personajeEntity.totalHP,
@@ -35,8 +35,8 @@ fun PersonajeEntity.toPersonaje(): Personaje {
     return Personaje(
         this.id,
         this.name,
-        this.clase,
         this.level,
+        this.clase,
         this.description,
         this.currentHP,
         this.totalHP,

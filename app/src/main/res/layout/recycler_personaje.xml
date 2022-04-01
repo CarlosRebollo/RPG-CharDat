@@ -17,7 +17,8 @@
         app:layout_constraintBottom_toTopOf="@id/fragmentContainerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/special_blue">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"

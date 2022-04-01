@@ -6,4 +6,6 @@
     <string name="descripcion">Descripción</string>
     <string name="clase">Clase</string>
     <string name="filterPersonaje">Buscar personajes</string>
+    <string name="tvDescripcion">Descripción</string>
+    <string name="date">Fecha de creación</string>
 </resources>
