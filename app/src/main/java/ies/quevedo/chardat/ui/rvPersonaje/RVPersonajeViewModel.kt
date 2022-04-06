@@ -26,7 +26,7 @@ class RVPersonajeViewModel @Inject constructor(
             try {
                 _personajes.value = listPersonajes.getPersonajes()
             } catch (e: Exception) {
-                _error.value = listOf(e.message ?: "Error desconocido")
+                _error.value = listOf(e.message ?: "Ha al cargar los personajes")
             }
         }
     }

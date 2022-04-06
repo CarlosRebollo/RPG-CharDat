@@ -10,8 +10,8 @@ import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.CardPersonajeBinding
 import ies.quevedo.chardat.domain.Personaje
 
-class RVPersonajeAdapter() :
-    ListAdapter<Personaje, RVPersonajeAdapter.ItemViewHolder>(PersonajeDiffCallback()) {
+class RVPersonajeAdapter : ListAdapter<Personaje,
+        RVPersonajeAdapter.ItemViewHolder>(PersonajeDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
