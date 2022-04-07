@@ -18,15 +18,15 @@ class RVPersonajeViewModel @Inject constructor(
     private val _personajes = MutableLiveData<List<Personaje>>()
     val personajes: LiveData<List<Personaje>> get() = _personajes
 
-    private val _error = MutableLiveData<List<String>>()
-    val error: LiveData<List<String>> get() = _error
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> get() = _error
 
     fun getPersonajes() {
         viewModelScope.launch {
             try {
                 _personajes.value = listPersonajes.getPersonajes()
             } catch (e: Exception) {
-                _error.value = listOf(e.message ?: "Ha al cargar los personajes")
+                _error.value = "Ha ocurrido un error al obtener los personajes"
             }
         }
     }

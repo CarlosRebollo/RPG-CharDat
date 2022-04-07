@@ -1,5 +1,7 @@
 package ies.quevedo.chardat.ui.rvPersonaje
 
+import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +12,9 @@ import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.CardPersonajeBinding
 import ies.quevedo.chardat.domain.Personaje
 
-class RVPersonajeAdapter : ListAdapter<Personaje,
+class RVPersonajeAdapter(
+    private val goMainMenu: (Int) -> Unit,
+) : ListAdapter<Personaje,
         RVPersonajeAdapter.ItemViewHolder>(PersonajeDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -23,16 +27,23 @@ class RVPersonajeAdapter : ListAdapter<Personaje,
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         with(holder) {
             val item = getItem(position)
-            bind(item)
+            bind(item, goMainMenu)
         }
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = CardPersonajeBinding.bind(itemView)
-        fun bind(item: Personaje) = with(binding) {
+        @SuppressLint("SetTextI18n")
+        fun bind(
+            item: Personaje,
+            goMainMenu: (Int) -> Unit
+        ) = with(binding) {
             tvName.text = item.name
             tvClase.text = item.clase
-            tvCreationDate.text = item.creationDate.toString()
+            tvCreationDate.text = "Fecha de creación: " + item.creationDate.toString()
+            cardPersonaje.setOnClickListener {
+                goMainMenu(adapterPosition)
+            }
         }
     }
 

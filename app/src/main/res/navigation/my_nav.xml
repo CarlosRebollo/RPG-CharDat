@@ -1,6 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/my_nav">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/RVPersonajeActivity">
 
+    <activity
+        android:id="@+id/RVPersonajeActivity"
+        android:name="ies.quevedo.chardat.ui.rvPersonaje.RVPersonajeActivity"
+        android:label="recycler_personaje"
+        tools:layout="@layout/recycler_personaje" />
+    <fragment
+        android:id="@+id/mainMenuFragment"
+        android:name="ies.quevedo.chardat.MainMenuFragment"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu" >
+        <action
+            android:id="@+id/action_mainMenuFragment_to_personajeFragment"
+            app:destination="@id/personajeFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_RVArmaFragment"
+            app:destination="@id/RVArmaFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_RVPersonajeActivity"
+            app:destination="@id/RVPersonajeActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/personajeFragment"
+        android:name="ies.quevedo.chardat.PersonajeFragment"
+        android:label="fragment_personaje"
+        tools:layout="@layout/fragment_personaje" >
+        <action
+            android:id="@+id/action_personajeFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/RVArmaFragment"
+        android:name="ies.quevedo.chardat.ui.rvArma.RVArmaFragment"
+        android:label="fragment_armas"
+        tools:layout="@layout/fragment_armas" >
+        <action
+            android:id="@+id/action_RVArmaFragment_to_armaFragment"
+            app:destination="@id/armaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/armaFragment"
+        android:name="ies.quevedo.chardat.ArmaFragment"
+        android:label="fragment_arma"
+        tools:layout="@layout/fragment_arma" >
+        <action
+            android:id="@+id/action_armaFragment_to_RVArmaFragment"
+            app:destination="@id/RVArmaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPersonajeFragment"
+        android:name="ies.quevedo.chardat.AddPersonajeFragment"
+        android:label="fragment_add_personaje"
+        tools:layout="@layout/fragment_add_personaje" >
+        <action
+            android:id="@+id/action_addPersonajeFragment_to_RVPersonajeActivity"
+            app:destination="@id/RVPersonajeActivity" />
+    </fragment>
 </navigation>

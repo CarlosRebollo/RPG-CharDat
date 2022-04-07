@@ -11,23 +11,23 @@ interface CharDatDAO {
     suspend fun getPersonajes(): List<PersonajeEntity>
 
     @Query("SELECT * FROM arma WHERE idPJ = :idPJ")
-    suspend fun getEquipamiento(idPJ: Int): List<ArmaEntity>
+    suspend fun getArmas(idPJ: Int): List<ArmaEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertPersonaje(personaje: PersonajeEntity)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertEquipo(arma: ArmaEntity)
+    suspend fun insertArma(arma: ArmaEntity)
 
     @Delete
     suspend fun deletePersonaje(personaje: PersonajeEntity)
 
     @Delete
-    suspend fun deleteEquipo(arma: ArmaEntity)
+    suspend fun deleteArma(arma: ArmaEntity)
 
     @Update
     suspend fun updatePersonaje(personaje: PersonajeEntity)
 
     @Update
-    suspend fun updateEquipo(arma: ArmaEntity)
+    suspend fun updateArma(arma: ArmaEntity)
 }

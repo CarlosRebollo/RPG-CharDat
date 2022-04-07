@@ -8,4 +8,5 @@
     <string name="filterPersonaje">Buscar personajes</string>
     <string name="tvDescripcion">Descripción</string>
     <string name="date">Fecha de creación</string>
+    <string name="classicon">ClassIcon</string>
 </resources>

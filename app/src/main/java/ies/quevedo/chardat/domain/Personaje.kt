@@ -16,6 +16,7 @@ data class Personaje(
     val attackHability: Int,
     val dodge: Int,
     val parryHability: Int,
+    val armor: Int,
     val turn: Int,
     val agility: Int,
     val constitution: Int,
@@ -25,6 +26,9 @@ data class Personaje(
     val perception: Int,
     val power: Int,
     val will: Int,
+    val RF: Int,
+    val RM: Int,
+    val RP: Int,
     val creationDate: LocalDate,
-    val equipment: List<Arma>?,
+    val weapons: List<Arma>?,
 ) : Serializable

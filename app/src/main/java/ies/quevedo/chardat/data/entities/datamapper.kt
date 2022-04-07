@@ -3,7 +3,7 @@ package ies.quevedo.chardat.data.entities
 import ies.quevedo.chardat.domain.Arma
 import ies.quevedo.chardat.domain.Personaje
 
-fun PersonajeWithArmasEntity.toPersonaje(): Personaje {
+fun PersonajeWithInventoryEntity.toPersonaje(): Personaje {
     return Personaje(
         this.personajeEntity.id,
         this.personajeEntity.name,
@@ -17,6 +17,7 @@ fun PersonajeWithArmasEntity.toPersonaje(): Personaje {
         this.personajeEntity.attackHability,
         this.personajeEntity.dodge,
         this.personajeEntity.parryHability,
+        this.personajeEntity.armor,
         this.personajeEntity.turn,
         this.personajeEntity.agility,
         this.personajeEntity.constitution,
@@ -26,9 +27,11 @@ fun PersonajeWithArmasEntity.toPersonaje(): Personaje {
         this.personajeEntity.perception,
         this.personajeEntity.power,
         this.personajeEntity.will,
+        this.personajeEntity.RF,
+        this.personajeEntity.RM,
+        this.personajeEntity.RP,
         this.personajeEntity.creationDate,
-        this.equipment?.map { it.toArma() }
-    )
+        this.weapons?.map { it.toArma() })
 }
 
 fun PersonajeEntity.toPersonaje(): Personaje {
@@ -45,6 +48,7 @@ fun PersonajeEntity.toPersonaje(): Personaje {
         this.attackHability,
         this.dodge,
         this.parryHability,
+        this.armor,
         this.turn,
         this.agility,
         this.constitution,
@@ -54,6 +58,9 @@ fun PersonajeEntity.toPersonaje(): Personaje {
         this.perception,
         this.power,
         this.will,
+        this.RF,
+        this.RM,
+        this.RP,
         this.creationDate,
         null
     )
@@ -75,10 +82,10 @@ fun ArmaEntity.toArma(): Arma {
     )
 }
 
-fun Personaje.toPersonajeWithAllEntity(): PersonajeWithArmasEntity {
-    return PersonajeWithArmasEntity(
+fun Personaje.toPersonajeWithInventoryEntity(): PersonajeWithInventoryEntity {
+    return PersonajeWithInventoryEntity(
         this.toPersonajeEntity(),
-        this.equipment?.map { it.toEquipoEntity() }
+        this.weapons?.map { it.toArmaEntity() }
     )
 }
 
@@ -96,6 +103,7 @@ fun Personaje.toPersonajeEntity(): PersonajeEntity {
         this.attackHability,
         this.dodge,
         this.parryHability,
+        this.armor,
         this.turn,
         this.agility,
         this.constitution,
@@ -105,11 +113,14 @@ fun Personaje.toPersonajeEntity(): PersonajeEntity {
         this.perception,
         this.power,
         this.will,
+        this.RF,
+        this.RM,
+        this.RP,
         this.creationDate
     )
 }
 
-fun Arma.toEquipoEntity(): ArmaEntity {
+fun Arma.toArmaEntity(): ArmaEntity {
     return ArmaEntity(
         this.id,
         this.name,

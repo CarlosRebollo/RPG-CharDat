@@ -8,4 +8,7 @@
     <string name="filterPersonaje">Buscar personajes</string>
     <string name="tvDescripcion">Descripción</string>
     <string name="date">Fecha de creación</string>
+    <string name="classicon">ClassIcon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

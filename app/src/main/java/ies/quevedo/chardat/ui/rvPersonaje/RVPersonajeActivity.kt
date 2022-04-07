@@ -17,27 +17,39 @@ class RVPersonajeActivity : AppCompatActivity() {
     private lateinit var adapter: RVPersonajeAdapter
     private lateinit var binding: RecyclerPersonajeBinding
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
+        binding = RecyclerPersonajeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        adapter = RVPersonajeAdapter(
+            ::goMainMenu
+        )
+        binding.rvPersonajes.adapter = adapter
+        observersRecyclerPersonaje()
+    }
+
+    private fun goMainMenu(position: Int) {
+        val personaje = viewModel.personajes.value?.get(position)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_item, menu)
-        return true
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.addPersonaje -> {
+                // TODO: Add personaje
+                true
+            }
+            R.id.filterPersonajes -> {
+                // TODO: Filter personajes
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = RecyclerPersonajeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        adapter = RVPersonajeAdapter()
-        binding.rvPersonajes.adapter = adapter
-        observersRecyclerPersonaje()
     }
 
     private fun observersRecyclerPersonaje() {
