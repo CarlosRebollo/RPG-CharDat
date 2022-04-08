@@ -1,49 +1,53 @@
 package ies.quevedo.chardat.ui.rvArma
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-
-import ies.quevedo.chardat.placeholder.PlaceholderContent.PlaceholderItem
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.CardArmaFragmentBinding
+import ies.quevedo.chardat.domain.Arma
 
-/**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
- * TODO: Replace the implementation with code for your data type.
- */
 class RVArmaAdapter(
-    private val values: List<PlaceholderItem>
-) : RecyclerView.Adapter<RVArmaAdapter.ViewHolder>() {
+    private val goWeaponDetails: (Int) -> Unit
+) : ListAdapter<Arma,
+        RVArmaAdapter.ItemViewHolder>(ArmaDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-        return ViewHolder(
-            CardArmaFragmentBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        return ItemViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.card_arma_fragment, parent, false)
         )
-
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
-    }
-
-    override fun getItemCount(): Int = values.size
-
-    inner class ViewHolder(binding: CardArmaFragmentBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        val idView: TextView = binding.itemNumber
-        val contentView: TextView = binding.content
-
-        override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        with(holder) {
+            val item = getItem(position)
+            bind(item, goWeaponDetails)
         }
     }
 
+    class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = CardArmaFragmentBinding.bind(itemView)
+        fun bind(
+            item: Arma,
+            goWeaponDetails: (Int) -> Unit
+        ) = with(binding) {
+            tvName.text = item.name
+            tvDescription.text = item.description
+            cardArma.setOnClickListener { goWeaponDetails(adapterPosition) }
+        }
+    }
+
+    class ArmaDiffCallback : DiffUtil.ItemCallback<Arma>() {
+        override fun areItemsTheSame(oldItem: Arma, newItem: Arma): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Arma, newItem: Arma): Boolean {
+            return oldItem == newItem
+        }
+    }
 }

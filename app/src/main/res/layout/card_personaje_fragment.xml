@@ -64,8 +64,8 @@
 
     <ImageView
         android:id="@+id/ivClass"
-        android:layout_width="95dp"
-        android:layout_height="87dp"
+        android:layout_width="112dp"
+        android:layout_height="112dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/ivImagenDesc"
         android:scaleType="centerCrop"

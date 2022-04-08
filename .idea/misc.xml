@@ -10,9 +10,12 @@
         <entry key="..\:/Users/carli/Documents/GitHub/DAM2/PMDM/CharDat/app/src/main/res/layout/recycler_personaje.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/carli/Documents/GitHub/DAM2/PMDM/CharDat/app/src/main/res/menu/menu_item.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/carli/Documents/GitHub/RPG-CharDat/app/src/main/res/drawable-v24/border.xml" value="0.3165" />
+        <entry key="..\:/Users/carli/Documents/GitHub/RPG-CharDat/app/src/main/res/layout/activity_main.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/carli/Documents/GitHub/RPG-CharDat/app/src/main/res/layout/card_arma.xml" value="0.1" />
-        <entry key="..\:/Users/carli/Documents/GitHub/RPG-CharDat/app/src/main/res/layout/card_arma_fragment.xml" value="0.31354166666666666" />
-        <entry key="..\:/Users/carli/Documents/GitHub/RPG-CharDat/app/src/main/res/layout/card_personaje.xml" value="0.4796195652173913" />
+        <entry key="..\:/Users/carli/Documents/GitHub/RPG-CharDat/app/src/main/res/layout/card_arma_fragment.xml" value="0.5" />
+        <entry key="..\:/Users/carli/Documents/GitHub/RPG-CharDat/app/src/main/res/layout/card_personaje.xml" value="0.1" />
+        <entry key="..\:/Users/carli/Documents/GitHub/RPG-CharDat/app/src/main/res/layout/card_personaje_fragment.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/carli/Documents/GitHub/RPG-CharDat/app/src/main/res/layout/fragment_armas.xml" value="0.19927536231884058" />
         <entry key="..\:/Users/carli/Documents/GitHub/RPG-CharDat/app/src/main/res/layout/fragment_crear_arma.xml" value="0.4796195652173913" />
         <entry key="..\:/Users/carli/Documents/GitHub/RPG-CharDat/app/src/main/res/layout/fragment_crear_personaje.xml" value="0.4796195652173913" />
         <entry key="..\:/Users/carli/Documents/GitHub/RPG-CharDat/app/src/main/res/layout/fragment_item_list.xml" value="0.5541666666666667" />

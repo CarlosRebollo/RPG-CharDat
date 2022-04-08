@@ -1,7 +1,9 @@
 package ies.quevedo.chardat.domain
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Arma(
     val id: Int,
     val name: String,
@@ -14,4 +16,4 @@ data class Arma(
     val parry: Int,
     val description: String,
     val idPJ: Int
-) : Serializable
+) : Parcelable

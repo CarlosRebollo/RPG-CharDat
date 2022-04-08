@@ -2,12 +2,12 @@
 <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rvArmas"
-    android:name="ies.quevedo.chardat.RVArmaFragment"
+    android:id="@+id/list"
+    android:name="ies.quevedo.chardat.RVPersonajeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".ui.rvArma.RVArmaFragment"
-    tools:listitem="@layout/card_arma_fragment" />
+    tools:context=".ui.rvPersonaje.RVPersonajeFragment"
+    tools:listitem="@layout/card_personaje_fragment" />
