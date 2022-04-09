@@ -9,4 +9,14 @@
     <string name="tvDescripcion">Descripción</string>
     <string name="date">Fecha de creación</string>
     <string name="classicon">ClassIcon</string>
+    <string name="nombreArma">Nombre del arma</string>
+    <string name="calidadArma">Calidad</string>
+    <string name="turno">Turno</string>
+    <string name="habilidadDeAtaque">Habilidad de ataque</string>
+    <string name="damage">Daño</string>
+    <string name="parry">Parada</string>
+    <string name="value">Valor</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="modificar">Modificar</string>
+    <string name="peso">Peso</string>
 </resources>

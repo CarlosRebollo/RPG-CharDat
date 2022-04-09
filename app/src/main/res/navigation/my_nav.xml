@@ -65,12 +65,37 @@
         android:label="fragment_add_personaje"
         tools:layout="@layout/fragment_add_personaje" >
         <action
-            android:id="@+id/action_addPersonajeFragment_to_RVPersonajeFragment"
-            app:destination="@id/RVPersonajeFragment" />
+            android:id="@+id/action_addPersonajeFragment_to_addPersonajeFragment2"
+            app:destination="@id/addPersonajeFragment2" />
     </fragment>
     <fragment
         android:id="@+id/RVPersonajeFragment"
         android:name="ies.quevedo.chardat.ui.rvPersonaje.RVPersonajeFragment"
         android:label="fragment_personajes_list"
-        tools:layout="@layout/fragment_personajes_list" />
+        tools:layout="@layout/fragment_personajes_list" >
+        <action
+            android:id="@+id/action_RVPersonajeFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
+        <action
+            android:id="@+id/action_RVPersonajeFragment_to_addPersonajeFragment"
+            app:destination="@id/addPersonajeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPersonajeFragment2"
+        android:name="ies.quevedo.chardat.AddPersonajeFragment2"
+        android:label="fragment_add_personaje2"
+        tools:layout="@layout/fragment_add_personaje2" >
+        <action
+            android:id="@+id/action_addPersonajeFragment2_to_addPersonajeFragment3"
+            app:destination="@id/addPersonajeFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPersonajeFragment3"
+        android:name="ies.quevedo.chardat.AddPersonajeFragment3"
+        android:label="fragment_add_personaje3"
+        tools:layout="@layout/fragment_add_personaje3" >
+        <action
+            android:id="@+id/action_addPersonajeFragment3_to_RVPersonajeFragment"
+            app:destination="@id/RVPersonajeFragment" />
+    </fragment>
 </navigation>

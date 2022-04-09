@@ -9,12 +9,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 
 @AndroidEntryPoint
-class PersonajeFragment : Fragment() {
+class AddPersonajeFragment2 : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_personaje, container, false)
+        return inflater.inflate(R.layout.fragment_add_personaje2, container, false)
     }
 }

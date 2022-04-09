@@ -1,20 +1,18 @@
 package ies.quevedo.chardat.ui.personaje
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import dagger.hilt.android.AndroidEntryPoint
+import androidx.fragment.app.Fragment
 import ies.quevedo.chardat.R
 
-@AndroidEntryPoint
-class PersonajeFragment : Fragment() {
+class AddPersonajeFragment3 : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_personaje, container, false)
+        return inflater.inflate(R.layout.fragment_add_personaje3, container, false)
     }
 }

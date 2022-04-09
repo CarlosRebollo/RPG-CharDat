@@ -9,7 +9,7 @@ import ies.quevedo.chardat.data.utils.Converters
 
 @Database(
     entities = [PersonajeEntity::class, ArmaEntity::class],
-    version = 9,
+    version = 10,
     exportSchema = true
 )
 @TypeConverters(Converters::class)

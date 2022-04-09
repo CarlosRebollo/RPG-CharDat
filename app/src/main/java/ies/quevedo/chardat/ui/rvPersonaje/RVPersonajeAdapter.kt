@@ -12,7 +12,7 @@ import ies.quevedo.chardat.databinding.CardPersonajeFragmentBinding
 import ies.quevedo.chardat.domain.Personaje
 
 class RVPersonajeAdapter(
-    private val goCharacterDetails: (Int) -> Unit
+    private val goMainMenu: (Int) -> Unit
 ) : ListAdapter<Personaje,
         RVPersonajeAdapter.ItemViewHolder>(PersonajeDiffCallback()) {
 
@@ -26,7 +26,7 @@ class RVPersonajeAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         with(holder) {
             val item = getItem(position)
-            bind(item, goCharacterDetails)
+            bind(item, goMainMenu)
         }
     }
 
@@ -35,12 +35,12 @@ class RVPersonajeAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(
             item: Personaje,
-            goWeaponDetails: (Int) -> Unit
+            goMainMenu: (Int) -> Unit
         ) = with(binding) {
             tvName.text = item.name
             tvClase.text = item.clase
             tvCreationDate.text = "Fecha de creación: ${item.creationDate}"
-            cardPersonaje.setOnClickListener { goWeaponDetails(adapterPosition) }
+            cardPersonaje.setOnClickListener { goMainMenu(adapterPosition) }
         }
     }
 
