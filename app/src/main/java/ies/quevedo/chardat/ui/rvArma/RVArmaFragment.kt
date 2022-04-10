@@ -9,6 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentArmasBinding
@@ -28,22 +29,24 @@ class RVArmaFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentArmasBinding.inflate(inflater, container, false)
-        personaje = arguments?.getParcelable("personaje")!!
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        personaje = arguments?.getParcelable("personaje")!!
+        arma = arguments?.getParcelable("arma")
+        if (arma != null) {
+            viewModel.updateArma(arma!!)
+            // Con esto evito que se pueda volver atrás al fragment de update de armas
+            findNavController().popBackStack(R.id.armaFragment, true)
+        }
         adapter = RVArmaAdapter(
             ::goWeaponDetails
         )
         binding.rvArmas.adapter = adapter
-        arma = arguments?.getParcelable("arma")
-        if (arma != null) {
-            viewModel.updateArma(arma!!)
-        }
         observersRecyclerArmas()
     }
 

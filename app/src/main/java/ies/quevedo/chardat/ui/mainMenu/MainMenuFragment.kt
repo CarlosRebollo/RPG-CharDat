@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentMainMenuBinding
 import ies.quevedo.chardat.domain.Personaje
 
@@ -37,9 +37,10 @@ class MainMenuFragment : Fragment() {
             tvName.text = personaje.name
             // TODO: Aquí meter la imagen de la clase del personaje
             ivInfo.setOnClickListener {
-                val action = MainMenuFragmentDirections
+                /*val action = MainMenuFragmentDirections
                     .actionMainMenuFragmentToPersonajeFragment(personaje)
-                findNavController().navigate(action)
+                findNavController().navigate(action)*/
+                Toast.makeText(context, "En desarrollo, crack", Toast.LENGTH_SHORT).show()
             }
             ivArmas.setOnClickListener {
                 val action = MainMenuFragmentDirections
@@ -47,6 +48,15 @@ class MainMenuFragment : Fragment() {
                 findNavController().navigate(action)
             }
             // TODO: Aquí seguir haciendo onClickListener para los demás botones
+            ivArmaduras.setOnClickListener {
+                Toast.makeText(context, "En desarrollo, crack", Toast.LENGTH_SHORT).show()
+            }
+            ivEscudos.setOnClickListener {
+                Toast.makeText(context, "En desarrollo, crack", Toast.LENGTH_SHORT).show()
+            }
+            ivObjetos.setOnClickListener {
+                Toast.makeText(context, "En desarrollo, crack", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
