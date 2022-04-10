@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentArmaBinding
 import ies.quevedo.chardat.domain.Arma
 import ies.quevedo.chardat.domain.Personaje
@@ -58,8 +56,7 @@ class ArmaFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putParcelable("arma", arma)
                 bundle.putParcelable("personaje", personaje)
-                val navController = view.findNavController()
-                navController.navigate(R.id.action_armaFragment_to_RVArmaFragment, bundle)
+                activity?.onBackPressed()
             }
         }
     }
