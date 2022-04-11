@@ -60,10 +60,10 @@
             app:argType="ies.quevedo.chardat.domain.Arma" />
     </fragment>
     <fragment
-        android:id="@+id/addPersonajeFragment"
-        android:name="ies.quevedo.chardat.ui.personaje.AddPersonajeFragment"
+        android:id="@+id/addPersonajeFragment1"
+        android:name="ies.quevedo.chardat.ui.personaje.AddPersonajeFragment1"
         android:label="fragment_add_personaje"
-        tools:layout="@layout/fragment_add_personaje" >
+        tools:layout="@layout/fragment_add_personaje1">
         <action
             android:id="@+id/action_addPersonajeFragment_to_addPersonajeFragment2"
             app:destination="@id/addPersonajeFragment2" />
@@ -78,7 +78,7 @@
             app:destination="@id/mainMenuFragment" />
         <action
             android:id="@+id/action_RVPersonajeFragment_to_addPersonajeFragment"
-            app:destination="@id/addPersonajeFragment" />
+            app:destination="@id/addPersonajeFragment1" />
     </fragment>
     <fragment
         android:id="@+id/addPersonajeFragment2"
