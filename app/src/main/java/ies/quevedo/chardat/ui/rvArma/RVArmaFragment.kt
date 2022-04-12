@@ -47,6 +47,10 @@ class RVArmaFragment : Fragment() {
             ::goWeaponDetails
         )
         binding.rvArmas.adapter = adapter
+        binding.fbtRegister.setOnClickListener {
+            //TODO: El action está mal, hay que crear la vista de registro de armas
+            findNavController().navigate(R.id.action_RVArmaFragment_to_armaFragment)
+        }
         observersRecyclerArmas()
     }
 
@@ -64,17 +68,6 @@ class RVArmaFragment : Fragment() {
                 return false
             }
         })
-        val addPersonaje = menu.findItem(R.id.register)
-        addPersonaje.setOnMenuItemClickListener {
-            goAddArma()
-            true
-        }
-    }
-
-    private fun goAddArma() {
-        val navController = view?.findNavController()
-        navController?.navigate(R.id.action_RVArmaFragment_to_armaFragment)
-        //TODO: El action está mal, hay que crear la vista de registro de armas
     }
 
     private fun goWeaponDetails(position: Int) {

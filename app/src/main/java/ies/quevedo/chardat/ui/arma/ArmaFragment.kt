@@ -23,7 +23,7 @@ class ArmaFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentArmaBinding.inflate(inflater, container, false)
         personaje = arguments?.getParcelable("personaje")!!
         arma = arguments?.getParcelable("arma")!!

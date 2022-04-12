@@ -3,37 +3,6 @@ package ies.quevedo.chardat.data.entities
 import ies.quevedo.chardat.domain.Arma
 import ies.quevedo.chardat.domain.Personaje
 
-fun PersonajeWithInventoryEntity.toPersonaje(): Personaje {
-    return Personaje(
-        this.personajeEntity.id,
-        this.personajeEntity.name,
-        this.personajeEntity.level,
-        this.personajeEntity.clase,
-        this.personajeEntity.description,
-        this.personajeEntity.currentHP,
-        this.personajeEntity.totalHP,
-        this.personajeEntity.currentStamina,
-        this.personajeEntity.totalStamina,
-        this.personajeEntity.attackHability,
-        this.personajeEntity.dodge,
-        this.personajeEntity.parryHability,
-        this.personajeEntity.armor,
-        this.personajeEntity.turn,
-        this.personajeEntity.agility,
-        this.personajeEntity.constitution,
-        this.personajeEntity.dexterity,
-        this.personajeEntity.strenght,
-        this.personajeEntity.intelligence,
-        this.personajeEntity.perception,
-        this.personajeEntity.power,
-        this.personajeEntity.will,
-        this.personajeEntity.RF,
-        this.personajeEntity.RM,
-        this.personajeEntity.RP,
-        this.personajeEntity.creationDate,
-        this.weapons?.map { it.toArma() })
-}
-
 fun PersonajeEntity.toPersonaje(): Personaje {
     return Personaje(
         this.id,
@@ -61,8 +30,7 @@ fun PersonajeEntity.toPersonaje(): Personaje {
         this.RF,
         this.RM,
         this.RP,
-        this.creationDate,
-        null
+        this.creationDate
     )
 }
 
@@ -79,13 +47,6 @@ fun ArmaEntity.toArma(): Arma {
         this.parry,
         this.description,
         this.idPJ
-    )
-}
-
-fun Personaje.toPersonajeWithInventoryEntity(): PersonajeWithInventoryEntity {
-    return PersonajeWithInventoryEntity(
-        this.toPersonajeEntity(),
-        this.weapons?.map { it.toArmaEntity() }
     )
 }
 
@@ -108,7 +69,7 @@ fun Personaje.toPersonajeEntity(): PersonajeEntity {
         this.agility,
         this.constitution,
         this.dexterity,
-        this.strenght,
+        this.strength,
         this.intelligence,
         this.perception,
         this.power,
