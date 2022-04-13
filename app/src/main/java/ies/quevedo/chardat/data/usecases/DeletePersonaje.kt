@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class DeletePersonaje @Inject constructor(private val repository: Repository) {
 
-    suspend fun deletePersonaje(personaje: Personaje) =
+    suspend fun invoke(personaje: Personaje) =
         repository.deletePersonaje(personaje.toPersonajeEntity())
 
 }

@@ -7,6 +7,6 @@ import javax.inject.Inject
 
 class InsertArma @Inject constructor(private val repository: Repository) {
 
-    suspend fun insertArma(arma: Arma) = repository.insertArma(arma.toArmaEntity())
+    suspend fun invoke(arma: Arma) = repository.insertArma(arma.toArmaEntity())
 
 }

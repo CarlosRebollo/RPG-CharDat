@@ -17,7 +17,6 @@ class AddPersonajeFragment1 : Fragment() {
 
     private var _binding: FragmentAddPersonaje1Binding? = null
     private val binding get() = _binding!!
-    private lateinit var personaje: Personaje
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +38,36 @@ class AddPersonajeFragment1 : Fragment() {
             }
             btSiguiente.setOnClickListener {
                 //TODO: El personaje no se inicializa por tener lateinit
-                personaje.name = etNombrePersonaje.text.toString()
+                val bundle = buildPersonaje()
+                findNavController().navigate(
+                    R.id.action_addPersonajeFragment1_to_addPersonajeFragment2,
+                    bundle
+                )
+            }
+        }
+    }
+
+    private fun FragmentAddPersonaje1Binding.buildPersonaje(): Bundle {
+        val nombrePersonaje = etNombrePersonaje.text.toString()
+        val clasePersonaje = etClases.text.toString()
+        val descripcionPersonaje = etDescripcion.text.toString()
+        val bundle = Bundle()
+        bundle.putString("nombrePersonaje", nombrePersonaje)
+        bundle.putString("clasePersonaje", clasePersonaje)
+        bundle.putString("descripcionPersonaje", descripcionPersonaje)
+        return bundle
+    }
+
+    private fun listaDeClases(): Array<String> {
+        return listOf(
+            "GUERRERO", "GUERRERO ACRÓBATA", "PALADÍN",
+            "PALADÍN OSCURO", "MAESTRO DE ARMAS", "TECNICISTA", "TAO", "EXPLORADOR", "SOMBRA",
+            "LADRÓN", "ASESINO", "HECHICERO", "WARLOCK", "ILUSIONISTA", "HECHICERO MENTALISTA",
+            "CONJURADOR", "GUERRERO CONJURADOR", "MENTALISTA", "GUERRERO MENTALISTA", "NOVEL"
+        ).toTypedArray()
+    }
+
+    /*personaje.name = etNombrePersonaje.text.toString()
                 personaje.level = 0
                 personaje.clase = etClases.text.toString()
                 personaje.description = etDescripcion.text.toString()
@@ -63,23 +91,5 @@ class AddPersonajeFragment1 : Fragment() {
                 personaje.RF = 0
                 personaje.RM = 0
                 personaje.RP = 0
-                personaje.creationDate = LocalDate.now()
-                val bundle = Bundle()
-                bundle.putParcelable("personaje", personaje)
-                findNavController().navigate(
-                    R.id.action_addPersonajeFragment1_to_addPersonajeFragment2,
-                    bundle
-                )
-            }
-        }
-    }
-
-    private fun listaDeClases(): Array<String> {
-        return listOf(
-            "GUERRERO", "GUERRERO ACRÓBATA", "PALADÍN",
-            "PALADÍN OSCURO", "MAESTRO DE ARMAS", "TECNICISTA", "TAO", "EXPLORADOR", "SOMBRA",
-            "LADRÓN", "ASESINO", "HECHICERO", "WARLOCK", "ILUSIONISTA", "HECHICERO MENTALISTA",
-            "CONJURADOR", "GUERRERO CONJURADOR", "MENTALISTA", "GUERRERO MENTALISTA", "NOVEL"
-        ).toTypedArray()
-    }
+                personaje.creationDate = LocalDate.now()*/
 }

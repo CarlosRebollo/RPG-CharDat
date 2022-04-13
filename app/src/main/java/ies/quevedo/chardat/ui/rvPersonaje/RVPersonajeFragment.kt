@@ -12,12 +12,14 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentPersonajesListBinding
+import ies.quevedo.chardat.domain.Personaje
 
 @AndroidEntryPoint
 class RVPersonajeFragment : Fragment() {
 
     private val viewModel by viewModels<RVPersonajeViewModel>()
     private lateinit var adapter: RVPersonajeAdapter
+    private var personaje: Personaje? = null
     private var _binding: FragmentPersonajesListBinding? = null
     private val binding get() = _binding!!
 
@@ -36,6 +38,13 @@ class RVPersonajeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        personaje = arguments?.getParcelable("personaje")
+        if (personaje != null) {
+            viewModel.insertPersonaje(personaje!!)
+            findNavController().popBackStack(R.id.addPersonajeFragment1, true)
+            findNavController().popBackStack(R.id.addPersonajeFragment2, true)
+            findNavController().popBackStack(R.id.addPersonajeFragment3, true)
+        }
         adapter = RVPersonajeAdapter(
             ::goMainMenu
         )

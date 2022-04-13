@@ -7,6 +7,6 @@ import javax.inject.Inject
 
 class DeleteArma @Inject constructor(private val repository: Repository) {
 
-    suspend fun deleteArma(arma: Arma) = repository.deleteArma(arma.toArmaEntity())
+    suspend fun invoke(arma: Arma) = repository.deleteArma(arma.toArmaEntity())
 
 }

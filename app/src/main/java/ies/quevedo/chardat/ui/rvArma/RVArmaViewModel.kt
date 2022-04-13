@@ -26,7 +26,7 @@ class RVArmaViewModel @Inject constructor(
     fun getArmas(idPJ: Int) {
         viewModelScope.launch {
             try {
-                _armas.value = listArmas.getArmas(idPJ)
+                _armas.value = listArmas.invoke(idPJ)
             } catch (e: Exception) {
                 _error.value = e.message
             }
@@ -36,7 +36,7 @@ class RVArmaViewModel @Inject constructor(
     fun updateArma(arma: Arma) {
         viewModelScope.launch {
             try {
-                updateArma.updateArma(arma)
+                updateArma.invoke(arma)
             } catch (e: Exception) {
                 _error.value = e.message
             }

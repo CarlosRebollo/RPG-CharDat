@@ -19,7 +19,6 @@ class AddPersonajeFragment2 : Fragment() {
 
     private var _binding: FragmentAddPersonaje2Binding? = null
     private val binding get() = _binding!!
-    private lateinit var personajeAnterior: Personaje
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,36 +30,63 @@ class AddPersonajeFragment2 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        personajeAnterior = arguments?.getParcelable("personaje")!!
-        findNavController().popBackStack(R.id.addPersonajeFragment1, true)
         with(binding) {
-            val listaDeNumeros: Array<Int> = arrayOf(10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
-            val adapter = ArrayAdapter(requireContext(), R.layout.list_item, listaDeNumeros)
-            (etAGI as? AutoCompleteTextView)?.setAdapter(adapter)
-            (etCON as? AutoCompleteTextView)?.setAdapter(adapter)
-            (etDES as? AutoCompleteTextView)?.setAdapter(adapter)
-            (etFUE as? AutoCompleteTextView)?.setAdapter(adapter)
-            (etINT as? AutoCompleteTextView)?.setAdapter(adapter)
-            (etPER as? AutoCompleteTextView)?.setAdapter(adapter)
-            (etPOD as? AutoCompleteTextView)?.setAdapter(adapter)
-            (etVOL as? AutoCompleteTextView)?.setAdapter(adapter)
+            rellenarNumeros()
             btCancelar.setOnClickListener {
+                findNavController().popBackStack(R.id.addPersonajeFragment1, true)
                 activity?.onBackPressed()
             }
             btSiguiente.setOnClickListener {
-                with(binding) {
-                    personajeAnterior.let {
-                        it.agility = etAGI.text.toString().toInt()
-                        it.constitution = etCON.text.toString().toInt()
-                        it.dexterity = etDES.text.toString().toInt()
-                        it.strength = etFUE.text.toString().toInt()
-                        it.intelligence = etINT.text.toString().toInt()
-                        it.perception = etPER.text.toString().toInt()
-                        it.power = etPOD.text.toString().toInt()
-                        it.will = etVOL.text.toString().toInt()
-                    }
-                }
-                val personaje: Personaje? = null
+                val bundle = buildPersonaje()
+                findNavController().navigate(
+                    R.id.action_addPersonajeFragment2_to_addPersonajeFragment3,
+                    bundle
+                )
+            }
+        }
+    }
+
+    private fun FragmentAddPersonaje2Binding.rellenarNumeros() {
+        val listaDeNumeros: Array<Int> = arrayOf(10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, listaDeNumeros)
+        (etAGI as? AutoCompleteTextView)?.setAdapter(adapter)
+        (etCON as? AutoCompleteTextView)?.setAdapter(adapter)
+        (etDES as? AutoCompleteTextView)?.setAdapter(adapter)
+        (etFUE as? AutoCompleteTextView)?.setAdapter(adapter)
+        (etINT as? AutoCompleteTextView)?.setAdapter(adapter)
+        (etPER as? AutoCompleteTextView)?.setAdapter(adapter)
+        (etPOD as? AutoCompleteTextView)?.setAdapter(adapter)
+        (etVOL as? AutoCompleteTextView)?.setAdapter(adapter)
+    }
+
+    private fun FragmentAddPersonaje2Binding.buildPersonaje(): Bundle {
+        val nombrePersonaje = arguments?.getString("nombrePersonaje")
+        val clasePersonaje = arguments?.getString("clasePersonaje")
+        val descripcionPersonaje = arguments?.getString("descripcionPersonaje")
+        val agilidadPersonaje = etAGI.text.toString().toInt()
+        val constitucionPersonaje = etCON.text.toString().toInt()
+        val destrezaPersonaje = etDES.text.toString().toInt()
+        val fuerzaPersonaje = etFUE.text.toString().toInt()
+        val inteligenciaPersonaje = etINT.text.toString().toInt()
+        val percepcionPersonaje = etPER.text.toString().toInt()
+        val poderPersonaje = etPOD.text.toString().toInt()
+        val voluntadPersonaje = etVOL.text.toString().toInt()
+        val bundle = Bundle()
+        bundle.putString("nombrePersonaje", nombrePersonaje)
+        bundle.putString("clasePersonaje", clasePersonaje)
+        bundle.putString("descripcionPersonaje", descripcionPersonaje)
+        bundle.putInt("agilidadPersonaje", agilidadPersonaje)
+        bundle.putInt("constitucionPersonaje", constitucionPersonaje)
+        bundle.putInt("destrezaPersonaje", destrezaPersonaje)
+        bundle.putInt("fuerzaPersonaje", fuerzaPersonaje)
+        bundle.putInt("inteligenciaPersonaje", inteligenciaPersonaje)
+        bundle.putInt("percepcionPersonaje", percepcionPersonaje)
+        bundle.putInt("poderPersonaje", poderPersonaje)
+        bundle.putInt("voluntadPersonaje", voluntadPersonaje)
+        return bundle
+    }
+
+    /*val personaje: Personaje? = null
                 personaje?.name = personajeAnterior.name
                 personaje?.level = 0
                 personaje?.clase = personajeAnterior.clase
@@ -85,14 +111,5 @@ class AddPersonajeFragment2 : Fragment() {
                 personaje?.RF = 0
                 personaje?.RM = 0
                 personaje?.RP = 0
-                personaje?.creationDate = LocalDate.now()
-                val bundle = Bundle()
-                bundle.putParcelable("personaje", personajeAnterior)
-                findNavController().navigate(
-                    R.id.action_addPersonajeFragment2_to_addPersonajeFragment3,
-                    bundle
-                )
-            }
-        }
-    }
+                personaje?.creationDate = LocalDate.now()*/
 }

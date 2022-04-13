@@ -6,6 +6,6 @@ import javax.inject.Inject
 
 class ListPersonajes @Inject constructor(private val repository: Repository)  {
 
-    suspend fun getPersonajes() = repository.getPersonajes().map { it.toPersonaje() }
+    suspend fun invoke() = repository.getPersonajes().map { it.toPersonaje() }
 
 }

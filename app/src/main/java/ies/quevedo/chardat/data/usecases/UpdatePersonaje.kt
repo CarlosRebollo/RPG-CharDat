@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class UpdatePersonaje @Inject constructor(private val repository: Repository) {
 
-    suspend fun updatePersonaje(personaje: Personaje) =
+    suspend fun invoke(personaje: Personaje) =
         repository.updatePersonaje(personaje.toPersonajeEntity())
 
 }

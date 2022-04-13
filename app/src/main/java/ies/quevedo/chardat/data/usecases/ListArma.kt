@@ -6,6 +6,6 @@ import javax.inject.Inject
 
 class ListArma @Inject constructor(private val repository: Repository) {
 
-    suspend fun getArmas(idPJ: Int) = repository.getArmas(idPJ).map { it.toArma() }
+    suspend fun invoke(idPJ: Int) = repository.getArmas(idPJ).map { it.toArma() }
 
 }

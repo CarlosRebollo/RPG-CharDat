@@ -7,6 +7,6 @@ import javax.inject.Inject
 
 class UpdateArma @Inject constructor(private val repository: Repository) {
 
-    suspend fun updateArma(arma: Arma) = repository.updateArma(arma.toArmaEntity())
+    suspend fun invoke(arma: Arma) = repository.updateArma(arma.toArmaEntity())
 
 }
