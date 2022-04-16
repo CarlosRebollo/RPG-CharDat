@@ -2,6 +2,7 @@ package ies.quevedo.chardat.ui.mainMenu
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -22,6 +23,7 @@ class MainMenuFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true)
         _binding = FragmentMainMenuBinding.inflate(inflater, container, false)
         personaje = arguments?.getParcelable("personaje")!!
         return binding.root
@@ -32,15 +34,19 @@ class MainMenuFragment : Fragment() {
         setListenerActions()
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.clear()
+    }
+
     private fun setListenerActions() {
         with(binding) {
             tvName.text = personaje.name
             // TODO: Aquí meter la imagen de la clase del personaje
             ivInfo.setOnClickListener {
-                /*val action = MainMenuFragmentDirections
+                val action = MainMenuFragmentDirections
                     .actionMainMenuFragmentToPersonajeFragment(personaje)
-                findNavController().navigate(action)*/
-                Toast.makeText(context, "En desarrollo, crack", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(action)
             }
             ivArmas.setOnClickListener {
                 val action = MainMenuFragmentDirections
@@ -49,13 +55,13 @@ class MainMenuFragment : Fragment() {
             }
             // TODO: Aquí seguir haciendo onClickListener para los demás botones
             ivArmaduras.setOnClickListener {
-                Toast.makeText(context, "En desarrollo, crack", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "En desarrollo", Toast.LENGTH_SHORT).show()
             }
             ivEscudos.setOnClickListener {
-                Toast.makeText(context, "En desarrollo, crack", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "En desarrollo", Toast.LENGTH_SHORT).show()
             }
             ivObjetos.setOnClickListener {
-                Toast.makeText(context, "En desarrollo, crack", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "En desarrollo", Toast.LENGTH_SHORT).show()
             }
         }
     }

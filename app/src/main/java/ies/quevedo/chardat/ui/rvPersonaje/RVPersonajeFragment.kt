@@ -1,14 +1,14 @@
 package ies.quevedo.chardat.ui.rvPersonaje
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentPersonajesListBinding
@@ -22,11 +22,6 @@ class RVPersonajeFragment : Fragment() {
     private var personajeCreado: Personaje? = null
     private var _binding: FragmentPersonajesListBinding? = null
     private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,15 +48,53 @@ class RVPersonajeFragment : Fragment() {
             findNavController().navigate(R.id.action_RVPersonajeFragment_to_addPersonajeFragment1)
         }
         observersRecyclerPersonajes()
+        swipeToDelete()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_item, menu)
+        val search = menu.findItem(R.id.filter)
+        val searchView = search?.actionView as? SearchView
+        searchView?.maxWidth = Int.MAX_VALUE
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(filtro: String): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(filtro: String): Boolean {
+                return true
+            }
+        })
+        searchView?.isSubmitButtonEnabled = true
+    }
+
+    private fun swipeToDelete() {
+        binding.apply {
+            ItemTouchHelper(object :
+                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val personaje = adapter.currentList[viewHolder.adapterPosition]
+                    viewModel.deletePersonaje(personaje)
+                }
+            }).attachToRecyclerView(binding.rvPersonajes)
+        }
     }
 
     private fun goMainMenu(position: Int) {
         val personaje = viewModel.personajes.value?.get(position)
         if (personaje != null) {
-            val bundle = Bundle()
-            bundle.putParcelable("personaje", personaje)
-            val navController = view?.findNavController()
-            navController?.navigate(R.id.action_RVPersonajeFragment_to_mainMenuFragment, bundle)
+            val action = RVPersonajeFragmentDirections
+                .actionRVPersonajeFragmentToMainMenuFragment(personaje)
+            findNavController().navigate(action)
         } else {
             Toast.makeText(context, "No se ha podido obtener el personaje", Toast.LENGTH_SHORT)
                 .show()

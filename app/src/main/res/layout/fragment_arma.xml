@@ -11,20 +11,24 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfNombreArma"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="199dp"
+            android:id="@+id/textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="216dp"
             android:layout_height="60dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="32dp"
             android:hint="@string/nombreArma"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.04">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/etNombreArma"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:inputType="none"
+                tools:ignore="LabelFor"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="187dp" />
 
@@ -33,19 +37,21 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tfCalidad"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="107dp"
+            android:layout_width="100dp"
             android:layout_height="60dp"
-            android:layout_marginTop="32dp"
             android:hint="@string/calidadArma"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.415"
-            app:layout_constraintStart_toEndOf="@+id/tfNombreArma"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintHorizontal_bias="0.874"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.04">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCalidad"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:inputType="number"
                 tools:layout_editor_absoluteX="19dp"
                 tools:layout_editor_absoluteY="100dp" />
 
@@ -56,17 +62,18 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="333dp"
             android:layout_height="100dp"
-            android:layout_marginTop="16dp"
             android:hint="@string/descripcion"
-            app:layout_constraintEnd_toEndOf="@+id/tfCalidad"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tfNombreArma"
-            app:layout_constraintTop_toBottomOf="@+id/tfNombreArma">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.171">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:inputType="textMultiLine"
                 tools:layout_editor_absoluteX="37dp"
                 tools:layout_editor_absoluteY="226dp" />
 
@@ -89,6 +96,7 @@
                 android:id="@+id/etTurno"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:inputType="number"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="339dp" />
 
@@ -110,6 +118,7 @@
                 android:id="@+id/etHabilidadDeAtaque"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:inputType="number"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="339dp" />
 
@@ -123,7 +132,7 @@
             android:hint="@string/damage"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.877"
+            app:layout_constraintHorizontal_bias="0.874"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.338">
@@ -132,6 +141,7 @@
                 android:id="@+id/etDamage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:inputType="number"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="339dp" />
 
@@ -155,6 +165,7 @@
                 android:id="@+id/etParada"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:inputType="number"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="339dp" />
 
@@ -178,6 +189,7 @@
                 android:id="@+id/etValor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:inputType="number"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="339dp" />
 
@@ -192,7 +204,7 @@
             android:hint="@string/peso"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.877"
+            app:layout_constraintHorizontal_bias="0.874"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.442">
@@ -201,6 +213,7 @@
                 android:id="@+id/etPeso"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:inputType="number"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="339dp" />
 

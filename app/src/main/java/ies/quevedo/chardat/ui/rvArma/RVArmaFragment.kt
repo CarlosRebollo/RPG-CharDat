@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentArmasBinding
@@ -22,7 +23,8 @@ class RVArmaFragment : Fragment() {
     private val viewModel by viewModels<RVArmaViewModel>()
     private lateinit var adapter: RVArmaAdapter
     private lateinit var personaje: Personaje
-    private var arma: Arma? = null
+    private var armaActualizada: Arma? = null
+    private var armaCreada: Arma? = null
     private var _binding: FragmentArmasBinding? = null
     private val binding get() = _binding!!
 
@@ -37,10 +39,14 @@ class RVArmaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         personaje = arguments?.getParcelable("personaje")!!
-        arma = arguments?.getParcelable("arma")
-        if (arma != null) {
-            viewModel.updateArma(arma!!)
-            // Con esto evito que se pueda volver atrás al fragment de update de armas
+        armaCreada = arguments?.getParcelable("armaCreada")
+        if (armaCreada != null) {
+            viewModel.insertArma(armaCreada!!)
+            findNavController().popBackStack(R.id.addArmaFragment, true)
+        }
+        armaActualizada = arguments?.getParcelable("armaActualizada")
+        if (armaActualizada != null) {
+            viewModel.updateArma(armaActualizada!!)
             findNavController().popBackStack(R.id.armaFragment, true)
         }
         adapter = RVArmaAdapter(
@@ -48,10 +54,31 @@ class RVArmaFragment : Fragment() {
         )
         binding.rvArmas.adapter = adapter
         binding.fbtRegister.setOnClickListener {
-            //TODO: El action está mal, hay que crear la vista de registro de armas
-            findNavController().navigate(R.id.action_RVArmaFragment_to_armaFragment)
+            val bundle = Bundle()
+            bundle.putParcelable("personaje", personaje)
+            findNavController().navigate(R.id.action_RVArmaFragment_to_addArmaFragment, bundle)
         }
         observersRecyclerArmas()
+        binding.apply {
+            ItemTouchHelper(object :
+                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                override fun onMove(
+                    recyclerView: androidx.recyclerview.widget.RecyclerView,
+                    viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
+                    target: androidx.recyclerview.widget.RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(
+                    viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
+                    direction: Int
+                ) {
+                    val arma = adapter.currentList[viewHolder.adapterPosition]
+                    viewModel.deleteArma(arma)
+                }
+            }).attachToRecyclerView(binding.rvArmas)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: android.view.Menu, inflater: android.view.MenuInflater) {
@@ -64,7 +91,7 @@ class RVArmaFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // TODO: Implementar filtro
+                // TODO: Implementar filtro de armas
                 return false
             }
         })

@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ies.quevedo.chardat.data.usecases.DeleteArma
+import ies.quevedo.chardat.data.usecases.InsertArma
 import ies.quevedo.chardat.data.usecases.ListArma
 import ies.quevedo.chardat.data.usecases.UpdateArma
 import ies.quevedo.chardat.domain.Arma
@@ -14,7 +16,9 @@ import javax.inject.Inject
 @HiltViewModel
 class RVArmaViewModel @Inject constructor(
     private val listArmas: ListArma,
-    private val updateArma: UpdateArma
+    private val insertArma: InsertArma,
+    private val updateArma: UpdateArma,
+    private val deleteArma: DeleteArma
 ) : ViewModel() {
 
     private val _armas = MutableLiveData<List<Arma>>()
@@ -33,10 +37,30 @@ class RVArmaViewModel @Inject constructor(
         }
     }
 
+    fun insertArma(arma: Arma) {
+        viewModelScope.launch {
+            try {
+                insertArma.invoke(arma)
+            } catch (e: Exception) {
+                _error.value = e.message
+            }
+        }
+    }
+
     fun updateArma(arma: Arma) {
         viewModelScope.launch {
             try {
                 updateArma.invoke(arma)
+            } catch (e: Exception) {
+                _error.value = e.message
+            }
+        }
+    }
+
+    fun deleteArma(arma: Arma?) {
+        viewModelScope.launch {
+            try {
+                arma?.let { deleteArma.invoke(it) }
             } catch (e: Exception) {
                 _error.value = e.message
             }

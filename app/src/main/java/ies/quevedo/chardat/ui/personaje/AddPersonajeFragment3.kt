@@ -2,6 +2,7 @@ package ies.quevedo.chardat.ui.personaje
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -22,6 +23,7 @@ class AddPersonajeFragment3 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true)
         _binding = FragmentAddPersonaje3Binding.inflate(inflater, container, false)
         return binding.root
     }
@@ -44,6 +46,11 @@ class AddPersonajeFragment3 : Fragment() {
                 )
             }
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.clear()
     }
 
     private fun FragmentAddPersonaje3Binding.buildPersonaje(): Personaje {

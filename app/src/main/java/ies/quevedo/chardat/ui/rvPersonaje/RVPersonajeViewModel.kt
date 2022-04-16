@@ -1,10 +1,8 @@
 package ies.quevedo.chardat.ui.rvPersonaje
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ies.quevedo.chardat.data.usecases.DeletePersonaje
 import ies.quevedo.chardat.data.usecases.InsertPersonaje
 import ies.quevedo.chardat.data.usecases.ListPersonajes
 import ies.quevedo.chardat.domain.Personaje
@@ -14,7 +12,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RVPersonajeViewModel @Inject constructor(
     private val listPersonajes: ListPersonajes,
-    private val insertPersonaje: InsertPersonaje
+    private val insertPersonaje: InsertPersonaje,
+    private val deletePersonaje: DeletePersonaje
 ) : ViewModel() {
 
     private val _personajes = MutableLiveData<List<Personaje>>()
@@ -37,6 +36,16 @@ class RVPersonajeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 insertPersonaje.invoke(personaje)
+            } catch (e: Exception) {
+                _error.value = e.message
+            }
+        }
+    }
+
+    fun deletePersonaje(personaje: Personaje?) {
+        viewModelScope.launch {
+            try {
+                personaje?.let { deletePersonaje.invoke(it) }
             } catch (e: Exception) {
                 _error.value = e.message
             }

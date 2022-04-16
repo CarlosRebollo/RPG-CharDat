@@ -12,16 +12,19 @@
         tools:layout="@layout/fragment_main_menu" >
         <action
             android:id="@+id/action_mainMenuFragment_to_personajeFragment"
-            app:destination="@id/personajeFragment" />
+            app:destination="@id/personajeFragment"
+            app:enterAnim="@android:anim/fade_in" />
         <action
             android:id="@+id/action_mainMenuFragment_to_RVArmaFragment"
-            app:destination="@id/RVArmaFragment" />
+            app:destination="@id/RVArmaFragment"
+            app:enterAnim="@android:anim/fade_in" />
         <argument
             android:name="personaje"
             app:argType="ies.quevedo.chardat.domain.Personaje" />
         <action
             android:id="@+id/action_mainMenuFragment_to_RVPersonajeFragment"
-            app:destination="@id/RVPersonajeFragment" />
+            app:destination="@id/RVPersonajeFragment"
+            app:enterAnim="@android:anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/personajeFragment"
@@ -30,7 +33,8 @@
         tools:layout="@layout/fragment_personaje" >
         <action
             android:id="@+id/action_personajeFragment_to_mainMenuFragment"
-            app:destination="@id/mainMenuFragment" />
+            app:destination="@id/mainMenuFragment"
+            app:enterAnim="@android:anim/fade_in" />
         <argument
             android:name="personaje"
             app:argType="ies.quevedo.chardat.domain.Personaje" />
@@ -42,10 +46,15 @@
         tools:layout="@layout/fragment_armas" >
         <action
             android:id="@+id/action_RVArmaFragment_to_armaFragment"
-            app:destination="@id/armaFragment" />
+            app:destination="@id/armaFragment"
+            app:enterAnim="@android:anim/fade_in" />
         <argument
             android:name="personaje"
             app:argType="ies.quevedo.chardat.domain.Personaje" />
+        <action
+            android:id="@+id/action_RVArmaFragment_to_addArmaFragment"
+            app:destination="@id/addArmaFragment"
+            app:enterAnim="@android:anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/armaFragment"
@@ -54,7 +63,8 @@
         tools:layout="@layout/fragment_arma" >
         <action
             android:id="@+id/action_armaFragment_to_RVArmaFragment"
-            app:destination="@id/RVArmaFragment" />
+            app:destination="@id/RVArmaFragment"
+            app:enterAnim="@android:anim/fade_in" />
         <argument
             android:name="arma"
             app:argType="ies.quevedo.chardat.domain.Arma" />
@@ -66,7 +76,8 @@
         tools:layout="@layout/fragment_add_personaje1">
         <action
             android:id="@+id/action_addPersonajeFragment1_to_addPersonajeFragment2"
-            app:destination="@id/addPersonajeFragment2" />
+            app:destination="@id/addPersonajeFragment2"
+            app:enterAnim="@android:anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/RVPersonajeFragment"
@@ -75,10 +86,12 @@
         tools:layout="@layout/fragment_personajes_list" >
         <action
             android:id="@+id/action_RVPersonajeFragment_to_mainMenuFragment"
-            app:destination="@id/mainMenuFragment" />
+            app:destination="@id/mainMenuFragment"
+            app:enterAnim="@android:anim/fade_in" />
         <action
             android:id="@+id/action_RVPersonajeFragment_to_addPersonajeFragment1"
-            app:destination="@id/addPersonajeFragment1" />
+            app:destination="@id/addPersonajeFragment1"
+            app:enterAnim="@android:anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/addPersonajeFragment2"
@@ -87,7 +100,8 @@
         tools:layout="@layout/fragment_add_personaje2" >
         <action
             android:id="@+id/action_addPersonajeFragment2_to_addPersonajeFragment3"
-            app:destination="@id/addPersonajeFragment3" />
+            app:destination="@id/addPersonajeFragment3"
+            app:enterAnim="@android:anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/addPersonajeFragment3"
@@ -96,6 +110,20 @@
         tools:layout="@layout/fragment_add_personaje3" >
         <action
             android:id="@+id/action_addPersonajeFragment3_to_RVPersonajeFragment"
-            app:destination="@id/RVPersonajeFragment" />
+            app:destination="@id/RVPersonajeFragment"
+            app:enterAnim="@android:anim/fade_in" />
+    </fragment>
+    <fragment
+        android:id="@+id/addArmaFragment"
+        android:name="ies.quevedo.chardat.ui.arma.AddArmaFragment"
+        android:label="fragment_add_arma"
+        tools:layout="@layout/fragment_add_arma" >
+        <action
+            android:id="@+id/action_addArmaFragment_to_RVArmaFragment"
+            app:destination="@id/RVArmaFragment"
+            app:enterAnim="@android:anim/fade_in" />
+        <argument
+            android:name="personaje"
+            app:argType="ies.quevedo.chardat.domain.Personaje" />
     </fragment>
 </navigation>

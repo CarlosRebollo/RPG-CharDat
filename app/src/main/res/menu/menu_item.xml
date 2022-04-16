@@ -10,11 +10,4 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/register"
-        android:icon="@drawable/ic_baseline_add_24"
-        android:iconTint="@color/white"
-        android:title="@string/addPJ"
-        app:showAsAction="ifRoom" />
-
 </menu>

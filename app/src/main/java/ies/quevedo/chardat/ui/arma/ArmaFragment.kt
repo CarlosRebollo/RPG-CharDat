@@ -2,8 +2,11 @@ package ies.quevedo.chardat.ui.arma
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +27,7 @@ class ArmaFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true)
         _binding = FragmentArmaBinding.inflate(inflater, container, false)
         personaje = arguments?.getParcelable("personaje")!!
         arma = arguments?.getParcelable("arma")!!
@@ -33,6 +37,9 @@ class ArmaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            val listaDeArmas: Array<String> = listaDeArmas()
+            val adapter = ArrayAdapter(requireContext(), R.layout.list_item, listaDeArmas)
+            (etNombreArma as? AutoCompleteTextView)?.setAdapter(adapter)
             etNombreArma.setText(arma.name)
             etCalidad.setText(arma.quality.toString())
             etDescripcion.setText(arma.description)
@@ -56,11 +63,69 @@ class ArmaFragment : Fragment() {
                 arma.value = etValor.text.toString().toInt()
                 arma.weight = etPeso.text.toString().toDouble()
                 val bundle = Bundle()
-                bundle.putParcelable("arma", arma)
+                bundle.putParcelable("armaActualizada", arma)
                 bundle.putParcelable("personaje", personaje)
                 val navController = view.findNavController()
                 navController.navigate(R.id.action_armaFragment_to_RVArmaFragment, bundle)
             }
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.clear()
+    }
+
+    private fun listaDeArmas(): Array<String> {
+        return listOf(
+            "ALABARDA",
+            "ARCO COMPUESTO",
+            "ARCO CORTO",
+            "ARCO LARGO",
+            "ARPÓN",
+            "BALLESTA",
+            "BALLESTA DE MANO",
+            "BALLESTA DE REPETICIÓN",
+            "BALLESTA PESADA",
+            "CADENA",
+            "CERBATANA",
+            "CESTUS",
+            "CIMITARRA",
+            "DAGA",
+            "DAGA DE PARADA",
+            "ESPADA ANCHA",
+            "ESPADA BASTARDA",
+            "ESPADA CORTA",
+            "ESPADA LARGA",
+            "ESTILETE",
+            "ESTOQUE",
+            "FLAGELO",
+            "FLORETE",
+            "FUSIL",
+            "GARFIO",
+            "GARROTE",
+            "GRAN MARTILLO DE GUERRA",
+            "GUADAÑA",
+            "HACHA A DOS MANOS",
+            "HACHA DE GUERRA",
+            "HACHA DE MANO",
+            "HONDA",
+            "JABALINA",
+            "LANZA",
+            "LANZA DE CABALLERÍA",
+            "LÁTIGO",
+            "LAZO",
+            "MANDOBLE",
+            "MANGUAL",
+            "MARTILLO DE GUERRA",
+            "MAYAL",
+            "MAZA",
+            "MAZA PESADA",
+            "PISTOLA",
+            "RED DE GLADIADOR",
+            "SABLE",
+            "TRIDENTE",
+            "VARA"
+        ).toTypedArray()
     }
 }

@@ -35,7 +35,7 @@
     <string name="poder">Poder</string>
     <string name="voluntad">Voluntad</string>
     <string name="nivel">Nivel</string>
-    <string name="crear">Crear personaje</string>
+    <string name="crear">Crear</string>
     <string name="esquiva">Esquiva</string>
     <string name="llevarArmadura">Llevar armadura</string>
     <string name="rm">RM</string>
@@ -43,4 +43,5 @@
     <string name="rp">RP</string>
     <string name="stamina">Puntos de cansancio</string>
     <string name="hp">Puntos de vida</string>
+    <string name="none" />
 </resources>
