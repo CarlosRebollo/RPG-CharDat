@@ -12,16 +12,18 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="175dp"
             android:contentDescription="@string/classicon"
+            android:scaleType="centerCrop"
+            android:scrollY="-130dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.025"
-            tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@drawable/palad_n" />
 
         <TextView
             android:id="@+id/tvName"
@@ -36,61 +38,74 @@
             android:textSize="35sp"
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-        <ImageView
-            android:id="@+id/ivInfo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="84dp"
-            android:layout_marginTop="208dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_5_85" />
-
-        <ImageView
-            android:id="@+id/ivArmas"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="208dp"
-            android:layout_marginEnd="84dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_2_43" />
-
-        <ImageView
-            android:id="@+id/ivArmaduras"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="36dp"
-            app:layout_constraintEnd_toEndOf="@+id/ivInfo"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/ivInfo"
-            app:layout_constraintTop_toBottomOf="@+id/ivInfo"
-            app:srcCompat="@drawable/icon_6_94" />
-
-        <ImageView
-            android:id="@+id/ivEscudos"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="36dp"
-            app:layout_constraintEnd_toEndOf="@+id/ivArmas"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/ivArmas"
-            app:layout_constraintTop_toBottomOf="@+id/ivArmas"
-            app:srcCompat="@drawable/icon_1_04" />
 
         <ImageView
             android:id="@+id/ivObjetos"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginBottom="152dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/ivEscudos"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="@+id/ivArmaduras"
-            app:srcCompat="@drawable/icon_6_37" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.828"
+            app:srcCompat="@drawable/bandit"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/ivInfo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.273"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.438"
+            app:srcCompat="@drawable/spellbook"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/ivArmas"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.729"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.438"
+            app:srcCompat="@drawable/knight"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/ivArmaduras"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.273"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.632"
+            app:srcCompat="@drawable/armor"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/ivEscudos"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.729"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.632"
+            app:srcCompat="@drawable/shield"
+            tools:ignore="ContentDescription" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

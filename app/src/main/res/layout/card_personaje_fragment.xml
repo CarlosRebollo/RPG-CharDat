@@ -68,6 +68,7 @@
         android:layout_marginTop="16dp"
         android:contentDescription="@string/ivImagenDesc"
         android:scaleType="centerCrop"
+        android:scrollY="-20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.052"
         app:layout_constraintStart_toStartOf="parent"

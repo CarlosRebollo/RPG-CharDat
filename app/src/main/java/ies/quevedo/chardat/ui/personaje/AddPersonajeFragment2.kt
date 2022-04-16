@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentAddPersonaje2Binding
-import ies.quevedo.chardat.domain.Personaje
-import java.time.LocalDate
 
 @AndroidEntryPoint
 class AddPersonajeFragment2 : Fragment() {
@@ -39,11 +38,15 @@ class AddPersonajeFragment2 : Fragment() {
                 findNavController().popBackStack(R.id.addPersonajeFragment1, true)
             }
             btSiguiente.setOnClickListener {
-                val bundle = buildPersonaje()
-                findNavController().navigate(
-                    R.id.action_addPersonajeFragment2_to_addPersonajeFragment3,
-                    bundle
-                )
+                if (faltaAlgunDato()) {
+                    Toast.makeText(context, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
+                } else {
+                    val bundle = buildPersonaje()
+                    findNavController().navigate(
+                        R.id.action_addPersonajeFragment2_to_addPersonajeFragment3,
+                        bundle
+                    )
+                }
             }
         }
     }
@@ -65,6 +68,16 @@ class AddPersonajeFragment2 : Fragment() {
         (etPOD as? AutoCompleteTextView)?.setAdapter(adapter)
         (etVOL as? AutoCompleteTextView)?.setAdapter(adapter)
     }
+
+    private fun FragmentAddPersonaje2Binding.faltaAlgunDato() =
+        etAGI.text.isNullOrBlank() ||
+                etCON.text.isNullOrBlank() ||
+                etDES.text.isNullOrBlank() ||
+                etFUE.text.isNullOrBlank() ||
+                etINT.text.isNullOrBlank() ||
+                etPER.text.isNullOrBlank() ||
+                etPOD.text.isNullOrBlank() ||
+                etVOL.text.isNullOrBlank()
 
     private fun FragmentAddPersonaje2Binding.buildPersonaje(): Bundle {
         val nombrePersonaje = arguments?.getString("nombrePersonaje")

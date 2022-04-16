@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,36 +38,20 @@ class ArmaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            val listaDeArmas: Array<String> = listaDeArmas()
-            val adapter = ArrayAdapter(requireContext(), R.layout.list_item, listaDeArmas)
-            (etNombreArma as? AutoCompleteTextView)?.setAdapter(adapter)
-            etNombreArma.setText(arma.name)
-            etCalidad.setText(arma.quality.toString())
-            etDescripcion.setText(arma.description)
-            etTurno.setText(arma.turn.toString())
-            etHabilidadDeAtaque.setText(arma.attackHability.toString())
-            etDamage.setText(arma.damage.toString())
-            etParada.setText(arma.parry.toString())
-            etValor.setText(arma.value.toString())
-            etPeso.setText(arma.weight.toString())
+            rellenarArmas()
+            rellenarCamposDeArma()
             btCancelar.setOnClickListener {
                 activity?.onBackPressed()
             }
             btModificar.setOnClickListener {
-                arma.name = etNombreArma.text.toString()
-                arma.quality = etCalidad.text.toString().toInt()
-                arma.description = etDescripcion.text.toString()
-                arma.turn = etTurno.text.toString().toInt()
-                arma.attackHability = etHabilidadDeAtaque.text.toString().toInt()
-                arma.damage = etDamage.text.toString().toInt()
-                arma.parry = etParada.text.toString().toInt()
-                arma.value = etValor.text.toString().toInt()
-                arma.weight = etPeso.text.toString().toDouble()
-                val bundle = Bundle()
-                bundle.putParcelable("armaActualizada", arma)
-                bundle.putParcelable("personaje", personaje)
-                val navController = view.findNavController()
-                navController.navigate(R.id.action_armaFragment_to_RVArmaFragment, bundle)
+                if (faltaAlgunDato()) {
+                    Toast.makeText(requireContext(), "Rellena todos los campos", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    val bundle = buildArmaActualizada()
+                    val navController = view.findNavController()
+                    navController.navigate(R.id.action_armaFragment_to_RVArmaFragment, bundle)
+                }
             }
         }
     }
@@ -75,6 +60,51 @@ class ArmaFragment : Fragment() {
         super.onPrepareOptionsMenu(menu)
         menu.clear()
     }
+
+    private fun FragmentArmaBinding.rellenarCamposDeArma() {
+        etNombreArma.setText(arma.name)
+        etCalidad.setText(arma.quality.toString())
+        etDescripcion.setText(arma.description)
+        etTurno.setText(arma.turn.toString())
+        etHabilidadDeAtaque.setText(arma.attackHability.toString())
+        etDamage.setText(arma.damage.toString())
+        etParada.setText(arma.parry.toString())
+        etValor.setText(arma.value.toString())
+        etPeso.setText(arma.weight.toString())
+    }
+
+    private fun FragmentArmaBinding.rellenarArmas() {
+        val listaDeArmas: Array<String> = listaDeArmas()
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, listaDeArmas)
+        (etNombreArma as? AutoCompleteTextView)?.setAdapter(adapter)
+    }
+
+    private fun FragmentArmaBinding.buildArmaActualizada(): Bundle {
+        arma.name = etNombreArma.text.toString()
+        arma.quality = etCalidad.text.toString().toInt()
+        arma.description = etDescripcion.text.toString()
+        arma.turn = etTurno.text.toString().toInt()
+        arma.attackHability = etHabilidadDeAtaque.text.toString().toInt()
+        arma.damage = etDamage.text.toString().toInt()
+        arma.parry = etParada.text.toString().toInt()
+        arma.value = etValor.text.toString().toInt()
+        arma.weight = etPeso.text.toString().toDouble()
+        val bundle = Bundle()
+        bundle.putParcelable("armaActualizada", arma)
+        bundle.putParcelable("personaje", personaje)
+        return bundle
+    }
+
+    private fun FragmentArmaBinding.faltaAlgunDato() =
+        etNombreArma.text.isNullOrBlank() ||
+                etCalidad.text.isNullOrBlank() ||
+                etDescripcion.text.isNullOrBlank() ||
+                etTurno.text.isNullOrBlank() ||
+                etHabilidadDeAtaque.text.isNullOrBlank() ||
+                etDamage.text.isNullOrBlank() ||
+                etParada.text.isNullOrBlank() ||
+                etValor.text.isNullOrBlank() ||
+                etPeso.text.isNullOrBlank()
 
     private fun listaDeArmas(): Array<String> {
         return listOf(
