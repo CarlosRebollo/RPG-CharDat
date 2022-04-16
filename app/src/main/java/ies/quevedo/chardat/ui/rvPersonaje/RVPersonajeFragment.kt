@@ -19,7 +19,7 @@ class RVPersonajeFragment : Fragment() {
 
     private val viewModel by viewModels<RVPersonajeViewModel>()
     private lateinit var adapter: RVPersonajeAdapter
-    private var personaje: Personaje? = null
+    private var personajeCreado: Personaje? = null
     private var _binding: FragmentPersonajesListBinding? = null
     private val binding get() = _binding!!
 
@@ -38,9 +38,9 @@ class RVPersonajeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        personaje = arguments?.getParcelable("personaje")
-        if (personaje != null) {
-            viewModel.insertPersonaje(personaje!!)
+        personajeCreado = arguments?.getParcelable("personajeCreado")
+        if (personajeCreado != null) {
+            viewModel.insertPersonaje(personajeCreado!!)
             findNavController().popBackStack(R.id.addPersonajeFragment1, true)
             findNavController().popBackStack(R.id.addPersonajeFragment2, true)
             findNavController().popBackStack(R.id.addPersonajeFragment3, true)

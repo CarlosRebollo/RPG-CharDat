@@ -37,7 +37,6 @@ class AddPersonajeFragment1 : Fragment() {
                 activity?.onBackPressed()
             }
             btSiguiente.setOnClickListener {
-                //TODO: El personaje no se inicializa por tener lateinit
                 val bundle = buildPersonaje()
                 findNavController().navigate(
                     R.id.action_addPersonajeFragment1_to_addPersonajeFragment2,
@@ -66,30 +65,4 @@ class AddPersonajeFragment1 : Fragment() {
             "CONJURADOR", "GUERRERO CONJURADOR", "MENTALISTA", "GUERRERO MENTALISTA", "NOVEL"
         ).toTypedArray()
     }
-
-    /*personaje.name = etNombrePersonaje.text.toString()
-                personaje.level = 0
-                personaje.clase = etClases.text.toString()
-                personaje.description = etDescripcion.text.toString()
-                personaje.currentHP = 0
-                personaje.totalHP = 0
-                personaje.currentStamina = 0
-                personaje.totalStamina = 0
-                personaje.attackHability = 0
-                personaje.dodge = 0
-                personaje.parryHability = 0
-                personaje.armor = 0
-                personaje.turn = 0
-                personaje.agility = 0
-                personaje.constitution = 0
-                personaje.dexterity = 0
-                personaje.strength = 0
-                personaje.intelligence = 0
-                personaje.perception = 0
-                personaje.power = 0
-                personaje.will = 0
-                personaje.RF = 0
-                personaje.RM = 0
-                personaje.RP = 0
-                personaje.creationDate = LocalDate.now()*/
 }

@@ -33,8 +33,8 @@ class AddPersonajeFragment2 : Fragment() {
         with(binding) {
             rellenarNumeros()
             btCancelar.setOnClickListener {
-                findNavController().popBackStack(R.id.addPersonajeFragment1, true)
                 activity?.onBackPressed()
+                findNavController().popBackStack(R.id.addPersonajeFragment1, true)
             }
             btSiguiente.setOnClickListener {
                 val bundle = buildPersonaje()
@@ -85,31 +85,4 @@ class AddPersonajeFragment2 : Fragment() {
         bundle.putInt("voluntadPersonaje", voluntadPersonaje)
         return bundle
     }
-
-    /*val personaje: Personaje? = null
-                personaje?.name = personajeAnterior.name
-                personaje?.level = 0
-                personaje?.clase = personajeAnterior.clase
-                personaje?.description = personajeAnterior.description
-                personaje?.currentHP = 0
-                personaje?.totalHP = 0
-                personaje?.currentStamina = 0
-                personaje?.totalStamina = 0
-                personaje?.attackHability = 0
-                personaje?.dodge = 0
-                personaje?.parryHability = 0
-                personaje?.armor = 0
-                personaje?.turn = 0
-                personaje?.agility = etAGI.text.toString().toInt()
-                personaje?.constitution = etCON.text.toString().toInt()
-                personaje?.dexterity = etDES.text.toString().toInt()
-                personaje?.strength = etFUE.text.toString().toInt()
-                personaje?.intelligence = etINT.text.toString().toInt()
-                personaje?.perception = etPER.text.toString().toInt()
-                personaje?.power = etPOD.text.toString().toInt()
-                personaje?.will = etVOL.text.toString().toInt()
-                personaje?.RF = 0
-                personaje?.RM = 0
-                personaje?.RP = 0
-                personaje?.creationDate = LocalDate.now()*/
 }
