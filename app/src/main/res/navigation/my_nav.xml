@@ -9,7 +9,7 @@
         android:id="@+id/mainMenuFragment"
         android:name="ies.quevedo.chardat.ui.mainMenu.MainMenuFragment"
         android:label="fragment_main_menu"
-        tools:layout="@layout/fragment_main_menu" >
+        tools:layout="@layout/fragment_main_menu">
         <action
             android:id="@+id/action_mainMenuFragment_to_personajeFragment"
             app:destination="@id/personajeFragment"
@@ -30,7 +30,7 @@
         android:id="@+id/personajeFragment"
         android:name="ies.quevedo.chardat.ui.personaje.PersonajeFragment"
         android:label="fragment_personaje"
-        tools:layout="@layout/fragment_personaje" >
+        tools:layout="@layout/fragment_personaje">
         <action
             android:id="@+id/action_personajeFragment_to_mainMenuFragment"
             app:destination="@id/mainMenuFragment"
@@ -43,7 +43,7 @@
         android:id="@+id/RVArmaFragment"
         android:name="ies.quevedo.chardat.ui.rvArma.RVArmaFragment"
         android:label="fragment_armas"
-        tools:layout="@layout/fragment_armas" >
+        tools:layout="@layout/fragment_armas">
         <action
             android:id="@+id/action_RVArmaFragment_to_armaFragment"
             app:destination="@id/armaFragment"
@@ -60,7 +60,7 @@
         android:id="@+id/armaFragment"
         android:name="ies.quevedo.chardat.ui.arma.ArmaFragment"
         android:label="fragment_arma"
-        tools:layout="@layout/fragment_arma" >
+        tools:layout="@layout/fragment_arma">
         <action
             android:id="@+id/action_armaFragment_to_RVArmaFragment"
             app:destination="@id/RVArmaFragment"
@@ -83,7 +83,7 @@
         android:id="@+id/RVPersonajeFragment"
         android:name="ies.quevedo.chardat.ui.rvPersonaje.RVPersonajeFragment"
         android:label="fragment_personajes_list"
-        tools:layout="@layout/fragment_personajes_list" >
+        tools:layout="@layout/fragment_personajes_list">
         <action
             android:id="@+id/action_RVPersonajeFragment_to_mainMenuFragment"
             app:destination="@id/mainMenuFragment"
@@ -97,7 +97,7 @@
         android:id="@+id/addPersonajeFragment2"
         android:name="ies.quevedo.chardat.ui.personaje.AddPersonajeFragment2"
         android:label="fragment_add_personaje2"
-        tools:layout="@layout/fragment_add_personaje2" >
+        tools:layout="@layout/fragment_add_personaje2">
         <action
             android:id="@+id/action_addPersonajeFragment2_to_addPersonajeFragment3"
             app:destination="@id/addPersonajeFragment3"
@@ -107,7 +107,7 @@
         android:id="@+id/addPersonajeFragment3"
         android:name="ies.quevedo.chardat.ui.personaje.AddPersonajeFragment3"
         android:label="fragment_add_personaje3"
-        tools:layout="@layout/fragment_add_personaje3" >
+        tools:layout="@layout/fragment_add_personaje3">
         <action
             android:id="@+id/action_addPersonajeFragment3_to_RVPersonajeFragment"
             app:destination="@id/RVPersonajeFragment"
@@ -117,7 +117,7 @@
         android:id="@+id/addArmaFragment"
         android:name="ies.quevedo.chardat.ui.arma.AddArmaFragment"
         android:label="fragment_add_arma"
-        tools:layout="@layout/fragment_add_arma" >
+        tools:layout="@layout/fragment_add_arma">
         <action
             android:id="@+id/action_addArmaFragment_to_RVArmaFragment"
             app:destination="@id/RVArmaFragment"

@@ -1,15 +1,16 @@
 package ies.quevedo.chardat.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
-import ies.quevedo.chardat.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -27,5 +28,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_item, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        currentFocus?.let {
+            val imm: InputMethodManager = getSystemService(
+                Context.INPUT_METHOD_SERVICE
+            ) as (InputMethodManager)
+            imm.hideSoftInputFromWindow(it.windowToken, 0)
+        }
+        return super.dispatchTouchEvent(ev)
     }
 }
