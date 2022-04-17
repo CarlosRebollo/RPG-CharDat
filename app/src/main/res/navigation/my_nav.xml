@@ -18,13 +18,13 @@
             android:id="@+id/action_mainMenuFragment_to_RVArmaFragment"
             app:destination="@id/RVArmaFragment"
             app:enterAnim="@android:anim/fade_in" />
-        <argument
-            android:name="personaje"
-            app:argType="ies.quevedo.chardat.domain.Personaje" />
         <action
             android:id="@+id/action_mainMenuFragment_to_RVPersonajeFragment"
             app:destination="@id/RVPersonajeFragment"
             app:enterAnim="@android:anim/fade_in" />
+        <argument
+            android:name="personaje"
+            app:argType="ies.quevedo.chardat.domain.Personaje" />
         <action
             android:id="@+id/action_mainMenuFragment_to_RVArmaduraFragment"
             app:destination="@id/RVArmaduraFragment" />

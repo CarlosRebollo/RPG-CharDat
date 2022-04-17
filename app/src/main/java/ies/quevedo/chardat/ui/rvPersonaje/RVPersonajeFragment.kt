@@ -1,6 +1,7 @@
 package ies.quevedo.chardat.ui.rvPersonaje
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -11,8 +12,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
-import ies.quevedo.chardat.databinding.FragmentPersonajesListBinding
+import ies.quevedo.chardat.databinding.FragmentPersonajesBinding
 import ies.quevedo.chardat.domain.Personaje
+import timber.log.Timber
 
 @AndroidEntryPoint
 class RVPersonajeFragment : Fragment() {
@@ -20,14 +22,14 @@ class RVPersonajeFragment : Fragment() {
     private val viewModel by viewModels<RVPersonajeViewModel>()
     private lateinit var adapter: RVPersonajeAdapter
     private var personajeCreado: Personaje? = null
-    private var _binding: FragmentPersonajesListBinding? = null
+    private var _binding: FragmentPersonajesBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPersonajesListBinding.inflate(inflater, container, false)
+        _binding = FragmentPersonajesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -106,7 +108,8 @@ class RVPersonajeFragment : Fragment() {
             adapter.submitList(it)
         }
         viewModel.error.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            Log.d("Error", it)
         }
         viewModel.getPersonajes()
     }

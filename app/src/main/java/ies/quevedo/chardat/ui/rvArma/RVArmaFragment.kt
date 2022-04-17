@@ -8,9 +8,9 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentArmasBinding
@@ -63,15 +63,15 @@ class RVArmaFragment : Fragment() {
             ItemTouchHelper(object :
                 ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
                 override fun onMove(
-                    recyclerView: androidx.recyclerview.widget.RecyclerView,
-                    viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
-                    target: androidx.recyclerview.widget.RecyclerView.ViewHolder
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
                 ): Boolean {
                     return false
                 }
 
                 override fun onSwiped(
-                    viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
+                    viewHolder: RecyclerView.ViewHolder,
                     direction: Int
                 ) {
                     val arma = adapter.currentList[viewHolder.adapterPosition]
@@ -103,8 +103,7 @@ class RVArmaFragment : Fragment() {
             val bundle = Bundle()
             bundle.putParcelable("arma", arma)
             bundle.putParcelable("personaje", personaje)
-            val navController = view?.findNavController()
-            navController?.navigate(R.id.action_RVArmaFragment_to_armaFragment, bundle)
+            findNavController().navigate(R.id.action_RVArmaFragment_to_armaFragment, bundle)
         } else {
             Toast.makeText(context, "No se ha podido obtener el arma", Toast.LENGTH_SHORT).show()
         }
