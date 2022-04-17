@@ -4,25 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.rvPersonaje.RVPersonajeFragment">
+    tools:context=".ui.rvObjeto.RVObjetoFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvArmas"
-            android:name="ies.quevedo.chardat.RVArmaFragment"
+            android:id="@+id/rvObjetos"
+            android:name="ies.quevedo.chardat.RVPersonajeFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:context=".ui.rvArma.RVArmaFragment"
+            tools:context=".ui.rvObjeto.RVObjetoFragment"
             tools:listitem="@layout/card_item_fragment" />
+
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/fbtRegister"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="25dp"
-            android:backgroundTint="#2296F3"
+            android:backgroundTint="#2FB9EF"
             android:contentDescription="@string/extended_fab_content_desc"
             app:icon="@drawable/ic_baseline_add_24"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -41,4 +41,5 @@
             app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>

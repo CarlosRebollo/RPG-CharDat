@@ -45,4 +45,16 @@
     <string name="hp">Puntos de vida</string>
     <string name="none" />
     <string name="chardat">RPG CharDat</string>
+    <string name="nombreArmadura">Armadura</string>
+    <string name="fil">FIL</string>
+    <string name="con">CON</string>
+    <string name="pen">PEN</string>
+    <string name="cal">CAL</string>
+    <string name="fri">FRI</string>
+    <string name="ele">ELE</string>
+    <string name="ene">ENE</string>
+    <string name="escudo">Escudo</string>
+    <string name="objeto">Objeto</string>
+    <string name="cantidad">Cantidad</string>
+    <string name="arma">Arma</string>
 </resources>

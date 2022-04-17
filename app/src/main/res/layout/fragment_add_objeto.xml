@@ -12,49 +12,23 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="216dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="333dp"
             android:layout_height="60dp"
-            android:hint="@string/arma"
+            android:hint="@string/objeto"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.04">
+            app:layout_constraintVertical_bias="0.041">
 
-            <AutoCompleteTextView
-                android:id="@+id/etNombreArma"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNombreObjeto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="none"
-                tools:ignore="LabelFor"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="187dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfCalidad"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:hint="@string/calidadArma"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.874"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.04">
-
-            <AutoCompleteTextView
-                android:id="@+id/etCalidad"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="none"
-                tools:ignore="LabelFor"
-                tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="100dp" />
+                android:inputType="textMultiLine"
+                tools:layout_editor_absoluteX="37dp"
+                tools:layout_editor_absoluteY="226dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,11 +55,10 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfTurno"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="100dp"
             android:layout_height="60dp"
-            android:hint="@string/turno"
+            android:hint="@string/value"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.128"
@@ -94,7 +67,7 @@
             app:layout_constraintVertical_bias="0.339">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etTurno"
+                android:id="@+id/etValor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="number"
@@ -104,11 +77,10 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfHabilidadDeAtaque"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="100dp"
             android:layout_height="60dp"
-            android:hint="@string/habilidadDeAtaque"
+            android:hint="@string/cantidad"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -126,89 +98,16 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfDamage"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="100dp"
             android:layout_height="60dp"
-            android:hint="@string/damage"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.874"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.338">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etDamage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="number"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="339dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfParada"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="20dp"
-            android:hint="@string/parry"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.128"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.442">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etParada"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="number"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="339dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfValor"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="20dp"
-            android:hint="@string/value"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.442">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etValor"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="number"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="339dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tfPeso"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="20dp"
             android:hint="@string/peso"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.874"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.442">
+            app:layout_constraintVertical_bias="0.338">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPeso"
@@ -241,7 +140,7 @@
             android:text="@string/crear"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.916"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/btCancelar"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.897" />

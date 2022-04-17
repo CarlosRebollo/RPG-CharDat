@@ -25,6 +25,15 @@
             android:id="@+id/action_mainMenuFragment_to_RVPersonajeFragment"
             app:destination="@id/RVPersonajeFragment"
             app:enterAnim="@android:anim/fade_in" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_RVArmaduraFragment"
+            app:destination="@id/RVArmaduraFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_RVEscudoFragment"
+            app:destination="@id/RVEscudoFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_RVObjetoFragment"
+            app:destination="@id/RVObjetoFragment" />
     </fragment>
     <fragment
         android:id="@+id/personajeFragment"
@@ -83,7 +92,7 @@
         android:id="@+id/RVPersonajeFragment"
         android:name="ies.quevedo.chardat.ui.rvPersonaje.RVPersonajeFragment"
         android:label="fragment_personajes_list"
-        tools:layout="@layout/fragment_personajes_list">
+        tools:layout="@layout/fragment_personajes">
         <action
             android:id="@+id/action_RVPersonajeFragment_to_mainMenuFragment"
             app:destination="@id/mainMenuFragment"
@@ -125,5 +134,95 @@
         <argument
             android:name="personaje"
             app:argType="ies.quevedo.chardat.domain.Personaje" />
+    </fragment>
+    <fragment
+        android:id="@+id/RVArmaduraFragment"
+        android:name="ies.quevedo.chardat.ui.rvArmadura.RVArmaduraFragment"
+        android:label="fragment_armaduras"
+        tools:layout="@layout/fragment_armaduras">
+        <action
+            android:id="@+id/action_RVArmaduraFragment_to_addArmaduraFragment"
+            app:destination="@id/addArmaduraFragment" />
+        <action
+            android:id="@+id/action_RVArmaduraFragment_to_armaduraFragment"
+            app:destination="@id/armaduraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addArmaduraFragment"
+        android:name="ies.quevedo.chardat.ui.armadura.AddArmaduraFragment"
+        android:label="fragment_add_armadura"
+        tools:layout="@layout/fragment_add_armadura">
+        <action
+            android:id="@+id/action_addArmaduraFragment_to_RVArmaduraFragment"
+            app:destination="@id/RVArmaduraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/armaduraFragment"
+        android:name="ies.quevedo.chardat.ui.armadura.ArmaduraFragment"
+        android:label="fragment_armadura"
+        tools:layout="@layout/fragment_armadura">
+        <action
+            android:id="@+id/action_armaduraFragment_to_RVArmaduraFragment"
+            app:destination="@id/RVArmaduraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/RVEscudoFragment"
+        android:name="ies.quevedo.chardat.ui.rvEscudo.RVEscudoFragment"
+        android:label="fragment_escudos"
+        tools:layout="@layout/fragment_escudos">
+        <action
+            android:id="@+id/action_RVEscudoFragment_to_addEscudoFragment"
+            app:destination="@id/addEscudoFragment" />
+        <action
+            android:id="@+id/action_RVEscudoFragment_to_escudoFragment"
+            app:destination="@id/escudoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEscudoFragment"
+        android:name="ies.quevedo.chardat.ui.escudo.AddEscudoFragment"
+        android:label="fragment_add_escudo"
+        tools:layout="@layout/fragment_add_escudo">
+        <action
+            android:id="@+id/action_addEscudoFragment_to_RVEscudoFragment"
+            app:destination="@id/RVEscudoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/escudoFragment"
+        android:name="ies.quevedo.chardat.ui.escudo.EscudoFragment"
+        android:label="fragment_escudo"
+        tools:layout="@layout/fragment_escudo">
+        <action
+            android:id="@+id/action_escudoFragment_to_RVEscudoFragment"
+            app:destination="@id/RVEscudoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/RVObjetoFragment"
+        android:name="ies.quevedo.chardat.ui.rvObjeto.RVObjetoFragment"
+        android:label="fragment_objetos"
+        tools:layout="@layout/fragment_objetos">
+        <action
+            android:id="@+id/action_RVObjetoFragment_to_addObjetoFragment"
+            app:destination="@id/addObjetoFragment" />
+        <action
+            android:id="@+id/action_RVObjetoFragment_to_objetoFragment"
+            app:destination="@id/objetoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addObjetoFragment"
+        android:name="ies.quevedo.chardat.ui.objeto.AddObjetoFragment"
+        android:label="fragment_add_objeto"
+        tools:layout="@layout/fragment_add_objeto">
+        <action
+            android:id="@+id/action_addObjetoFragment_to_RVObjetoFragment"
+            app:destination="@id/RVObjetoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/objetoFragment"
+        android:name="ies.quevedo.chardat.ui.objeto.ObjetoFragment"
+        android:label="fragment_objeto"
+        tools:layout="@layout/fragment_objeto">
+        <action
+            android:id="@+id/action_objetoFragment_to_RVObjetoFragment"
+            app:destination="@id/RVObjetoFragment" />
     </fragment>
 </navigation>
