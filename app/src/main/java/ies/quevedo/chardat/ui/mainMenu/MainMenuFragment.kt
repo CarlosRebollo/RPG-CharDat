@@ -67,44 +67,28 @@ class MainMenuFragment : Fragment() {
         }
     }
 
-    private fun FragmentMainMenuBinding.setImageClass() {
-        //TODO : Aquí seguir probando en fragment_main_menu.xml la imagen para que salga la cara bien, poner en scrollY los dp del layout
+    private fun setImageClass() {
         when (personaje.clase) {
-            "GUERRERO" -> {
-                imageView.setImageResource(R.drawable.guerrero)
-                imageView.scrollY = -190
-            }
-            "GUERRERO ACRÓBATA" -> {
-                imageView.setImageResource(R.drawable.guerrero_acr_bata)
-                imageView.scrollY = -190
-            }
-            "PALADÍN" -> {
-                imageView.setImageResource(R.drawable.palad_n)
-                imageView.scrollY = -190
-            }
-            "PALADÍN OSCURO" -> {
-                imageView.setImageResource(R.drawable.paladin_oscuro)
-                imageView.scrollY = -130
-            }
-            "MAESTRO DE ARMAS" -> {
-                imageView.setImageResource(R.drawable.maestro_de_armas)
-                imageView.scrollY = 200
-            }
-            "TECNICISTA" -> imageView.setImageResource(R.drawable.tecnicista)
-            "TAO" -> imageView.setImageResource(R.drawable.tao)
-            "EXPLORADOR" -> imageView.setImageResource(R.drawable.explorador)
-            "SOMBRA" -> imageView.setImageResource(R.drawable.sombra)
-            "LADRÓN" -> imageView.setImageResource(R.drawable.ladr_n)
-            "ASESINO" -> imageView.setImageResource(R.drawable.asesino)
-            "HECHICERO" -> imageView.setImageResource(R.drawable.hechicero)
-            "WARLOCK" -> imageView.setImageResource(R.drawable.warlock)
-            "ILUSIONISTA" -> imageView.setImageResource(R.drawable.ilusionista)
-            "HECHICERO MENTALISTA" -> imageView.setImageResource(R.drawable.hechicero_mentalista)
-            "CONJURADOR" -> imageView.setImageResource(R.drawable.conjurador)
-            "GUERRERO CONJURADOR" -> imageView.setImageResource(R.drawable.guerrero_conjurador)
-            "MENTALISTA" -> imageView.setImageResource(R.drawable.mentalista)
-            "GUERRERO MENTALISTA" -> imageView.setImageResource(R.drawable.guerrero_mentalista)
-            "NOVEL" -> imageView.setImageResource(R.drawable.novel)
+            "GUERRERO" -> binding.ivClaseBanner.setImageResource(R.drawable.guerrero_banner)
+            "GUERRERO ACRÓBATA" -> binding.ivClaseBanner.setImageResource(R.drawable.guerrero_acrobata_banner)
+            "PALADÍN" -> binding.ivClaseBanner.setImageResource(R.drawable.paladin_banner)
+            "PALADÍN OSCURO" -> binding.ivClaseBanner.setImageResource(R.drawable.paladin_oscuro_banner)
+            "MAESTRO DE ARMAS" -> binding.ivClaseBanner.setImageResource(R.drawable.maestro_de_armas_banner)
+            "TECNICISTA" -> binding.ivClaseBanner.setImageResource(R.drawable.tecnicista_banner)
+            "TAO" -> binding.ivClaseBanner.setImageResource(R.drawable.tao_banner)
+            "EXPLORADOR" -> binding.ivClaseBanner.setImageResource(R.drawable.explorador_banner)
+            "SOMBRA" -> binding.ivClaseBanner.setImageResource(R.drawable.sombra_banner)
+            "LADRÓN" -> binding.ivClaseBanner.setImageResource(R.drawable.ladron_banner)
+            "ASESINO" -> binding.ivClaseBanner.setImageResource(R.drawable.asesino_banner)
+            "HECHICERO" -> binding.ivClaseBanner.setImageResource(R.drawable.hechicero_banner)
+            "WARLOCK" -> binding.ivClaseBanner.setImageResource(R.drawable.warlock_banner)
+            "ILUSIONISTA" -> binding.ivClaseBanner.setImageResource(R.drawable.ilusionista_banner)
+            "HECHICERO MENTALISTA" -> binding.ivClaseBanner.setImageResource(R.drawable.hechicero_mentalista_banner)
+            "CONJURADOR" -> binding.ivClaseBanner.setImageResource(R.drawable.conjurador_banner)
+            "GUERRERO CONJURADOR" -> binding.ivClaseBanner.setImageResource(R.drawable.guerrero_conjurador_banner)
+            "MENTALISTA" -> binding.ivClaseBanner.setImageResource(R.drawable.mentalista_banner)
+            "GUERRERO MENTALISTA" -> binding.ivClaseBanner.setImageResource(R.drawable.guerrero_mentalista_banner)
+            "NOVEL" -> binding.ivClaseBanner.setImageResource(R.drawable.novel_banner)
         }
     }
 }

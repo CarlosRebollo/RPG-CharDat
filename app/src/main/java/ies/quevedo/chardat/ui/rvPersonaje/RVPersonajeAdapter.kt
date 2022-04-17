@@ -45,28 +45,28 @@ class RVPersonajeAdapter(
             cardPersonaje.setOnClickListener { goMainMenu(adapterPosition) }
         }
 
-        private fun CardPersonajeFragmentBinding.setImageClass(item: Personaje) {
+        private fun setImageClass(item: Personaje) {
             when (item.clase) {
-                "GUERRERO" -> ivClass.setImageResource(R.drawable.guerrero)
-                "GUERRERO ACRÓBATA" -> ivClass.setImageResource(R.drawable.guerrero_acr_bata)
-                "PALADÍN" -> ivClass.setImageResource(R.drawable.palad_n)
-                "PALADÍN OSCURO" -> ivClass.setImageResource(R.drawable.paladin_oscuro)
-                "MAESTRO DE ARMAS" -> ivClass.setImageResource(R.drawable.maestro_de_armas)
-                "TECNICISTA" -> ivClass.setImageResource(R.drawable.tecnicista)
-                "TAO" -> ivClass.setImageResource(R.drawable.tao)
-                "EXPLORADOR" -> ivClass.setImageResource(R.drawable.explorador)
-                "SOMBRA" -> ivClass.setImageResource(R.drawable.sombra)
-                "LADRÓN" -> ivClass.setImageResource(R.drawable.ladr_n)
-                "ASESINO" -> ivClass.setImageResource(R.drawable.asesino)
-                "HECHICERO" -> ivClass.setImageResource(R.drawable.hechicero)
-                "WARLOCK" -> ivClass.setImageResource(R.drawable.warlock)
-                "ILUSIONISTA" -> ivClass.setImageResource(R.drawable.ilusionista)
-                "HECHICERO MENTALISTA" -> ivClass.setImageResource(R.drawable.hechicero_mentalista)
-                "CONJURADOR" -> ivClass.setImageResource(R.drawable.conjurador)
-                "GUERRERO CONJURADOR" -> ivClass.setImageResource(R.drawable.guerrero_conjurador)
-                "MENTALISTA" -> ivClass.setImageResource(R.drawable.mentalista)
-                "GUERRERO MENTALISTA" -> ivClass.setImageResource(R.drawable.guerrero_mentalista)
-                "NOVEL" -> ivClass.setImageResource(R.drawable.novel)
+                "GUERRERO" -> binding.ivClaseIcono.setImageResource(R.drawable.guerrero_icono)
+                "GUERRERO ACRÓBATA" -> binding.ivClaseIcono.setImageResource(R.drawable.guerrero_acrobata_icono)
+                "PALADÍN" -> binding.ivClaseIcono.setImageResource(R.drawable.paladin_icono)
+                "PALADÍN OSCURO" -> binding.ivClaseIcono.setImageResource(R.drawable.paladin_oscuro_icono)
+                "MAESTRO DE ARMAS" -> binding.ivClaseIcono.setImageResource(R.drawable.maestro_de_armas_icono)
+                "TECNICISTA" -> binding.ivClaseIcono.setImageResource(R.drawable.tecnicista_icono)
+                "TAO" -> binding.ivClaseIcono.setImageResource(R.drawable.tao_icono)
+                "EXPLORADOR" -> binding.ivClaseIcono.setImageResource(R.drawable.explorador_icono)
+                "SOMBRA" -> binding.ivClaseIcono.setImageResource(R.drawable.sombra_icono)
+                "LADRÓN" -> binding.ivClaseIcono.setImageResource(R.drawable.ladron_icono)
+                "ASESINO" -> binding.ivClaseIcono.setImageResource(R.drawable.asesino_icono)
+                "HECHICERO" -> binding.ivClaseIcono.setImageResource(R.drawable.hechicero_icono)
+                "WARLOCK" -> binding.ivClaseIcono.setImageResource(R.drawable.warlock_icono)
+                "ILUSIONISTA" -> binding.ivClaseIcono.setImageResource(R.drawable.ilusionista_icono)
+                "HECHICERO MENTALISTA" -> binding.ivClaseIcono.setImageResource(R.drawable.hechicero_mentalista_icono)
+                "CONJURADOR" -> binding.ivClaseIcono.setImageResource(R.drawable.conjurador_icono)
+                "GUERRERO CONJURADOR" -> binding.ivClaseIcono.setImageResource(R.drawable.guerrero_conjurador_icono)
+                "MENTALISTA" -> binding.ivClaseIcono.setImageResource(R.drawable.mentalista_icono)
+                "GUERRERO MENTALISTA" -> binding.ivClaseIcono.setImageResource(R.drawable.guerrero_mentalista_icono)
+                "NOVEL" -> binding.ivClaseIcono.setImageResource(R.drawable.novel_icono)
             }
         }
     }

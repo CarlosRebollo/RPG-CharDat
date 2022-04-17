@@ -8,6 +8,7 @@
     android:layout_marginEnd="15dp"
     android:layout_marginTop="10dp"
     android:background="@drawable/border"
+    android:paddingTop="10dp"
     android:paddingBottom="10dp">
 
     <TextView
@@ -22,11 +23,11 @@
         android:textSize="40sp"
         android:textStyle="italic"
         android:fontFamily="sans-serif-thin"
-        app:layout_constraintBottom_toBottomOf="@+id/ivClass"
+        app:layout_constraintBottom_toBottomOf="@+id/ivClaseIcono"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ivClass"
-        app:layout_constraintTop_toTopOf="@+id/ivClass"
+        app:layout_constraintStart_toEndOf="@+id/ivClaseIcono"
+        app:layout_constraintTop_toTopOf="@+id/ivClaseIcono"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -62,13 +63,11 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
-        android:id="@+id/ivClass"
+        android:id="@+id/ivClaseIcono"
         android:layout_width="112dp"
         android:layout_height="112dp"
-        android:layout_marginTop="16dp"
         android:contentDescription="@string/ivImagenDesc"
         android:scaleType="centerCrop"
-        android:scrollY="-20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.052"
         app:layout_constraintStart_toStartOf="parent"
