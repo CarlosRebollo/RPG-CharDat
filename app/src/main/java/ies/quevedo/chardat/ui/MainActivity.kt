@@ -30,12 +30,15 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    /**
+     * Este método oculta el teclado cuando se pulsa en otro lugar de la pantalla
+     */
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         currentFocus?.let {
-            val imm: InputMethodManager = getSystemService(
+            val inputMethodManager: InputMethodManager = getSystemService(
                 Context.INPUT_METHOD_SERVICE
             ) as (InputMethodManager)
-            imm.hideSoftInputFromWindow(it.windowToken, 0)
+            inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
         }
         return super.dispatchTouchEvent(ev)
     }

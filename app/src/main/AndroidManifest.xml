@@ -15,8 +15,9 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            android:label="@string/none"
+            android:label="@string/chardat"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
