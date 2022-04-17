@@ -38,7 +38,6 @@ class ArmaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            rellenarArmas()
             rellenarCamposDeArma()
             btCancelar.setOnClickListener {
                 activity?.onBackPressed()
@@ -53,6 +52,18 @@ class ArmaFragment : Fragment() {
                     navController.navigate(R.id.action_armaFragment_to_RVArmaFragment, bundle)
                 }
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        with(binding) {
+            val listaDeArmas: Array<String> = listaDeArmas()
+            val adapter1 = ArrayAdapter(requireContext(), R.layout.list_item, listaDeArmas)
+            (etNombreArma as? AutoCompleteTextView)?.setAdapter(adapter1)
+            val listaDeNumeros: Array<Int> = arrayOf(-10, -5, 0, 5, 10, 15, 20, 25, 30)
+            val adapter2 = ArrayAdapter(requireContext(), R.layout.list_item, listaDeNumeros)
+            (etCalidad as? AutoCompleteTextView?)?.setAdapter(adapter2)
         }
     }
 
@@ -71,12 +82,6 @@ class ArmaFragment : Fragment() {
         etParada.setText(arma.parry.toString())
         etValor.setText(arma.value.toString())
         etPeso.setText(arma.weight.toString())
-    }
-
-    private fun FragmentArmaBinding.rellenarArmas() {
-        val listaDeArmas: Array<String> = listaDeArmas()
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, listaDeArmas)
-        (etNombreArma as? AutoCompleteTextView)?.setAdapter(adapter)
     }
 
     private fun FragmentArmaBinding.buildArmaActualizada(): Bundle {

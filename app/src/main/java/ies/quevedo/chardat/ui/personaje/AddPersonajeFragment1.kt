@@ -58,7 +58,6 @@ class AddPersonajeFragment1 : Fragment() {
     }
 
     private fun FragmentAddPersonaje1Binding.buildPersonaje(): Bundle {
-
         val nombrePersonaje = etNombrePersonaje.text.toString()
         val clasePersonaje = etClases.text.toString()
         val descripcionPersonaje = etDescripcion.text.toString()

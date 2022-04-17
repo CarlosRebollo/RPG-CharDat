@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
@@ -16,8 +17,10 @@ import ies.quevedo.chardat.domain.Personaje
 @AndroidEntryPoint
 class MainMenuFragment : Fragment() {
 
+    private val viewModel by viewModels<MainMenuViewModel>()
     private var _binding: FragmentMainMenuBinding? = null
     private val binding get() = _binding!!
+    private var personajeActualizado: Personaje? = null
     private lateinit var personaje: Personaje
 
     override fun onCreateView(
@@ -26,12 +29,19 @@ class MainMenuFragment : Fragment() {
     ): View {
         setHasOptionsMenu(true)
         _binding = FragmentMainMenuBinding.inflate(inflater, container, false)
-        personaje = arguments?.getParcelable("personaje")!!
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        personajeActualizado = arguments?.getParcelable("personajeActualizado")
+        if (personajeActualizado != null) {
+            viewModel.updatePersonaje(personajeActualizado!!)
+            personaje = personajeActualizado!!
+            findNavController().popBackStack(R.id.personajeFragment, true)
+        } else {
+            personaje = arguments?.getParcelable("personaje")!!
+        }
         setListenerActions()
     }
 

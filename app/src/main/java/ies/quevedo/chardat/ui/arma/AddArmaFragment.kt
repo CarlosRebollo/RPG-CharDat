@@ -36,6 +36,7 @@ class AddArmaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            rellenarCalidad()
             rellenarArmas()
             btCancelar.setOnClickListener {
                 findNavController().navigateUp()
@@ -104,6 +105,12 @@ class AddArmaFragment : Fragment() {
         val listaDeArmas: Array<String> = listaDeArmas()
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item, listaDeArmas)
         (etNombreArma as? AutoCompleteTextView)?.setAdapter(adapter)
+    }
+
+    private fun FragmentAddArmaBinding.rellenarCalidad() {
+        val listaDeNumeros: Array<Int> = arrayOf(-10, -5, 0, 5, 10, 15, 20, 25, 30)
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, listaDeNumeros)
+        (etCalidad as? AutoCompleteTextView?)?.setAdapter(adapter)
     }
 
     private fun listaDeArmas(): Array<String> {
