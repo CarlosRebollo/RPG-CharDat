@@ -43,12 +43,12 @@ class RVObjetoFragment : Fragment() {
         objetoCreado = arguments?.getParcelable("objetoCreado")
         if (objetoCreado != null) {
             viewModel.insertObjeto(objetoCreado!!)
-            findNavController().popBackStack(R.id.addEscudoFragment, true)
+            findNavController().popBackStack(R.id.addObjetoFragment, true)
         }
         objetoActualizado = arguments?.getParcelable("objetoActualizado")
         if (objetoActualizado != null) {
             viewModel.updateObjeto(objetoActualizado!!)
-            findNavController().popBackStack(R.id.escudoFragment, true)
+            findNavController().popBackStack(R.id.objetoFragment, true)
         }
         adapter = RVObjetoAdapter(
             ::goObjectDetails
@@ -57,7 +57,7 @@ class RVObjetoFragment : Fragment() {
         binding.fbtRegister.setOnClickListener {
             val bundle = Bundle()
             bundle.putParcelable("personaje", personaje)
-            findNavController().navigate(R.id.action_RVEscudoFragment_to_addEscudoFragment, bundle)
+            findNavController().navigate(R.id.action_RVObjetoFragment_to_addObjetoFragment, bundle)
         }
         observersRecyclerEscudos()
         binding.apply {

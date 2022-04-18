@@ -6,13 +6,13 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Escudo(
     val id: Int = 0,
-    val name: String,
-    val value: Int,
-    val weight: Double,
-    val quality: Int,
-    val attackHability: Int,
-    val damage: Int,
-    val parry: Int,
-    val description: String,
+    var name: String,
+    var value: Int,
+    var weight: Double,
+    var quality: Int,
+    var attackHability: Int,
+    var damage: Int,
+    var parry: Int,
+    var description: String,
     val idPJ: Int
 ) : Parcelable

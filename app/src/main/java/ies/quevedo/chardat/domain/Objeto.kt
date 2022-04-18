@@ -6,10 +6,10 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Objeto(
     val id: Int = 0,
-    val name: String,
-    val value: Int,
-    val weight: Double,
-    val amount: Int,
-    val description: String,
+    var name: String,
+    var value: Int,
+    var weight: Double,
+    var amount: Int,
+    var description: String,
     val idPJ: Int
 ) : Parcelable

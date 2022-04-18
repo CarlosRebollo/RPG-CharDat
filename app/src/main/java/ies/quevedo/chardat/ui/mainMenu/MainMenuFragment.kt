@@ -53,6 +53,7 @@ class MainMenuFragment : Fragment() {
         with(binding) {
             setImageClass()
             tvName.text = personaje.name
+            tvClase.text = personaje.clase
             ivInfo.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putParcelable("personaje", personaje)
