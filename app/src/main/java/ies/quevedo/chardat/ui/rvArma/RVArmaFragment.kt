@@ -1,5 +1,6 @@
 package ies.quevedo.chardat.ui.rvArma
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentArmasBinding
@@ -70,12 +72,22 @@ class RVArmaFragment : Fragment() {
                     return false
                 }
 
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onSwiped(
                     viewHolder: RecyclerView.ViewHolder,
                     direction: Int
                 ) {
                     val arma = adapter.currentList[viewHolder.adapterPosition]
                     viewModel.deleteArma(arma)
+                    Snackbar.make(
+                        binding.root,
+                        "${arma.name} eliminada",
+                        Snackbar.LENGTH_LONG
+                    ).setAction("Deshacer") {
+                        viewModel.insertArma(arma)
+                        adapter.notifyItemInserted(viewHolder.adapterPosition)
+                        adapter.notifyDataSetChanged()
+                    }.show()
                 }
             }).attachToRecyclerView(binding.rvArmas)
         }

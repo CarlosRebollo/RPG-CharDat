@@ -1,5 +1,6 @@
 package ies.quevedo.chardat.ui.rvPersonaje
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -10,11 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentPersonajesBinding
 import ies.quevedo.chardat.domain.Personaje
-import timber.log.Timber
 
 @AndroidEntryPoint
 class RVPersonajeFragment : Fragment() {
@@ -83,9 +84,19 @@ class RVPersonajeFragment : Fragment() {
                     return false
                 }
 
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val personaje = adapter.currentList[viewHolder.adapterPosition]
                     viewModel.deletePersonaje(personaje)
+                    Snackbar.make(
+                        binding.root,
+                        "${personaje.name} eliminado",
+                        Snackbar.LENGTH_LONG
+                    ).setAction("Deshacer") {
+                        viewModel.insertPersonaje(personaje)
+                        adapter.notifyItemInserted(viewHolder.adapterPosition)
+                        adapter.notifyDataSetChanged()
+                    }.show()
                 }
             }).attachToRecyclerView(binding.rvPersonajes)
         }

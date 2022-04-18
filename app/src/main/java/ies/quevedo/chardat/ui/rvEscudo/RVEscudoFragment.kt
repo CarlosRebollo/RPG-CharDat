@@ -1,5 +1,6 @@
 package ies.quevedo.chardat.ui.rvEscudo
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentEscudosBinding
@@ -71,12 +73,22 @@ class RVEscudoFragment : Fragment() {
                     return false
                 }
 
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onSwiped(
                     viewHolder: RecyclerView.ViewHolder,
                     direction: Int
                 ) {
                     val escudo = adapter.currentList[viewHolder.adapterPosition]
                     viewModel.deleteEscudo(escudo)
+                    Snackbar.make(
+                        binding.root,
+                        "${escudo.name} eliminado",
+                        Snackbar.LENGTH_LONG
+                    ).setAction("Deshacer") {
+                        viewModel.insertEscudo(escudo)
+                        adapter.notifyItemInserted(viewHolder.adapterPosition)
+                        adapter.notifyDataSetChanged()
+                    }.show()
                 }
             }).attachToRecyclerView(binding.rvEscudos)
         }
