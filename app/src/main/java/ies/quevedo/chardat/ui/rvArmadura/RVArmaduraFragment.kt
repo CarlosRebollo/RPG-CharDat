@@ -85,7 +85,7 @@ class RVArmaduraFragment : Fragment() {
                     viewModel.deleteArmadura(armadura)
                     Snackbar.make(
                         binding.root,
-                        "${armadura.name} eliminada",
+                        "Se ha eliminado: ${armadura.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
                         viewModel.insertArmadura(armadura)

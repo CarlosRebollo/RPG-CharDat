@@ -82,7 +82,7 @@ class RVEscudoFragment : Fragment() {
                     viewModel.deleteEscudo(escudo)
                     Snackbar.make(
                         binding.root,
-                        "${escudo.name} eliminado",
+                        "Se ha eliminado: ${escudo.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
                         viewModel.insertEscudo(escudo)

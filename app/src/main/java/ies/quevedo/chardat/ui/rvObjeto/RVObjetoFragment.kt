@@ -82,7 +82,7 @@ class RVObjetoFragment : Fragment() {
                     viewModel.deleteObjeto(objeto)
                     Snackbar.make(
                         binding.root,
-                        "${objeto.name} eliminado",
+                        "Se ha eliminado: ${objeto.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
                         viewModel.insertObjeto(objeto)

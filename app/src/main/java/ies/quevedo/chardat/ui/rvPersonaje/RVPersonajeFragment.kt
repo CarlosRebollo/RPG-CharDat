@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentPersonajesBinding
 import ies.quevedo.chardat.domain.Personaje
+import java.util.*
 
 @AndroidEntryPoint
 class RVPersonajeFragment : Fragment() {
@@ -23,6 +24,8 @@ class RVPersonajeFragment : Fragment() {
     private val viewModel by viewModels<RVPersonajeViewModel>()
     private lateinit var adapter: RVPersonajeAdapter
     private var personajeCreado: Personaje? = null
+    private lateinit var personajesList: ArrayList<Personaje>
+    private lateinit var personajesListTemp: ArrayList<Personaje>
     private var _binding: FragmentPersonajesBinding? = null
     private val binding get() = _binding!!
 
@@ -50,6 +53,9 @@ class RVPersonajeFragment : Fragment() {
         binding.fbtRegister.setOnClickListener {
             findNavController().navigate(R.id.action_RVPersonajeFragment_to_addPersonajeFragment1)
         }
+        //Guardar los personajes en una lista temporal ¿De donde puedo cogerlos bien?
+        personajesList = (viewModel.personajes.value as ArrayList<Personaje>?)!!
+        personajesListTemp = personajesList
         observersRecyclerPersonajes()
         swipeToDelete()
     }
@@ -62,14 +68,43 @@ class RVPersonajeFragment : Fragment() {
         searchView?.maxWidth = Int.MAX_VALUE
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(filtro: String): Boolean {
+                personajesList.clear()
+                if (filtro.isBlank()) {
+                    personajesList.addAll(personajesListTemp)
+                } else {
+                    personajesList.addAll(
+                        personajesListTemp.filter {
+                            it.name.lowercase(Locale.ROOT)
+                                .contains(filtro.lowercase(Locale.ROOT))
+                        }
+                    )
+                }
+                refreshList()
                 return true
             }
 
             override fun onQueryTextChange(filtro: String): Boolean {
+                personajesList.clear()
+                if (filtro.isBlank()) {
+                    personajesList.addAll(personajesListTemp)
+                } else {
+                    personajesList.addAll(
+                        personajesListTemp.filter {
+                            it.name.lowercase(Locale.ROOT)
+                                .contains(filtro.lowercase(Locale.ROOT))
+                        }
+                    )
+                }
+                refreshList()
                 return true
             }
         })
         searchView?.isSubmitButtonEnabled = true
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun refreshList() {
+        binding.rvPersonajes.adapter?.notifyDataSetChanged()
     }
 
     private fun swipeToDelete() {
@@ -90,7 +125,7 @@ class RVPersonajeFragment : Fragment() {
                     viewModel.deletePersonaje(personaje)
                     Snackbar.make(
                         binding.root,
-                        "${personaje.name} eliminado",
+                        "Se ha eliminado: ${personaje.name.uppercase(Locale.getDefault())}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
                         viewModel.insertPersonaje(personaje)

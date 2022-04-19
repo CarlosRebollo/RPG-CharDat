@@ -81,7 +81,7 @@ class RVArmaFragment : Fragment() {
                     viewModel.deleteArma(arma)
                     Snackbar.make(
                         binding.root,
-                        "${arma.name} eliminada",
+                        "Se ha eliminado: ${arma.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
                         viewModel.insertArma(arma)
