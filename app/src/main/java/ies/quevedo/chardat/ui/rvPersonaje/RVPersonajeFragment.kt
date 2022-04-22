@@ -53,9 +53,9 @@ class RVPersonajeFragment : Fragment() {
         binding.fbtRegister.setOnClickListener {
             findNavController().navigate(R.id.action_RVPersonajeFragment_to_addPersonajeFragment1)
         }
-        //Guardar los personajes en una lista temporal ¿De donde puedo cogerlos bien?
+        /*Guardar los personajes en una lista temporal ¿De donde puedo cogerlos bien?
         personajesList = (viewModel.personajes.value as ArrayList<Personaje>?)!!
-        personajesListTemp = personajesList
+        personajesListTemp = personajesList*/
         observersRecyclerPersonajes()
         swipeToDelete()
     }
@@ -68,7 +68,7 @@ class RVPersonajeFragment : Fragment() {
         searchView?.maxWidth = Int.MAX_VALUE
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(filtro: String): Boolean {
-                personajesList.clear()
+                /*personajesList.clear()
                 if (filtro.isBlank()) {
                     personajesList.addAll(personajesListTemp)
                 } else {
@@ -79,12 +79,12 @@ class RVPersonajeFragment : Fragment() {
                         }
                     )
                 }
-                refreshList()
+                refreshList()*/
                 return true
             }
 
             override fun onQueryTextChange(filtro: String): Boolean {
-                personajesList.clear()
+                /*personajesList.clear()
                 if (filtro.isBlank()) {
                     personajesList.addAll(personajesListTemp)
                 } else {
@@ -95,7 +95,7 @@ class RVPersonajeFragment : Fragment() {
                         }
                     )
                 }
-                refreshList()
+                refreshList()*/
                 return true
             }
         })
