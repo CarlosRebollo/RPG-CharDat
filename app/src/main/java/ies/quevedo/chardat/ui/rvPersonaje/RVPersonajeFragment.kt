@@ -42,9 +42,7 @@ class RVPersonajeFragment : Fragment() {
         personajeCreado = arguments?.getParcelable("personajeCreado")
         if (personajeCreado != null) {
             viewModel.insertPersonaje(personajeCreado!!)
-            findNavController().popBackStack(R.id.addPersonajeFragment1, true)
-            findNavController().popBackStack(R.id.addPersonajeFragment2, true)
-            findNavController().popBackStack(R.id.addPersonajeFragment3, true)
+
         }
         adapter = RVPersonajeAdapter(
             ::goMainMenu
@@ -128,7 +126,7 @@ class RVPersonajeFragment : Fragment() {
                         "Se ha eliminado: ${personaje.name.uppercase(Locale.getDefault())}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
-                        viewModel.insertPersonaje(personaje)
+                        viewModel.insertPersonajeConTodo(personaje)
                         adapter.notifyItemInserted(viewHolder.adapterPosition)
                         adapter.notifyDataSetChanged()
                     }.show()

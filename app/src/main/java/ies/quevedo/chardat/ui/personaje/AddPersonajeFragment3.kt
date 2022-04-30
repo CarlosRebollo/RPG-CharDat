@@ -43,11 +43,15 @@ class AddPersonajeFragment3 : Fragment() {
                 } else {
                     val personajeCreado = buildPersonaje()
                     val bundle = Bundle()
-                    bundle.putParcelable("personajeCreado", personajeCreado)
+//                    bundle.putParcelable("personajeCreado", personajeCreado)
+                    //TODO Crear un viewmodel para meter al nuevo personaje en la lista y seguir a tope
                     findNavController().navigate(
                         R.id.action_addPersonajeFragment3_to_RVPersonajeFragment,
                         bundle
                     )
+                    findNavController().popBackStack(R.id.addPersonajeFragment1, true)
+                    findNavController().popBackStack(R.id.addPersonajeFragment2, true)
+                    findNavController().popBackStack(R.id.addPersonajeFragment3, true)
                 }
             }
         }

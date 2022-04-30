@@ -1,19 +1,18 @@
 package ies.quevedo.chardat.ui.rvPersonaje
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ies.quevedo.chardat.data.usecases.DeletePersonaje
-import ies.quevedo.chardat.data.usecases.InsertPersonaje
-import ies.quevedo.chardat.data.usecases.ListPersonajes
+import ies.quevedo.chardat.data.repository.PersonajeRepository
 import ies.quevedo.chardat.domain.Personaje
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RVPersonajeViewModel @Inject constructor(
-    private val listPersonajes: ListPersonajes,
-    private val insertPersonaje: InsertPersonaje,
-    private val deletePersonaje: DeletePersonaje
+    private val personajeRepository: PersonajeRepository
 ) : ViewModel() {
 
     private val _personajes = MutableLiveData<List<Personaje>>()
@@ -25,27 +24,27 @@ class RVPersonajeViewModel @Inject constructor(
     fun getPersonajes() {
         viewModelScope.launch {
             try {
-                _personajes.value = listPersonajes.invoke()
+                _personajes.value = personajeRepository.getPersonajes()
             } catch (e: Exception) {
                 _error.value = e.message
             }
         }
     }
 
-    fun insertPersonaje(personaje: Personaje) {
+    fun insertPersonajeConTodo(personaje: Personaje) {
         viewModelScope.launch {
             try {
-                insertPersonaje.invoke(personaje)
+                _personajes.let { personajeRepository.insertPersonajeConTodo(personaje) }
             } catch (e: Exception) {
                 _error.value = e.message
             }
         }
     }
 
-    fun deletePersonaje(personaje: Personaje?) {
+    fun deletePersonaje(personaje: Personaje) {
         viewModelScope.launch {
             try {
-                personaje?.let { deletePersonaje.invoke(it) }
+                _personajes.let { personajeRepository.deletePersonaje(personaje) }
             } catch (e: Exception) {
                 _error.value = e.message
             }

@@ -1,10 +1,11 @@
 package ies.quevedo.chardat.domain
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import ies.quevedo.chardat.data.entities.ArmaEntity
+import ies.quevedo.chardat.data.entities.ArmaduraEntity
+import ies.quevedo.chardat.data.entities.EscudoEntity
+import ies.quevedo.chardat.data.entities.ObjetoEntity
 import java.time.LocalDate
 
-@Parcelize
 data class Personaje(
     val id: Int,
     var name: String,
@@ -31,5 +32,9 @@ data class Personaje(
     var RF: Int,
     var RM: Int,
     var RP: Int,
-    var creationDate: LocalDate
-) : Parcelable
+    var creationDate: LocalDate,
+    var armas: List<Arma>?,
+    var armaduras: List<Armadura>?,
+    var escudos: List<Escudo>?,
+    var objetos: List<Objeto>?
+)
