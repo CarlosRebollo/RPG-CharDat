@@ -1,8 +1,8 @@
 package ies.quevedo.chardat.data.repository
 
-import ies.quevedo.chardat.data.dao.DAOPersonaje
+import ies.quevedo.chardat.data.local.DAOPersonaje
 import ies.quevedo.chardat.data.entities.*
-import ies.quevedo.chardat.domain.Personaje
+import ies.quevedo.chardat.domain.model.Personaje
 import javax.inject.Inject
 
 class PersonajeRepository @Inject constructor(

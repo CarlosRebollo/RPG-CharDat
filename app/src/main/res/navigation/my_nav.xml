@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainMenuFragment"
-        android:name="ies.quevedo.chardat.ui.mainMenu.MainMenuFragment"
+        android:name="ies.quevedo.chardat.framework.mainMenu.MainMenuFragment"
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu">
         <action
@@ -24,7 +24,7 @@
             app:enterAnim="@android:anim/fade_in" />
         <argument
             android:name="personaje"
-            app:argType="ies.quevedo.chardat.domain.Personaje" />
+            app:argType="ies.quevedo.chardat.domain.model.Personaje" />
         <action
             android:id="@+id/action_mainMenuFragment_to_RVArmaduraFragment"
             app:destination="@id/RVArmaduraFragment" />
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/personajeFragment"
-        android:name="ies.quevedo.chardat.ui.personaje.PersonajeFragment"
+        android:name="ies.quevedo.chardat.framework.personaje.PersonajeFragment"
         android:label="fragment_personaje"
         tools:layout="@layout/fragment_personaje">
         <action
@@ -46,11 +46,11 @@
             app:enterAnim="@android:anim/fade_in" />
         <argument
             android:name="personaje"
-            app:argType="ies.quevedo.chardat.domain.Personaje" />
+            app:argType="ies.quevedo.chardat.domain.model.Personaje" />
     </fragment>
     <fragment
         android:id="@+id/RVArmaFragment"
-        android:name="ies.quevedo.chardat.ui.rvArma.RVArmaFragment"
+        android:name="ies.quevedo.chardat.framework.rvArma.RVArmaFragment"
         android:label="fragment_armas"
         tools:layout="@layout/fragment_armas">
         <action
@@ -59,7 +59,7 @@
             app:enterAnim="@android:anim/fade_in" />
         <argument
             android:name="personaje"
-            app:argType="ies.quevedo.chardat.domain.Personaje" />
+            app:argType="ies.quevedo.chardat.domain.model.Personaje" />
         <action
             android:id="@+id/action_RVArmaFragment_to_addArmaFragment"
             app:destination="@id/addArmaFragment"
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/armaFragment"
-        android:name="ies.quevedo.chardat.ui.arma.ArmaFragment"
+        android:name="ies.quevedo.chardat.framework.arma.ArmaFragment"
         android:label="fragment_arma"
         tools:layout="@layout/fragment_arma">
         <action
@@ -76,11 +76,11 @@
             app:enterAnim="@android:anim/fade_in" />
         <argument
             android:name="arma"
-            app:argType="ies.quevedo.chardat.domain.Arma" />
+            app:argType="ies.quevedo.chardat.domain.model.Arma" />
     </fragment>
     <fragment
         android:id="@+id/addPersonajeFragment1"
-        android:name="ies.quevedo.chardat.ui.personaje.AddPersonajeFragment1"
+        android:name="ies.quevedo.chardat.framework.personaje.AddPersonajeFragment1"
         android:label="fragment_add_personaje"
         tools:layout="@layout/fragment_add_personaje1">
         <action
@@ -90,7 +90,7 @@
     </fragment>
     <fragment
         android:id="@+id/RVPersonajeFragment"
-        android:name="ies.quevedo.chardat.ui.rvPersonaje.RVPersonajeFragment"
+        android:name="ies.quevedo.chardat.framework.rvPersonaje.RVPersonajeFragment"
         android:label="fragment_personajes_list"
         tools:layout="@layout/fragment_personajes">
         <action
@@ -104,7 +104,7 @@
     </fragment>
     <fragment
         android:id="@+id/addPersonajeFragment2"
-        android:name="ies.quevedo.chardat.ui.personaje.AddPersonajeFragment2"
+        android:name="ies.quevedo.chardat.framework.personaje.AddPersonajeFragment2"
         android:label="fragment_add_personaje2"
         tools:layout="@layout/fragment_add_personaje2">
         <action
@@ -114,7 +114,7 @@
     </fragment>
     <fragment
         android:id="@+id/addPersonajeFragment3"
-        android:name="ies.quevedo.chardat.ui.personaje.AddPersonajeFragment3"
+        android:name="ies.quevedo.chardat.framework.personaje.AddPersonajeFragment3"
         android:label="fragment_add_personaje3"
         tools:layout="@layout/fragment_add_personaje3">
         <action
@@ -124,7 +124,7 @@
     </fragment>
     <fragment
         android:id="@+id/addArmaFragment"
-        android:name="ies.quevedo.chardat.ui.arma.AddArmaFragment"
+        android:name="ies.quevedo.chardat.framework.arma.AddArmaFragment"
         android:label="fragment_add_arma"
         tools:layout="@layout/fragment_add_arma">
         <action
@@ -133,11 +133,11 @@
             app:enterAnim="@android:anim/fade_in" />
         <argument
             android:name="personaje"
-            app:argType="ies.quevedo.chardat.domain.Personaje" />
+            app:argType="ies.quevedo.chardat.domain.model.Personaje" />
     </fragment>
     <fragment
         android:id="@+id/RVArmaduraFragment"
-        android:name="ies.quevedo.chardat.ui.rvArmadura.RVArmaduraFragment"
+        android:name="ies.quevedo.chardat.framework.rvArmadura.RVArmaduraFragment"
         android:label="fragment_armaduras"
         tools:layout="@layout/fragment_armaduras">
         <action
@@ -149,7 +149,7 @@
     </fragment>
     <fragment
         android:id="@+id/addArmaduraFragment"
-        android:name="ies.quevedo.chardat.ui.armadura.AddArmaduraFragment"
+        android:name="ies.quevedo.chardat.framework.armadura.AddArmaduraFragment"
         android:label="fragment_add_armadura"
         tools:layout="@layout/fragment_add_armadura">
         <action
@@ -158,7 +158,7 @@
     </fragment>
     <fragment
         android:id="@+id/armaduraFragment"
-        android:name="ies.quevedo.chardat.ui.armadura.ArmaduraFragment"
+        android:name="ies.quevedo.chardat.framework.armadura.ArmaduraFragment"
         android:label="fragment_armadura"
         tools:layout="@layout/fragment_armadura">
         <action
@@ -167,7 +167,7 @@
     </fragment>
     <fragment
         android:id="@+id/RVEscudoFragment"
-        android:name="ies.quevedo.chardat.ui.rvEscudo.RVEscudoFragment"
+        android:name="ies.quevedo.chardat.framework.rvEscudo.RVEscudoFragment"
         android:label="fragment_escudos"
         tools:layout="@layout/fragment_escudos">
         <action
@@ -179,7 +179,7 @@
     </fragment>
     <fragment
         android:id="@+id/addEscudoFragment"
-        android:name="ies.quevedo.chardat.ui.escudo.AddEscudoFragment"
+        android:name="ies.quevedo.chardat.framework.escudo.AddEscudoFragment"
         android:label="fragment_add_escudo"
         tools:layout="@layout/fragment_add_escudo">
         <action
@@ -188,7 +188,7 @@
     </fragment>
     <fragment
         android:id="@+id/escudoFragment"
-        android:name="ies.quevedo.chardat.ui.escudo.EscudoFragment"
+        android:name="ies.quevedo.chardat.framework.escudo.EscudoFragment"
         android:label="fragment_escudo"
         tools:layout="@layout/fragment_escudo">
         <action
@@ -197,7 +197,7 @@
     </fragment>
     <fragment
         android:id="@+id/RVObjetoFragment"
-        android:name="ies.quevedo.chardat.ui.rvObjeto.RVObjetoFragment"
+        android:name="ies.quevedo.chardat.framework.rvObjeto.RVObjetoFragment"
         android:label="fragment_objetos"
         tools:layout="@layout/fragment_objetos">
         <action
@@ -209,7 +209,7 @@
     </fragment>
     <fragment
         android:id="@+id/addObjetoFragment"
-        android:name="ies.quevedo.chardat.ui.objeto.AddObjetoFragment"
+        android:name="ies.quevedo.chardat.framework.objeto.AddObjetoFragment"
         android:label="fragment_add_objeto"
         tools:layout="@layout/fragment_add_objeto">
         <action
@@ -218,7 +218,7 @@
     </fragment>
     <fragment
         android:id="@+id/objetoFragment"
-        android:name="ies.quevedo.chardat.ui.objeto.ObjetoFragment"
+        android:name="ies.quevedo.chardat.framework.objeto.ObjetoFragment"
         android:label="fragment_objeto"
         tools:layout="@layout/fragment_objeto">
         <action

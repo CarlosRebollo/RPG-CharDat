@@ -4,7 +4,7 @@
     package="ies.quevedo.chardat">
 
     <application
-        android:name=".ui.FlowApp"
+        android:name=".framework.FlowApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +13,7 @@
         android:theme="@style/Theme.CharDat"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".framework.MainActivity"
             android:exported="true"
             android:label="@string/chardat"
             android:screenOrientation="portrait"

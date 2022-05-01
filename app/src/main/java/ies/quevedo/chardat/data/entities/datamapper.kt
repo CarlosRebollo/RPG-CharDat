@@ -1,6 +1,6 @@
 package ies.quevedo.chardat.data.entities
 
-import ies.quevedo.chardat.domain.*
+import ies.quevedo.chardat.domain.model.*
 import java.util.*
 
 fun PersonajeConTodo.toPersonaje(): Personaje {

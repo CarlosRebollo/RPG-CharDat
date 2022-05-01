@@ -1,9 +1,9 @@
 package ies.quevedo.chardat.data.repository
 
-import ies.quevedo.chardat.data.dao.DAOObjeto
+import ies.quevedo.chardat.data.local.DAOObjeto
 import ies.quevedo.chardat.data.entities.toObjeto
 import ies.quevedo.chardat.data.entities.toObjetoEntity
-import ies.quevedo.chardat.domain.Objeto
+import ies.quevedo.chardat.domain.model.Objeto
 import javax.inject.Inject
 
 class ObjetoRepository @Inject constructor(private val daoObjeto: DAOObjeto) {
