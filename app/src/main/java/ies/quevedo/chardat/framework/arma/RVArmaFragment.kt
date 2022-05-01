@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.rvArma
+package ies.quevedo.chardat.framework.arma
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -18,16 +18,12 @@ import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentArmasBinding
 import ies.quevedo.chardat.domain.model.Arma
 import ies.quevedo.chardat.domain.model.Personaje
-import ies.quevedo.chardat.framework.viewModel.ArmaViewModel
 
 @AndroidEntryPoint
 class RVArmaFragment : Fragment() {
 
     private val viewModel by viewModels<ArmaViewModel>()
     private lateinit var adapter: RVArmaAdapter
-    private lateinit var personaje: Personaje
-    private var armaActualizada: Arma? = null
-    private var armaCreada: Arma? = null
     private var _binding: FragmentArmasBinding? = null
     private val binding get() = _binding!!
 
@@ -41,27 +37,13 @@ class RVArmaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        personaje = arguments?.getParcelable("personaje")!!
-        armaCreada = arguments?.getParcelable("armaCreada")
-        if (armaCreada != null) {
-            viewModel.insertArma(armaCreada!!)
-            findNavController().popBackStack(R.id.addArmaFragment, true)
-        }
-        armaActualizada = arguments?.getParcelable("armaActualizada")
-        if (armaActualizada != null) {
-            viewModel.updateArma(armaActualizada!!)
-            findNavController().popBackStack(R.id.armaFragment, true)
-        }
         adapter = RVArmaAdapter(
             ::goWeaponDetails
         )
         binding.rvArmas.adapter = adapter
         binding.fbtRegister.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putParcelable("personaje", personaje)
-            findNavController().navigate(R.id.action_RVArmaFragment_to_addArmaFragment, bundle)
+            findNavController().navigate(R.id.action_RVArmaFragment_to_addArmaFragment)
         }
-        observersRecyclerArmas()
         binding.apply {
             ItemTouchHelper(object :
                 ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
@@ -79,13 +61,11 @@ class RVArmaFragment : Fragment() {
                     direction: Int
                 ) {
                     val arma = adapter.currentList[viewHolder.adapterPosition]
-                    viewModel.deleteArma(arma)
                     Snackbar.make(
                         binding.root,
                         "Se ha eliminado: ${arma.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
-                        viewModel.insertArma(arma)
                         adapter.notifyItemInserted(viewHolder.adapterPosition)
                         adapter.notifyDataSetChanged()
                     }.show()
@@ -104,31 +84,17 @@ class RVArmaFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // TODO: Implementar filtro de armas
                 return false
             }
         })
     }
 
     private fun goWeaponDetails(position: Int) {
-        val arma = viewModel.armas.value?.get(position)
+        val arma = adapter.currentList[position]
         if (arma != null) {
-            val bundle = Bundle()
-            bundle.putParcelable("arma", arma)
-            bundle.putParcelable("personaje", personaje)
-            findNavController().navigate(R.id.action_RVArmaFragment_to_armaFragment, bundle)
+            findNavController().navigate(R.id.action_RVArmaFragment_to_armaFragment)
         } else {
             Toast.makeText(context, "No se ha podido obtener el arma", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun observersRecyclerArmas() {
-        viewModel.armas.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-        viewModel.error.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-        }
-        viewModel.getArmas(personaje.id)
     }
 }

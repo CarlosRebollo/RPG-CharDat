@@ -1,50 +1,95 @@
 package ies.quevedo.chardat.data.repository
 
+import ies.quevedo.chardat.data.entities.toPersonaje
+import ies.quevedo.chardat.data.entities.toPersonajeConTodo
 import ies.quevedo.chardat.data.local.DAOPersonaje
-import ies.quevedo.chardat.data.entities.*
+import ies.quevedo.chardat.data.remote.dataSources.PersonajeRemoteDataSource
+import ies.quevedo.chardat.data.utils.NetworkResult
 import ies.quevedo.chardat.domain.model.Personaje
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class PersonajeRepository @Inject constructor(
     private val daoPersonaje: DAOPersonaje,
-    private val armaRepository: ArmaRepository,
-    private val armaduraRepository: ArmaduraRepository,
-    private val escudoRepository: EscudoRepository,
-    private val objetoRepository: ObjetoRepository
+    private val personajeRemoteDataSource: PersonajeRemoteDataSource
 ) {
 
-    suspend fun getPersonajesConTodo(): List<Personaje> {
-        val personajes = daoPersonaje.getPersonajes().map { it.toPersonaje() }
-        for (personaje in personajes) {
-            personaje.armas = armaRepository.getArmas(personaje.id)
-            personaje.armaduras =
-                armaduraRepository.getArmaduras(personaje.id)
-            personaje.escudos = escudoRepository.getEscudos(personaje.id)
-            personaje.objetos = objetoRepository.getObjetos(personaje.id)
-        }
-        return personajes
+    fun getPersonajeConTodo(id: Int): Flow<NetworkResult<Personaje>> {
+        return flow {
+            emit(fetchPersonajeConTodoCached(id))
+            emit(NetworkResult.Loading())
+            val result = personajeRemoteDataSource.fetchPersonaje(id)
+            if (result is NetworkResult.Success) {
+                result.data?.let {
+                    daoPersonaje.getPersonaje(id).toPersonaje()
+                }
+            }
+            emit(result)
+        }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getPersonajes(): List<Personaje> =
-        daoPersonaje.getPersonajes().map { it.toPersonaje() }
-
-    suspend fun insertPersonaje(personaje: Personaje) =
-        daoPersonaje.insertPersonaje(personaje.toPersonajeEntity())
-
-    suspend fun insertPersonajeConTodo(personaje: Personaje) =
-        daoPersonaje.insertPersonajeConTodo(personaje.toPersonajeConTodo())
-
-
-    suspend fun deletePersonaje(personaje: Personaje) {
-        daoPersonaje.deletePersonaje(
-            personaje.toPersonajeEntity(),
-            personaje.armaduras?.map { it.toArmaduraEntity(personaje.id) },
-            personaje.armas?.map { it.toArmaEntity(personaje.id) },
-            personaje.escudos?.map { it.toEscudoEntity(personaje.id) },
-            personaje.objetos?.map { it.toObjetoEntity(personaje.id) }
-        )
+    fun getPersonajesConTodo(): Flow<NetworkResult<List<Personaje>>> {
+        return flow {
+            emit(fetchedPersonajesConTodoCached())
+            emit(NetworkResult.Loading())
+            val result = personajeRemoteDataSource.fetchPersonajes()
+            if (result is NetworkResult.Success) {
+                result.data?.let { personajes ->
+                    daoPersonaje.deleteAll(personajes.map { it.toPersonajeConTodo() })
+                    daoPersonaje.insertAll(personajes.map { it.toPersonajeConTodo() })
+                }
+            }
+            emit(result)
+        }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun updatePersonaje(personaje: Personaje) =
-        daoPersonaje.updatePersonaje(personaje.toPersonajeConTodo())
+    fun insertPersonaje(personaje: Personaje): Flow<NetworkResult<Personaje>> {
+        return flow {
+            emit(NetworkResult.Loading())
+            val result = personajeRemoteDataSource.postPersonaje(personaje)
+            if (result is NetworkResult.Success) {
+                result.data?.let { personaje ->
+                    daoPersonaje.insertPersonaje(personaje.toPersonajeConTodo())
+                }
+            }
+            emit(result)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun updatePersonaje(personaje: Personaje): Flow<NetworkResult<Personaje>> {
+        return flow {
+            emit(NetworkResult.Loading())
+            val result = personajeRemoteDataSource.putPersonaje(personaje)
+            if (result is NetworkResult.Success) {
+                result.data?.let { personaje ->
+                    daoPersonaje.updatePersonaje(personaje.toPersonajeConTodo())
+                }
+            }
+            emit(result)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun deletePersonaje(idPersonaje: Int): Flow<NetworkResult<Personaje>> {
+        return flow {
+            emit(NetworkResult.Loading())
+            val result = personajeRemoteDataSource.deletePersonaje(idPersonaje)
+            if (result is NetworkResult.Success) {
+                result.data?.let { personaje ->
+                    daoPersonaje.deletePersonaje(personaje.toPersonajeConTodo())
+                }
+            }
+            emit(result)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    private fun fetchPersonajeConTodoCached(id: Int): NetworkResult<Personaje> =
+        daoPersonaje.getPersonaje(id)
+            .let { personaje -> NetworkResult.Success(personaje.toPersonaje()) }
+
+    private fun fetchedPersonajesConTodoCached(): NetworkResult<List<Personaje>> =
+        daoPersonaje.getPersonajes()
+            .let { personajes -> NetworkResult.Success(personajes.map { it.toPersonaje() }) }
 }

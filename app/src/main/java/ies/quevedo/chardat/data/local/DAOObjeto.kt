@@ -6,15 +6,24 @@ import ies.quevedo.chardat.data.entities.ObjetoEntity
 @Dao
 interface DAOObjeto {
 
+    @Query("SELECT * FROM objeto WHERE id = :id")
+    fun getObjeto(id: Int): ObjetoEntity
+
     @Query("SELECT * FROM objeto WHERE idPJ = :idPJ")
-    suspend fun getObjetos(idPJ: Int): List<ObjetoEntity>
+    fun getObjetos(idPJ: Int): List<ObjetoEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertObjeto(objeto: ObjetoEntity)
+    fun insertObjeto(objeto: ObjetoEntity)
 
-    @Delete
-    suspend fun deleteObjeto(objeto: ObjetoEntity)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertAll(objetos: List<ObjetoEntity>)
 
     @Update
-    suspend fun updateObjeto(objeto: ObjetoEntity)
+    fun updateObjeto(objeto: ObjetoEntity)
+
+    @Delete
+    fun deleteObjeto(objeto: ObjetoEntity)
+
+    @Delete
+    fun deleteAll(objetos: List<ObjetoEntity>)
 }

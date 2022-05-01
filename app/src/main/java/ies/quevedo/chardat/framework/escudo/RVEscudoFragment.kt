@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.rvEscudo
+package ies.quevedo.chardat.framework.escudo
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -18,16 +18,12 @@ import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentEscudosBinding
 import ies.quevedo.chardat.domain.model.Escudo
 import ies.quevedo.chardat.domain.model.Personaje
-import ies.quevedo.chardat.framework.viewModel.EscudoViewModel
 
 @AndroidEntryPoint
 class RVEscudoFragment : Fragment() {
 
     private val viewModel by viewModels<EscudoViewModel>()
     private lateinit var adapter: RVEscudoAdapter
-    private lateinit var personaje: Personaje
-    private var escudoActualizado: Escudo? = null
-    private var escudoCreado: Escudo? = null
     private var _binding: FragmentEscudosBinding? = null
     private val binding get() = _binding!!
 
@@ -42,27 +38,13 @@ class RVEscudoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        personaje = arguments?.getParcelable("personaje")!!
-        escudoCreado = arguments?.getParcelable("escudoCreado")
-        if (escudoCreado != null) {
-            viewModel.insertEscudo(escudoCreado!!)
-            findNavController().popBackStack(R.id.addEscudoFragment, true)
-        }
-        escudoActualizado = arguments?.getParcelable("escudoActualizado")
-        if (escudoActualizado != null) {
-            viewModel.updateEscudo(escudoActualizado!!)
-            findNavController().popBackStack(R.id.escudoFragment, true)
-        }
         adapter = RVEscudoAdapter(
             ::goShieldDetails
         )
         binding.rvEscudos.adapter = adapter
         binding.fbtRegister.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putParcelable("personaje", personaje)
-            findNavController().navigate(R.id.action_RVEscudoFragment_to_addEscudoFragment, bundle)
+            findNavController().navigate(R.id.action_RVEscudoFragment_to_addEscudoFragment)
         }
-        observersRecyclerEscudos()
         binding.apply {
             ItemTouchHelper(object :
                 ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
@@ -79,15 +61,13 @@ class RVEscudoFragment : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     direction: Int
                 ) {
-                    val escudo = adapter.currentList[viewHolder.adapterPosition]
-                    viewModel.deleteEscudo(escudo)
+                    val escudo = adapter.currentList[viewHolder.absoluteAdapterPosition]
                     Snackbar.make(
                         binding.root,
                         "Se ha eliminado: ${escudo.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
-                        viewModel.insertEscudo(escudo)
-                        adapter.notifyItemInserted(viewHolder.adapterPosition)
+                        adapter.notifyItemInserted(viewHolder.absoluteAdapterPosition)
                         adapter.notifyDataSetChanged()
                     }.show()
                 }
@@ -105,31 +85,17 @@ class RVEscudoFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // TODO: Implementar filtro de armas
                 return false
             }
         })
     }
 
     private fun goShieldDetails(position: Int) {
-        val escudo = viewModel.escudos.value?.get(position)
+        val escudo = adapter.currentList[position]
         if (escudo != null) {
-            val bundle = Bundle()
-            bundle.putParcelable("escudo", escudo)
-            bundle.putParcelable("personaje", personaje)
-            findNavController().navigate(R.id.action_RVEscudoFragment_to_escudoFragment, bundle)
+            findNavController().navigate(R.id.action_RVEscudoFragment_to_escudoFragment)
         } else {
             Toast.makeText(context, "No se ha podido obtener el escudo", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun observersRecyclerEscudos() {
-        viewModel.escudos.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-        viewModel.error.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-        }
-        viewModel.getEscudos(personaje.id)
     }
 }

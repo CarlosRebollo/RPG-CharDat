@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework
+package ies.quevedo.chardat.framework.main
 
 import android.content.Context
 import android.os.Bundle

@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentMainMenuBinding
-import ies.quevedo.chardat.domain.model.Personaje
 
 @AndroidEntryPoint
 class MainMenuFragment : Fragment() {
@@ -19,8 +18,6 @@ class MainMenuFragment : Fragment() {
     private val viewModel by viewModels<MainMenuViewModel>()
     private var _binding: FragmentMainMenuBinding? = null
     private val binding get() = _binding!!
-    private var personajeActualizado: Personaje? = null
-    private lateinit var personaje: Personaje
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,14 +30,6 @@ class MainMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        personajeActualizado = arguments?.getParcelable("personajeActualizado")
-        if (personajeActualizado != null) {
-            viewModel.updatePersonaje(personajeActualizado!!)
-            personaje = personajeActualizado!!
-            findNavController().popBackStack(R.id.personajeFragment, true)
-        } else {
-            personaje = arguments?.getParcelable("personaje")!!
-        }
         setListenerActions()
     }
 
@@ -51,50 +40,28 @@ class MainMenuFragment : Fragment() {
 
     private fun setListenerActions() {
         with(binding) {
-            setImageClass()
-            tvName.text = personaje.name
-            tvClase.text = personaje.clase
+//            setImageClass()
+//            tvName.text = personaje.name
+//            tvClase.text = personaje.clase
             ivInfo.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putParcelable("personaje", personaje)
-                findNavController().navigate(
-                    R.id.action_mainMenuFragment_to_personajeFragment,
-                    bundle
-                )
+                findNavController().navigate(R.id.action_mainMenuFragment_to_personajeFragment)
             }
             ivArmas.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putParcelable("personaje", personaje)
-                findNavController().navigate(R.id.action_mainMenuFragment_to_RVArmaFragment, bundle)
+                findNavController().navigate(R.id.action_mainMenuFragment_to_RVArmaFragment)
             }
             ivArmaduras.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putParcelable("personaje", personaje)
-                findNavController().navigate(
-                    R.id.action_mainMenuFragment_to_RVArmaduraFragment,
-                    bundle
-                )
+                findNavController().navigate(R.id.action_mainMenuFragment_to_RVArmaduraFragment)
             }
             ivEscudos.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putParcelable("personaje", personaje)
-                findNavController().navigate(
-                    R.id.action_mainMenuFragment_to_RVEscudoFragment,
-                    bundle
-                )
+                findNavController().navigate(R.id.action_mainMenuFragment_to_RVEscudoFragment)
             }
             ivObjetos.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putParcelable("personaje", personaje)
-                findNavController().navigate(
-                    R.id.action_mainMenuFragment_to_RVObjetoFragment,
-                    bundle
-                )
+                findNavController().navigate(R.id.action_mainMenuFragment_to_RVObjetoFragment)
             }
         }
     }
 
-    private fun setImageClass() {
+    /*private fun setImageClass() {
         when (personaje.clase) {
             "GUERRERO" -> binding.ivClaseBanner.setImageResource(R.drawable.guerrero_banner)
             "GUERRERO ACRÓBATA" -> binding.ivClaseBanner.setImageResource(R.drawable.guerrero_acrobata_banner)
@@ -117,5 +84,5 @@ class MainMenuFragment : Fragment() {
             "GUERRERO MENTALISTA" -> binding.ivClaseBanner.setImageResource(R.drawable.guerrero_mentalista_banner)
             "NOVEL" -> binding.ivClaseBanner.setImageResource(R.drawable.novel_banner)
         }
-    }
+    }*/
 }

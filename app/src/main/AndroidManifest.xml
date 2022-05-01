@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ies.quevedo.chardat">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".framework.FlowApp"
         android:allowBackup="true"
@@ -13,7 +16,7 @@
         android:theme="@style/Theme.CharDat"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".framework.MainActivity"
+            android:name=".framework.main.MainActivity"
             android:exported="true"
             android:label="@string/chardat"
             android:screenOrientation="portrait"

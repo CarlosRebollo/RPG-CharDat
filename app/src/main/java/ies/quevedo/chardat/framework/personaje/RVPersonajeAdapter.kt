@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.rvPersonaje
+package ies.quevedo.chardat.framework.personaje
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

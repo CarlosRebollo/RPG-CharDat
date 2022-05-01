@@ -22,9 +22,6 @@
             android:id="@+id/action_mainMenuFragment_to_RVPersonajeFragment"
             app:destination="@id/RVPersonajeFragment"
             app:enterAnim="@android:anim/fade_in" />
-        <argument
-            android:name="personaje"
-            app:argType="ies.quevedo.chardat.domain.model.Personaje" />
         <action
             android:id="@+id/action_mainMenuFragment_to_RVArmaduraFragment"
             app:destination="@id/RVArmaduraFragment" />
@@ -34,6 +31,9 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_RVObjetoFragment"
             app:destination="@id/RVObjetoFragment" />
+        <argument
+            android:name="idPersonaje"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/personajeFragment"
@@ -45,25 +45,28 @@
             app:destination="@id/mainMenuFragment"
             app:enterAnim="@android:anim/fade_in" />
         <argument
-            android:name="personaje"
-            app:argType="ies.quevedo.chardat.domain.model.Personaje" />
+            android:name="idPersonaje"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/RVArmaFragment"
-        android:name="ies.quevedo.chardat.framework.rvArma.RVArmaFragment"
+        android:name="ies.quevedo.chardat.framework.arma.RVArmaFragment"
         android:label="fragment_armas"
         tools:layout="@layout/fragment_armas">
         <action
             android:id="@+id/action_RVArmaFragment_to_armaFragment"
             app:destination="@id/armaFragment"
             app:enterAnim="@android:anim/fade_in" />
-        <argument
-            android:name="personaje"
-            app:argType="ies.quevedo.chardat.domain.model.Personaje" />
         <action
             android:id="@+id/action_RVArmaFragment_to_addArmaFragment"
             app:destination="@id/addArmaFragment"
             app:enterAnim="@android:anim/fade_in" />
+        <argument
+            android:name="idPersonaje"
+            app:argType="integer" />
+        <argument
+            android:name="idArma"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/armaFragment"
@@ -75,8 +78,8 @@
             app:destination="@id/RVArmaFragment"
             app:enterAnim="@android:anim/fade_in" />
         <argument
-            android:name="arma"
-            app:argType="ies.quevedo.chardat.domain.model.Arma" />
+            android:name="idArma"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/addPersonajeFragment1"
@@ -87,10 +90,19 @@
             android:id="@+id/action_addPersonajeFragment1_to_addPersonajeFragment2"
             app:destination="@id/addPersonajeFragment2"
             app:enterAnim="@android:anim/fade_in" />
+        <argument
+            android:name="clase"
+            app:argType="string" />
+        <argument
+            android:name="nombre"
+            app:argType="string" />
+        <argument
+            android:name="descripcion"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/RVPersonajeFragment"
-        android:name="ies.quevedo.chardat.framework.rvPersonaje.RVPersonajeFragment"
+        android:name="ies.quevedo.chardat.framework.personaje.RVPersonajeFragment"
         android:label="fragment_personajes_list"
         tools:layout="@layout/fragment_personajes">
         <action
@@ -111,6 +123,39 @@
             android:id="@+id/action_addPersonajeFragment2_to_addPersonajeFragment3"
             app:destination="@id/addPersonajeFragment3"
             app:enterAnim="@android:anim/fade_in" />
+        <argument
+            android:name="clase"
+            app:argType="string" />
+        <argument
+            android:name="nombre"
+            app:argType="string" />
+        <argument
+            android:name="descripcion"
+            app:argType="string" />
+        <argument
+            android:name="agilidad"
+            app:argType="integer" />
+        <argument
+            android:name="constitucion"
+            app:argType="integer" />
+        <argument
+            android:name="destreza"
+            app:argType="integer" />
+        <argument
+            android:name="fuerza"
+            app:argType="integer" />
+        <argument
+            android:name="inteligencia"
+            app:argType="integer" />
+        <argument
+            android:name="percepcion"
+            app:argType="integer" />
+        <argument
+            android:name="poder"
+            app:argType="integer" />
+        <argument
+            android:name="voluntad"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/addPersonajeFragment3"
@@ -121,6 +166,40 @@
             android:id="@+id/action_addPersonajeFragment3_to_RVPersonajeFragment"
             app:destination="@id/RVPersonajeFragment"
             app:enterAnim="@android:anim/fade_in" />
+        <argument
+            android:name="clase"
+            app:argType="string" />
+        <argument
+            android:name="nombre"
+            app:argType="string" />
+        <argument
+            android:name="descripcion"
+            app:argType="string" />
+        <argument
+            android:name="agilidad"
+            app:argType="integer" />
+        <argument
+            android:name="constitucion"
+            app:argType="integer" />
+        <argument
+            android:name="destreza"
+            app:argType="integer" />
+        <argument
+            android:name="fuerza"
+            app:argType="integer" />
+        <argument
+            android:name="inteligencia"
+            app:argType="integer" />
+        <argument
+            android:name="percepcion"
+            app:argType="integer" />
+        <argument
+            android:name="poder"
+            app:argType="integer" />
+        <argument
+            android:name="voluntad"
+            app:argType="integer" />
+
     </fragment>
     <fragment
         android:id="@+id/addArmaFragment"
@@ -132,12 +211,12 @@
             app:destination="@id/RVArmaFragment"
             app:enterAnim="@android:anim/fade_in" />
         <argument
-            android:name="personaje"
-            app:argType="ies.quevedo.chardat.domain.model.Personaje" />
+            android:name="idPersonaje"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/RVArmaduraFragment"
-        android:name="ies.quevedo.chardat.framework.rvArmadura.RVArmaduraFragment"
+        android:name="ies.quevedo.chardat.framework.armadura.RVArmaduraFragment"
         android:label="fragment_armaduras"
         tools:layout="@layout/fragment_armaduras">
         <action
@@ -146,6 +225,12 @@
         <action
             android:id="@+id/action_RVArmaduraFragment_to_armaduraFragment"
             app:destination="@id/armaduraFragment" />
+        <argument
+            android:name="idPersonaje"
+            app:argType="integer" />
+        <argument
+            android:name="idArmadura"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/addArmaduraFragment"
@@ -155,6 +240,9 @@
         <action
             android:id="@+id/action_addArmaduraFragment_to_RVArmaduraFragment"
             app:destination="@id/RVArmaduraFragment" />
+        <argument
+            android:name="idPersonaje"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/armaduraFragment"
@@ -164,10 +252,13 @@
         <action
             android:id="@+id/action_armaduraFragment_to_RVArmaduraFragment"
             app:destination="@id/RVArmaduraFragment" />
+        <argument
+            android:name="idArmadura"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/RVEscudoFragment"
-        android:name="ies.quevedo.chardat.framework.rvEscudo.RVEscudoFragment"
+        android:name="ies.quevedo.chardat.framework.escudo.RVEscudoFragment"
         android:label="fragment_escudos"
         tools:layout="@layout/fragment_escudos">
         <action
@@ -176,6 +267,12 @@
         <action
             android:id="@+id/action_RVEscudoFragment_to_escudoFragment"
             app:destination="@id/escudoFragment" />
+        <argument
+            android:name="idPersonaje"
+            app:argType="integer" />
+        <argument
+            android:name="idEscudo"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/addEscudoFragment"
@@ -185,6 +282,9 @@
         <action
             android:id="@+id/action_addEscudoFragment_to_RVEscudoFragment"
             app:destination="@id/RVEscudoFragment" />
+        <argument
+            android:name="idPersonaje"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/escudoFragment"
@@ -194,10 +294,13 @@
         <action
             android:id="@+id/action_escudoFragment_to_RVEscudoFragment"
             app:destination="@id/RVEscudoFragment" />
+        <argument
+            android:name="idEscudo"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/RVObjetoFragment"
-        android:name="ies.quevedo.chardat.framework.rvObjeto.RVObjetoFragment"
+        android:name="ies.quevedo.chardat.framework.objeto.RVObjetoFragment"
         android:label="fragment_objetos"
         tools:layout="@layout/fragment_objetos">
         <action
@@ -206,6 +309,12 @@
         <action
             android:id="@+id/action_RVObjetoFragment_to_objetoFragment"
             app:destination="@id/objetoFragment" />
+        <argument
+            android:name="idPersonaje"
+            app:argType="integer" />
+        <argument
+            android:name="idObjeto"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/addObjetoFragment"
@@ -215,6 +324,9 @@
         <action
             android:id="@+id/action_addObjetoFragment_to_RVObjetoFragment"
             app:destination="@id/RVObjetoFragment" />
+        <argument
+            android:name="idPersonaje"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/objetoFragment"
@@ -224,5 +336,8 @@
         <action
             android:id="@+id/action_objetoFragment_to_RVObjetoFragment"
             app:destination="@id/RVObjetoFragment" />
+        <argument
+            android:name="idObjeto"
+            app:argType="integer" />
     </fragment>
 </navigation>

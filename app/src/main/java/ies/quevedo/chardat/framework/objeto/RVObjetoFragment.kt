@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.rvObjeto
+package ies.quevedo.chardat.framework.objeto
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -18,16 +18,12 @@ import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentObjetosBinding
 import ies.quevedo.chardat.domain.model.Objeto
 import ies.quevedo.chardat.domain.model.Personaje
-import ies.quevedo.chardat.framework.viewModel.ObjetoViewModel
 
 @AndroidEntryPoint
 class RVObjetoFragment : Fragment() {
 
     private val viewModel by viewModels<ObjetoViewModel>()
     private lateinit var adapter: RVObjetoAdapter
-    private lateinit var personaje: Personaje
-    private var objetoActualizado: Objeto? = null
-    private var objetoCreado: Objeto? = null
     private var _binding: FragmentObjetosBinding? = null
     private val binding get() = _binding!!
 
@@ -42,27 +38,13 @@ class RVObjetoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        personaje = arguments?.getParcelable("personaje")!!
-        objetoCreado = arguments?.getParcelable("objetoCreado")
-        if (objetoCreado != null) {
-            viewModel.insertObjeto(objetoCreado!!)
-            findNavController().popBackStack(R.id.addObjetoFragment, true)
-        }
-        objetoActualizado = arguments?.getParcelable("objetoActualizado")
-        if (objetoActualizado != null) {
-            viewModel.updateObjeto(objetoActualizado!!)
-            findNavController().popBackStack(R.id.objetoFragment, true)
-        }
         adapter = RVObjetoAdapter(
             ::goObjectDetails
         )
         binding.rvObjetos.adapter = adapter
         binding.fbtRegister.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putParcelable("personaje", personaje)
-            findNavController().navigate(R.id.action_RVObjetoFragment_to_addObjetoFragment, bundle)
+            findNavController().navigate(R.id.action_RVObjetoFragment_to_addObjetoFragment)
         }
-        observersRecyclerEscudos()
         binding.apply {
             ItemTouchHelper(object :
                 ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
@@ -80,13 +62,11 @@ class RVObjetoFragment : Fragment() {
                     direction: Int
                 ) {
                     val objeto = adapter.currentList[viewHolder.adapterPosition]
-                    viewModel.deleteObjeto(objeto)
                     Snackbar.make(
                         binding.root,
                         "Se ha eliminado: ${objeto.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
-                        viewModel.insertObjeto(objeto)
                         adapter.notifyItemInserted(viewHolder.adapterPosition)
                         adapter.notifyDataSetChanged()
                     }.show()
@@ -105,31 +85,17 @@ class RVObjetoFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // TODO: Implementar filtro de objetos
                 return false
             }
         })
     }
 
     private fun goObjectDetails(position: Int) {
-        val objeto = viewModel.objetos.value?.get(position)
+        val objeto = adapter.currentList[position]
         if (objeto != null) {
-            val bundle = Bundle()
-            bundle.putParcelable("objeto", objeto)
-            bundle.putParcelable("personaje", personaje)
-            findNavController().navigate(R.id.action_RVObjetoFragment_to_objetoFragment, bundle)
+            findNavController().navigate(R.id.action_RVObjetoFragment_to_objetoFragment)
         } else {
             Toast.makeText(context, "No se ha podido obtener el objeto", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun observersRecyclerEscudos() {
-        viewModel.objetos.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-        viewModel.error.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-        }
-        viewModel.getObjetos(personaje.id)
     }
 }

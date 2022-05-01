@@ -10,6 +10,12 @@ class PersonajeRemoteDataSource @Inject constructor(
     private val personajeService: PersonajeService
 ) : BaseApiResponse() {
 
+    suspend fun fetchPersonaje(id: Int): NetworkResult<Personaje> {
+        return safeApiCall(
+            apiCall = { personajeService.getPersonaje(id) }
+        )
+    }
+
     suspend fun fetchPersonajes(): NetworkResult<List<Personaje>> {
         return safeApiCall(
             apiCall = { personajeService.getPersonajes() }

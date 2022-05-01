@@ -2,7 +2,7 @@ package ies.quevedo.chardat.data.utils
 
 sealed class NetworkResult<T>(
     var data: T? = null,
-    private val message: String? = null
+    val message: String? = null
 ) {
     class Success<T>(data: T) : NetworkResult<T>(data)
 

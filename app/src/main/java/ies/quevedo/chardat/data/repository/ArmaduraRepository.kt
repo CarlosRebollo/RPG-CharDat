@@ -17,7 +17,7 @@ class ArmaduraRepository @Inject constructor(
     private val armaduraRemoteDataSource: ArmaduraRemoteDataSource
 ) {
 
-    suspend fun getArmaduras(idPJ: Int): Flow<NetworkResult<List<Armadura>>> {
+    fun getArmaduras(idPJ: Int): Flow<NetworkResult<List<Armadura>>> {
         return flow {
             emit(fetchArmadurasCached(idPJ))
             emit(NetworkResult.Loading())
@@ -32,18 +32,46 @@ class ArmaduraRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    private suspend fun fetchArmadurasCached(idPJ: Int): NetworkResult<List<Armadura>> =
+    fun insertArmadura(armadura: Armadura): Flow<NetworkResult<Armadura>> {
+        return flow {
+            emit(NetworkResult.Loading())
+            val result = armaduraRemoteDataSource.postArmadura(armadura)
+            if (result is NetworkResult.Success) {
+                result.data?.let { armadura ->
+                    daoArmadura.insertArmadura(armadura.toArmaduraEntity(armadura.idPJ))
+                }
+            }
+            emit(result)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun updateArmadura(armadura: Armadura): Flow<NetworkResult<Armadura>> {
+        return flow {
+            emit(NetworkResult.Loading())
+            val result = armaduraRemoteDataSource.putArmadura(armadura)
+            if (result is NetworkResult.Success) {
+                result.data?.let { armadura ->
+                    daoArmadura.updateArmadura(armadura.toArmaduraEntity(armadura.idPJ))
+                }
+            }
+            emit(result)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun deleteArmadura(idArmadura: Int): Flow<NetworkResult<Armadura>> {
+        return flow {
+            emit(NetworkResult.Loading())
+            val result = armaduraRemoteDataSource.deleteArmadura(idArmadura)
+            if (result is NetworkResult.Success) {
+                result.data?.let { armadura ->
+                    daoArmadura.deleteArmadura(armadura.toArmaduraEntity(armadura.idPJ))
+                }
+            }
+            emit(result)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    private fun fetchArmadurasCached(idPJ: Int): NetworkResult<List<Armadura>> =
         daoArmadura.getArmaduras(idPJ)
             .let { armaduras -> NetworkResult.Success(armaduras.map { it.toArmadura() }) }
-
-
-    //TODO: Buscar una forma de hacer esto con Flows porque en el proyecto de oscar solo tiene ejemplos de pedir datos y no de tratarlos
-    suspend fun insertArmadura(armadura: Armadura) =
-        daoArmadura.insertArmadura(armadura.toArmaduraEntity(armadura.idPJ))
-
-    suspend fun deleteArmadura(armadura: Armadura) =
-        daoArmadura.deleteArmadura(armadura.toArmaduraEntity(armadura.idPJ))
-
-    suspend fun updateArmadura(armadura: Armadura) =
-        daoArmadura.updateArmadura(armadura.toArmaduraEntity(armadura.idPJ))
 }

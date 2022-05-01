@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.viewModel
+package ies.quevedo.chardat.framework.armadura
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

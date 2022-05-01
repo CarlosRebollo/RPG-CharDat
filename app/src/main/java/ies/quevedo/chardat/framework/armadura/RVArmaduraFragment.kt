@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.rvArmadura
+package ies.quevedo.chardat.framework.armadura
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -18,16 +18,12 @@ import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentArmadurasBinding
 import ies.quevedo.chardat.domain.model.Armadura
 import ies.quevedo.chardat.domain.model.Personaje
-import ies.quevedo.chardat.framework.viewModel.ArmaduraViewModel
 
 @AndroidEntryPoint
 class RVArmaduraFragment : Fragment() {
 
     private val viewModel by viewModels<ArmaduraViewModel>()
     private lateinit var adapter: RVArmaduraAdapter
-    private lateinit var personaje: Personaje
-    private var armaduraActualizada: Armadura? = null
-    private var armaduraCreada: Armadura? = null
     private var _binding: FragmentArmadurasBinding? = null
     private val binding get() = _binding!!
 
@@ -42,30 +38,13 @@ class RVArmaduraFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        personaje = arguments?.getParcelable("personaje")!!
-        armaduraCreada = arguments?.getParcelable("armaduraCreada")
-        if (armaduraCreada != null) {
-            viewModel.insertArmadura(armaduraCreada!!)
-            findNavController().popBackStack(R.id.addArmaduraFragment, true)
-        }
-        armaduraActualizada = arguments?.getParcelable("armaduraActualizada")
-        if (armaduraActualizada != null) {
-            viewModel.updateArmadura(armaduraActualizada!!)
-            findNavController().popBackStack(R.id.armaduraFragment, true)
-        }
         adapter = RVArmaduraAdapter(
             ::goArmaduraDetails
         )
         binding.rvArmaduras.adapter = adapter
         binding.fbtRegister.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putParcelable("personaje", personaje)
-            findNavController().navigate(
-                R.id.action_RVArmaduraFragment_to_addArmaduraFragment,
-                bundle
-            )
+            findNavController().navigate(R.id.action_RVArmaduraFragment_to_addArmaduraFragment)
         }
-        observersRecyclerArmaduras()
         binding.apply {
             ItemTouchHelper(object :
                 ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
@@ -82,15 +61,13 @@ class RVArmaduraFragment : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     direction: Int
                 ) {
-                    val armadura = adapter.currentList[viewHolder.adapterPosition]
-                    viewModel.deleteArmadura(armadura)
+                    val armadura = adapter.currentList[viewHolder.absoluteAdapterPosition]
                     Snackbar.make(
                         binding.root,
                         "Se ha eliminado: ${armadura.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
-                        viewModel.insertArmadura(armadura)
-                        adapter.notifyItemInserted(viewHolder.adapterPosition)
+                        adapter.notifyItemInserted(viewHolder.absoluteAdapterPosition)
                         adapter.notifyDataSetChanged()
                     }.show()
                 }
@@ -115,25 +92,12 @@ class RVArmaduraFragment : Fragment() {
     }
 
     private fun goArmaduraDetails(position: Int) {
-        val armadura = viewModel.armaduras.value?.get(position)
+        val armadura = adapter.currentList[position]
         if (armadura != null) {
-            val bundle = Bundle()
-            bundle.putParcelable("armadura", armadura)
-            bundle.putParcelable("personaje", personaje)
-            findNavController().navigate(R.id.action_RVArmaduraFragment_to_armaduraFragment, bundle)
+            findNavController().navigate(R.id.action_RVArmaduraFragment_to_armaduraFragment)
         } else {
             Toast.makeText(context, "No se ha podido obtener la armadura", Toast.LENGTH_SHORT)
                 .show()
         }
-    }
-
-    private fun observersRecyclerArmaduras() {
-        viewModel.armaduras.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-        viewModel.error.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        }
-        viewModel.getArmaduras(personaje.id)
     }
 }
