@@ -36,7 +36,7 @@ class RVArmaduraAdapter(
         ) = with(binding) {
             tvName.text = item.name
             tvDescription.text = item.description
-            cardPersonaje.setOnClickListener { goArmorDetails(adapterPosition) }
+            cardPersonaje.setOnClickListener { goArmorDetails(absoluteAdapterPosition) }
         }
     }
 

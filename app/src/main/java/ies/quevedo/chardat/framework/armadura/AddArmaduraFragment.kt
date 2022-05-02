@@ -27,7 +27,6 @@ class AddArmaduraFragment : Fragment() {
     ): View {
         setHasOptionsMenu(true)
         _binding = FragmentAddArmaduraBinding.inflate(inflater, container, false)
-        personaje = arguments?.getParcelable("personaje")!!
         return binding.root
     }
 
@@ -43,11 +42,9 @@ class AddArmaduraFragment : Fragment() {
                 if (faltaAlgunDato()) {
                     Toast.makeText(context, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
                 } else {
-                    val bundle = buildArmadura()
-                    findNavController().navigate(
-                        R.id.action_addArmaduraFragment_to_RVArmaduraFragment,
-                        bundle
-                    )
+                    val armadura = buildArmadura()
+                    // TODO: Guardar en retrofit
+                    findNavController().navigate(R.id.action_addArmaduraFragment_to_RVArmaduraFragment)
                 }
             }
         }
@@ -58,7 +55,7 @@ class AddArmaduraFragment : Fragment() {
         menu.clear()
     }
 
-    private fun FragmentAddArmaduraBinding.buildArmadura(): Bundle {
+    private fun FragmentAddArmaduraBinding.buildArmadura(): Armadura {
         val nombreArmadura = etNombreArmadura.text.toString()
         val calidadArma = etCalidad.text.toString().toInt()
         val descripcionArmadura = etDescripcion.text.toString()
@@ -72,7 +69,7 @@ class AddArmaduraFragment : Fragment() {
         val llevarArmadura = etArmadura.text.toString().toInt()
         val valorArma = etValor.text.toString().toInt()
         val pesoArma = etPeso.text.toString().toDouble()
-        val armadura = Armadura(
+        return Armadura(
             0,
             nombreArmadura,
             valorArma,
@@ -89,10 +86,6 @@ class AddArmaduraFragment : Fragment() {
             descripcionArmadura,
             personaje.id
         )
-        val bundle = Bundle()
-        bundle.putParcelable("armaduraCreada", armadura)
-        bundle.putParcelable("personaje", personaje)
-        return bundle
     }
 
     private fun FragmentAddArmaduraBinding.faltaAlgunDato() =

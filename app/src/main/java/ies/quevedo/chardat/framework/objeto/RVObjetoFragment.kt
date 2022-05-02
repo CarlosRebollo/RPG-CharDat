@@ -61,13 +61,13 @@ class RVObjetoFragment : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     direction: Int
                 ) {
-                    val objeto = adapter.currentList[viewHolder.adapterPosition]
+                    val objeto = adapter.currentList[viewHolder.absoluteAdapterPosition]
                     Snackbar.make(
                         binding.root,
                         "Se ha eliminado: ${objeto.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
-                        adapter.notifyItemInserted(viewHolder.adapterPosition)
+                        adapter.notifyItemInserted(viewHolder.absoluteAdapterPosition)
                         adapter.notifyDataSetChanged()
                     }.show()
                 }

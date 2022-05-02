@@ -28,7 +28,6 @@ class PersonajeFragment : Fragment() {
     ): View {
         setHasOptionsMenu(true)
         _binding = FragmentPersonajeBinding.inflate(inflater, container, false)
-        personaje = arguments?.getParcelable("personaje")!!
         return binding.root
     }
 
@@ -36,6 +35,7 @@ class PersonajeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             rellenarCamposDePersonaje()
+            // TODO: Buscar el personaje por su id y cargar sus datos en la funcion rellenaresCamposDePersonaje()
             btCancelar.setOnClickListener {
                 activity?.onBackPressed()
             }
@@ -44,12 +44,7 @@ class PersonajeFragment : Fragment() {
                 if (faltaAlgunDato()) {
                     Toast.makeText(context, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
                 } else {
-                    val bundle = Bundle()
-                    bundle.putParcelable("personajeActualizado", personaje)
-                    findNavController().navigate(
-                        R.id.action_personajeFragment_to_mainMenuFragment,
-                        bundle
-                    )
+                    findNavController().navigate(R.id.action_personajeFragment_to_mainMenuFragment)
                 }
             }
         }

@@ -7,14 +7,19 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentPersonajesBinding
-import ies.quevedo.chardat.domain.model.Personaje
+import ies.quevedo.chardat.framework.main.PersonajeContract
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.util.*
 
 @AndroidEntryPoint
@@ -35,10 +40,32 @@ class RVPersonajeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val layoutManager = LinearLayoutManager(context)
+        binding.rvPersonajes.addItemDecoration(
+            DividerItemDecoration(
+                binding.rvPersonajes.context,
+                layoutManager.orientation
+            )
+        )
         adapter = RVPersonajeAdapter(
             ::goMainMenu
         )
         binding.rvPersonajes.adapter = adapter
+        lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
+                adapter.submitList(value.personajes)
+                value.error?.let {
+                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                    viewModel.handleEvent(PersonajeContract.Event.ShowMessage, null)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
         binding.fbtRegister.setOnClickListener {
             findNavController().navigate(R.id.action_RVPersonajeFragment_to_addPersonajeFragment1)
         }
@@ -63,11 +90,6 @@ class RVPersonajeFragment : Fragment() {
         searchView?.isSubmitButtonEnabled = true
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun refreshList() {
-        binding.rvPersonajes.adapter?.notifyDataSetChanged()
-    }
-
     private fun swipeToDelete() {
         binding.apply {
             ItemTouchHelper(object :
@@ -82,9 +104,9 @@ class RVPersonajeFragment : Fragment() {
 
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val personaje = adapter.currentList[viewHolder.adapterPosition]
+                    val personaje = adapter.currentList[viewHolder.absoluteAdapterPosition]
                     adapter.currentList.remove(personaje)
-                    adapter.notifyItemRemoved(viewHolder.adapterPosition)
+                    adapter.notifyItemRemoved(viewHolder.absoluteAdapterPosition)
                     adapter.notifyDataSetChanged()
                     Snackbar.make(
                         binding.root,
@@ -92,7 +114,7 @@ class RVPersonajeFragment : Fragment() {
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
                         adapter.currentList.add(personaje)
-                        adapter.notifyItemInserted(viewHolder.adapterPosition)
+                        adapter.notifyItemInserted(viewHolder.absoluteAdapterPosition)
                         adapter.notifyDataSetChanged()
                     }.show()
                 }

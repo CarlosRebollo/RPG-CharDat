@@ -60,13 +60,13 @@ class RVArmaFragment : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     direction: Int
                 ) {
-                    val arma = adapter.currentList[viewHolder.adapterPosition]
+                    val arma = adapter.currentList[viewHolder.absoluteAdapterPosition]
                     Snackbar.make(
                         binding.root,
                         "Se ha eliminado: ${arma.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
-                        adapter.notifyItemInserted(viewHolder.adapterPosition)
+                        adapter.notifyItemInserted(viewHolder.absoluteAdapterPosition)
                         adapter.notifyDataSetChanged()
                     }.show()
                 }

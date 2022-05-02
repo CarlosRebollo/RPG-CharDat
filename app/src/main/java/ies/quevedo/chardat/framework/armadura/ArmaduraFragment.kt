@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentArmaduraBinding
@@ -39,6 +39,7 @@ class ArmaduraFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             rellenarCamposDeArmadura()
+            // TODO: Buscar la armadura por su id y cargar sus datos en la funcion rellenarCamposDeArmadura()
             btCancelar.setOnClickListener {
                 activity?.onBackPressed()
             }
@@ -47,9 +48,9 @@ class ArmaduraFragment : Fragment() {
                     Toast.makeText(requireContext(), "Rellena todos los campos", Toast.LENGTH_SHORT)
                         .show()
                 } else {
-                    val bundle = buildArmaduraActualizada()
-                    val navController = view.findNavController()
-                    navController.navigate(R.id.action_armaduraFragment_to_RVArmaduraFragment, bundle)
+                    val armaduraActualizada = buildArmaduraActualizada()
+                    // TODO: Guardar en retrofit
+                    findNavController().navigate(R.id.action_armaduraFragment_to_RVArmaduraFragment)
                 }
             }
         }
@@ -88,7 +89,7 @@ class ArmaduraFragment : Fragment() {
         etPeso.setText(armadura.weight.toString())
     }
 
-    private fun FragmentArmaduraBinding.buildArmaduraActualizada(): Bundle {
+    private fun FragmentArmaduraBinding.buildArmaduraActualizada(): Armadura {
         armadura.name = etNombreArmadura.text.toString()
         armadura.quality = etCalidad.text.toString().toInt()
         armadura.description = etDescripcion.text.toString()
@@ -102,10 +103,7 @@ class ArmaduraFragment : Fragment() {
         armadura.armor = etArmadura.text.toString().toInt()
         armadura.value = etValor.text.toString().toInt()
         armadura.weight = etPeso.text.toString().toDouble()
-        val bundle = Bundle()
-        bundle.putParcelable("armaduraActualizada", armadura)
-        bundle.putParcelable("personaje", personaje)
-        return bundle
+        return armadura
     }
 
     private fun FragmentArmaduraBinding.faltaAlgunDato() =

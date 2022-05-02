@@ -36,7 +36,7 @@ class RVObjetoAdapter(
         ) = with(binding) {
             tvName.text = item.name
             tvDescription.text = item.description
-            cardPersonaje.setOnClickListener { goObjectDetails(adapterPosition) }
+            cardPersonaje.setOnClickListener { goObjectDetails(absoluteAdapterPosition) }
         }
     }
 

@@ -21,7 +21,6 @@ class ObjetoFragment : Fragment() {
     private var _binding: FragmentObjetoBinding? = null
     private val binding get() = _binding!!
     private lateinit var objeto: Objeto
-    private lateinit var personaje: Personaje
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,8 +28,6 @@ class ObjetoFragment : Fragment() {
     ): View {
         setHasOptionsMenu(true)
         _binding = FragmentObjetoBinding.inflate(inflater, container, false)
-        personaje = arguments?.getParcelable("personaje")!!
-        objeto = arguments?.getParcelable("objeto")!!
         return binding.root
     }
 
@@ -38,6 +35,7 @@ class ObjetoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             rellenarCamposDeObjeto()
+            // TODO: Buscar el objeto por su id y cargar sus datos en la funcion rellenarCamposDeObjeto()
             btCancelar.setOnClickListener {
                 activity?.onBackPressed()
             }
@@ -46,11 +44,9 @@ class ObjetoFragment : Fragment() {
                     Toast.makeText(requireContext(), "Rellena todos los campos", Toast.LENGTH_SHORT)
                         .show()
                 } else {
-                    val bundle = buildObjetoActualizado()
-                    findNavController().navigate(
-                        R.id.action_objetoFragment_to_RVObjetoFragment,
-                        bundle
-                    )
+                    val objetoActualizado = buildObjetoActualizado()
+                    // TODO: Actualizar objeto en retrofit
+                    findNavController().navigate(R.id.action_objetoFragment_to_RVObjetoFragment)
                 }
             }
         }
@@ -69,16 +65,13 @@ class ObjetoFragment : Fragment() {
         etPeso.setText(objeto.weight.toString())
     }
 
-    private fun FragmentObjetoBinding.buildObjetoActualizado(): Bundle {
+    private fun FragmentObjetoBinding.buildObjetoActualizado(): Objeto {
         objeto.name = etNombreObjeto.text.toString().uppercase(Locale.getDefault())
         objeto.description = etDescripcion.text.toString()
         objeto.value = etValor.text.toString().toInt()
         objeto.amount = etCantidad.text.toString().toInt()
         objeto.weight = etPeso.text.toString().toDouble()
-        val bundle = Bundle()
-        bundle.putParcelable("objetoActualizado", objeto)
-        bundle.putParcelable("personaje", personaje)
-        return bundle
+        return objeto
     }
 
     private fun FragmentObjetoBinding.faltaAlgunDato() =

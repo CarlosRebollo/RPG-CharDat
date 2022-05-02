@@ -37,7 +37,7 @@ class RVArmaAdapter(
         ) = with(binding) {
             tvName.text = item.name
             tvDescription.text = item.description
-            cardPersonaje.setOnClickListener { goWeaponDetails(adapterPosition) }
+            cardPersonaje.setOnClickListener { goWeaponDetails(absoluteAdapterPosition) }
         }
     }
 

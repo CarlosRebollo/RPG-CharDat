@@ -43,7 +43,11 @@ class AddPersonajeFragment3 : Fragment() {
                     Toast.makeText(context, "Falta algun dato", Toast.LENGTH_SHORT).show()
                 } else {
                     val personajeCreado = buildPersonaje()
-
+                    personajeCreado.armaduras = Collections.emptyList()
+                    personajeCreado.armas = Collections.emptyList()
+                    personajeCreado.escudos = Collections.emptyList()
+                    personajeCreado.objetos = Collections.emptyList()
+                    // TODO: Guardar el personaje en retrofit
                     findNavController().navigate(
                         R.id.action_addPersonajeFragment3_to_RVPersonajeFragment
                     )
@@ -74,17 +78,17 @@ class AddPersonajeFragment3 : Fragment() {
                 etStamina.text.isNullOrBlank()
 
     private fun FragmentAddPersonaje3Binding.buildPersonaje(): Personaje {
-        val nombrePersonaje = arguments?.getString("nombrePersonaje")
-        val clasePersonaje = arguments?.getString("clasePersonaje")
-        val descripcionPersonaje = arguments?.getString("descripcionPersonaje")
-        val agilidadPersonaje = arguments?.getInt("agilidadPersonaje")
-        val constitucionPersonaje = arguments?.getInt("constitucionPersonaje")
-        val destrezaPersonaje = arguments?.getInt("destrezaPersonaje")
-        val fuerzaPersonaje = arguments?.getInt("fuerzaPersonaje")
-        val inteligenciaPersonaje = arguments?.getInt("inteligenciaPersonaje")
-        val percepcionPersonaje = arguments?.getInt("percepcionPersonaje")
-        val poderPersonaje = arguments?.getInt("poderPersonaje")
-        val voluntadPersonaje = arguments?.getInt("voluntadPersonaje")
+        val nombrePersonaje = arguments?.getString("nombre")
+        val clasePersonaje = arguments?.getString("clase")
+        val descripcionPersonaje = arguments?.getString("descripcion")
+        val agilidadPersonaje = arguments?.getInt("agilidad")
+        val constitucionPersonaje = arguments?.getInt("constitucion")
+        val destrezaPersonaje = arguments?.getInt("destreza")
+        val fuerzaPersonaje = arguments?.getInt("fuerza")
+        val inteligenciaPersonaje = arguments?.getInt("inteligencia")
+        val percepcionPersonaje = arguments?.getInt("percepcion")
+        val poderPersonaje = arguments?.getInt("poder")
+        val voluntadPersonaje = arguments?.getInt("voluntad")
         val nivelPersonaje = etNivel.text.toString().toInt()
         val habilidadDeAtaquePersonaje = etHabilidadDeAtaque.text.toString().toInt()
         val esquivaPersonaje = etEsquiva.text.toString().toInt()

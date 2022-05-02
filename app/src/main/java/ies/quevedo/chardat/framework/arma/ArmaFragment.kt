@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentArmaBinding
@@ -39,6 +39,7 @@ class ArmaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             rellenarCamposDeArma()
+            // TODO: Buscar el arma por su id y cargar sus datos en la funcion rellenarCamposDeArma()
             btCancelar.setOnClickListener {
                 activity?.onBackPressed()
             }
@@ -47,9 +48,9 @@ class ArmaFragment : Fragment() {
                     Toast.makeText(requireContext(), "Rellena todos los campos", Toast.LENGTH_SHORT)
                         .show()
                 } else {
-                    val bundle = buildArmaActualizada()
-                    val navController = view.findNavController()
-                    navController.navigate(R.id.action_armaFragment_to_RVArmaFragment, bundle)
+                    val armaActualizada = buildArmaActualizada()
+                    // TODO: Enviar la actualización a retrofit
+                    findNavController().navigate(R.id.action_armaFragment_to_RVArmaFragment)
                 }
             }
         }
@@ -84,7 +85,7 @@ class ArmaFragment : Fragment() {
         etPeso.setText(arma.weight.toString())
     }
 
-    private fun FragmentArmaBinding.buildArmaActualizada(): Bundle {
+    private fun FragmentArmaBinding.buildArmaActualizada(): Arma {
         arma.name = etNombreArma.text.toString()
         arma.quality = etCalidad.text.toString().toInt()
         arma.description = etDescripcion.text.toString()
@@ -94,10 +95,7 @@ class ArmaFragment : Fragment() {
         arma.parry = etParada.text.toString().toInt()
         arma.value = etValor.text.toString().toInt()
         arma.weight = etPeso.text.toString().toDouble()
-        val bundle = Bundle()
-        bundle.putParcelable("armaActualizada", arma)
-        bundle.putParcelable("personaje", personaje)
-        return bundle
+        return arma
     }
 
     private fun FragmentArmaBinding.faltaAlgunDato() =

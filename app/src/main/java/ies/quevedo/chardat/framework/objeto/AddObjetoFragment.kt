@@ -20,15 +20,14 @@ class AddObjetoFragment : Fragment() {
 
     private var _binding: FragmentAddObjetoBinding? = null
     private val binding get() = _binding!!
-    private lateinit var personaje: Personaje
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
         _binding = FragmentAddObjetoBinding.inflate(inflater, container, false)
-        personaje = arguments?.getParcelable("personaje")!!
         return binding.root
     }
 
@@ -42,11 +41,9 @@ class AddObjetoFragment : Fragment() {
                 if (faltaAlgunDato()) {
                     Toast.makeText(context, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
                 } else {
-                    val bundle = buildObjeto()
-                    findNavController().navigate(
-                        R.id.action_addObjetoFragment_to_RVObjetoFragment,
-                        bundle
-                    )
+                    val objeto = buildObjeto()
+                    // TODO: Guardar objeto en retrofit
+                    findNavController().navigate(R.id.action_addObjetoFragment_to_RVObjetoFragment)
                 }
             }
         }
@@ -57,25 +54,21 @@ class AddObjetoFragment : Fragment() {
         menu.clear()
     }
 
-    private fun FragmentAddObjetoBinding.buildObjeto(): Bundle {
+    private fun FragmentAddObjetoBinding.buildObjeto(): Objeto {
         val nombreObjeto = etNombreObjeto.text.toString().uppercase(Locale.getDefault())
         val descripcionObjeto = etDescripcion.text.toString()
         val valorObjeto = etValor.text.toString().toInt()
         val cantidadObjeto = etCantidad.text.toString().toInt()
         val pesoObjeto = etPeso.text.toString().toDouble()
-        val objeto = Objeto(
+        return Objeto(
             0,
             nombreObjeto,
             valorObjeto,
             pesoObjeto,
             cantidadObjeto,
             descripcionObjeto,
-            personaje.id
+            0 // TODO: Añadir id personaje que se trae de navigation
         )
-        val bundle = Bundle()
-        bundle.putParcelable("objetoCreado", objeto)
-        bundle.putParcelable("personaje", personaje)
-        return bundle
     }
 
     private fun FragmentAddObjetoBinding.faltaAlgunDato() =

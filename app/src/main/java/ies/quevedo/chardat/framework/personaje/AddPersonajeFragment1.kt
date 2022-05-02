@@ -59,9 +59,9 @@ class AddPersonajeFragment1 : Fragment() {
         val clasePersonaje = etClases.text.toString()
         val descripcionPersonaje = etDescripcion.text.toString()
         val bundle = Bundle()
-        bundle.putString("nombrePersonaje", nombrePersonaje)
-        bundle.putString("clasePersonaje", clasePersonaje)
-        bundle.putString("descripcionPersonaje", descripcionPersonaje)
+        bundle.putString("clase", clasePersonaje)
+        bundle.putString("nombre", nombrePersonaje)
+        bundle.putString("descripcion", descripcionPersonaje)
         return bundle
     }
 

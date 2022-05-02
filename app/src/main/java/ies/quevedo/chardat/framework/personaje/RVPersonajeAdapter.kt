@@ -42,7 +42,7 @@ class RVPersonajeAdapter(
             tvName.text = item.name
             tvClase.text = item.clase
             tvCreationDate.text = "Fecha de creación: ${item.creationDate}"
-            cardPersonaje.setOnClickListener { goMainMenu(adapterPosition) }
+            cardPersonaje.setOnClickListener { goMainMenu(absoluteAdapterPosition) }
         }
 
         private fun setImageClass(item: Personaje) {

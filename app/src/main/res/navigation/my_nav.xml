@@ -132,30 +132,6 @@
         <argument
             android:name="descripcion"
             app:argType="string" />
-        <argument
-            android:name="agilidad"
-            app:argType="integer" />
-        <argument
-            android:name="constitucion"
-            app:argType="integer" />
-        <argument
-            android:name="destreza"
-            app:argType="integer" />
-        <argument
-            android:name="fuerza"
-            app:argType="integer" />
-        <argument
-            android:name="inteligencia"
-            app:argType="integer" />
-        <argument
-            android:name="percepcion"
-            app:argType="integer" />
-        <argument
-            android:name="poder"
-            app:argType="integer" />
-        <argument
-            android:name="voluntad"
-            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/addPersonajeFragment3"
@@ -199,7 +175,6 @@
         <argument
             android:name="voluntad"
             app:argType="integer" />
-
     </fragment>
     <fragment
         android:id="@+id/addArmaFragment"

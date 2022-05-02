@@ -36,7 +36,7 @@ class RVEscudoAdapter(
         ) = with(binding) {
             tvName.text = item.name
             tvDescription.text = item.description
-            cardPersonaje.setOnClickListener { goShieldDetails(adapterPosition) }
+            cardPersonaje.setOnClickListener { goShieldDetails(absoluteAdapterPosition) }
         }
     }
 

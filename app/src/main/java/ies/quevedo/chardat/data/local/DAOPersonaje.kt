@@ -1,7 +1,7 @@
 package ies.quevedo.chardat.data.local
 
 import androidx.room.*
-import ies.quevedo.chardat.data.entities.PersonajeConTodo
+import ies.quevedo.chardat.data.entities.*
 
 @Dao
 interface DAOPersonaje {
@@ -12,20 +12,38 @@ interface DAOPersonaje {
 
     @Transaction
     @Query("SELECT * FROM personaje")
-    fun getPersonajes(): List<PersonajeConTodo>
+    fun getPersonajes(): List<PersonajeEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertPersonaje(personaje: PersonajeConTodo)
+    fun insertPersonaje(personaje: PersonajeEntity)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAll(personajes: List<PersonajeConTodo>)
+    fun insertAll(
+        personajes: List<PersonajeEntity>,
+        armaduras: List<ArmaduraEntity>,
+        armas: List<ArmaEntity>,
+        escudos: List<EscudoEntity>,
+        objetos: List<ObjetoEntity>
+    )
 
     @Update
-    fun updatePersonaje(personaje: PersonajeConTodo)
+    fun updatePersonaje(personaje: PersonajeEntity)
 
     @Delete
-    fun deletePersonaje(personaje: PersonajeConTodo)
+    fun deletePersonaje(
+        personaje: PersonajeEntity,
+        armaduras: List<ArmaduraEntity>,
+        armas: List<ArmaEntity>,
+        escudos: List<EscudoEntity>,
+        objetos: List<ObjetoEntity>
+    )
 
     @Delete
-    fun deleteAll(personajes: List<PersonajeConTodo>)
+    fun deleteAll(
+        personajes: List<PersonajeEntity>,
+        armaduras: List<ArmaduraEntity>,
+        armas: List<ArmaEntity>,
+        escudos: List<EscudoEntity>,
+        objetos: List<ObjetoEntity>
+    )
 }

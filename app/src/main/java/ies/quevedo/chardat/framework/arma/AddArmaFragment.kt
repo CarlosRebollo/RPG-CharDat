@@ -21,7 +21,6 @@ class AddArmaFragment : Fragment() {
 
     private var _binding: FragmentAddArmaBinding? = null
     private val binding get() = _binding!!
-    private lateinit var personaje: Personaje
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +28,6 @@ class AddArmaFragment : Fragment() {
     ): View {
         setHasOptionsMenu(true)
         _binding = FragmentAddArmaBinding.inflate(inflater, container, false)
-        personaje = arguments?.getParcelable("personaje")!!
         return binding.root
     }
 
@@ -45,10 +43,10 @@ class AddArmaFragment : Fragment() {
                 if (faltaAlgunDato()) {
                     Toast.makeText(context, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
                 } else {
-                    val bundle = buildArma()
+                    val arma = buildArma()
+                    // TODO: Guardar arma en retrofit
                     findNavController().navigate(
-                        R.id.action_addArmaFragment_to_RVArmaFragment,
-                        bundle
+                        R.id.action_addArmaFragment_to_RVArmaFragment
                     )
                 }
             }
@@ -60,7 +58,7 @@ class AddArmaFragment : Fragment() {
         menu.clear()
     }
 
-    private fun FragmentAddArmaBinding.buildArma(): Bundle {
+    private fun FragmentAddArmaBinding.buildArma(): Arma {
         val nombreArma = etNombreArma.text.toString()
         val valorArma = etValor.text.toString().toInt()
         val pesoArma = etPeso.text.toString().toDouble()
@@ -70,24 +68,19 @@ class AddArmaFragment : Fragment() {
         val damageArma = etDamage.text.toString().toInt()
         val paradaArma = etParada.text.toString().toInt()
         val descripcionArma = etDescripcion.text.toString()
-        val arma =
-            Arma(
-                0,
-                nombreArma,
-                valorArma,
-                pesoArma,
-                calidadArma,
-                turnoArma,
-                habilidadAtaqueArma,
-                damageArma,
-                paradaArma,
-                descripcionArma,
-                personaje.id
-            )
-        val bundle = Bundle()
-        bundle.putParcelable("armaCreada", arma)
-        bundle.putParcelable("personaje", personaje)
-        return bundle
+        return Arma(
+            0,
+            nombreArma,
+            valorArma,
+            pesoArma,
+            calidadArma,
+            turnoArma,
+            habilidadAtaqueArma,
+            damageArma,
+            paradaArma,
+            descripcionArma,
+            0 // TODO: Poner el id del personaje que se trae del navigation
+        )
     }
 
     private fun FragmentAddArmaBinding.faltaAlgunDato() =

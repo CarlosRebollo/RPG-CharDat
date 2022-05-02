@@ -1,7 +1,6 @@
 package ies.quevedo.chardat.data.repository
 
-import ies.quevedo.chardat.data.entities.toPersonaje
-import ies.quevedo.chardat.data.entities.toPersonajeConTodo
+import ies.quevedo.chardat.data.entities.*
 import ies.quevedo.chardat.data.local.DAOPersonaje
 import ies.quevedo.chardat.data.remote.dataSources.PersonajeRemoteDataSource
 import ies.quevedo.chardat.data.utils.NetworkResult
@@ -33,13 +32,12 @@ class PersonajeRepository @Inject constructor(
 
     fun getPersonajesConTodo(): Flow<NetworkResult<List<Personaje>>> {
         return flow {
-            emit(fetchedPersonajesConTodoCached())
+            emit(fetchedPersonajesCached())
             emit(NetworkResult.Loading())
             val result = personajeRemoteDataSource.fetchPersonajes()
             if (result is NetworkResult.Success) {
-                result.data?.let { personajes ->
-                    daoPersonaje.deleteAll(personajes.map { it.toPersonajeConTodo() })
-                    daoPersonaje.insertAll(personajes.map { it.toPersonajeConTodo() })
+                result.data?.let {
+                    daoPersonaje.getPersonajes().map { it.toPersonaje() }
                 }
             }
             emit(result)
@@ -52,7 +50,7 @@ class PersonajeRepository @Inject constructor(
             val result = personajeRemoteDataSource.postPersonaje(personaje)
             if (result is NetworkResult.Success) {
                 result.data?.let { personaje ->
-                    daoPersonaje.insertPersonaje(personaje.toPersonajeConTodo())
+                    daoPersonaje.insertPersonaje(personaje.toPersonajeEntity())
                 }
             }
             emit(result)
@@ -65,7 +63,7 @@ class PersonajeRepository @Inject constructor(
             val result = personajeRemoteDataSource.putPersonaje(personaje)
             if (result is NetworkResult.Success) {
                 result.data?.let { personaje ->
-                    daoPersonaje.updatePersonaje(personaje.toPersonajeConTodo())
+                    daoPersonaje.updatePersonaje(personaje.toPersonajeEntity())
                 }
             }
             emit(result)
@@ -78,7 +76,16 @@ class PersonajeRepository @Inject constructor(
             val result = personajeRemoteDataSource.deletePersonaje(idPersonaje)
             if (result is NetworkResult.Success) {
                 result.data?.let { personaje ->
-                    daoPersonaje.deletePersonaje(personaje.toPersonajeConTodo())
+                    daoPersonaje.deletePersonaje(
+                        personaje.toPersonajeEntity(),
+                        personaje.armaduras?.map { it.toArmaduraEntity(idPersonaje) }
+                            ?: emptyList(),
+                        personaje.armas?.map { it.toArmaEntity(idPersonaje) }
+                            ?: emptyList(),
+                        personaje.escudos?.map { it.toEscudoEntity(idPersonaje) }
+                            ?: emptyList(),
+                        personaje.objetos?.map { it.toObjetoEntity(idPersonaje) }
+                            ?: emptyList())
                 }
             }
             emit(result)
@@ -89,7 +96,7 @@ class PersonajeRepository @Inject constructor(
         daoPersonaje.getPersonaje(id)
             .let { personaje -> NetworkResult.Success(personaje.toPersonaje()) }
 
-    private fun fetchedPersonajesConTodoCached(): NetworkResult<List<Personaje>> =
+    private fun fetchedPersonajesCached(): NetworkResult<List<Personaje>> =
         daoPersonaje.getPersonajes()
             .let { personajes -> NetworkResult.Success(personajes.map { it.toPersonaje() }) }
 }

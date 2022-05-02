@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentEscudoBinding
@@ -22,7 +22,6 @@ class EscudoFragment : Fragment() {
     private var _binding: FragmentEscudoBinding? = null
     private val binding get() = _binding!!
     private lateinit var escudo: Escudo
-    private lateinit var personaje: Personaje
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,8 +29,6 @@ class EscudoFragment : Fragment() {
     ): View {
         setHasOptionsMenu(true)
         _binding = FragmentEscudoBinding.inflate(inflater, container, false)
-        personaje = arguments?.getParcelable("personaje")!!
-        escudo = arguments?.getParcelable("escudo")!!
         return binding.root
     }
 
@@ -39,6 +36,7 @@ class EscudoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             rellenarCamposDeEscudo()
+            // TODO: Buscar el escudo por su id y cargar sus datos en la funcion rellenarCamposDeEscudo()
             btCancelar.setOnClickListener {
                 activity?.onBackPressed()
             }
@@ -47,12 +45,9 @@ class EscudoFragment : Fragment() {
                     Toast.makeText(requireContext(), "Rellena todos los campos", Toast.LENGTH_SHORT)
                         .show()
                 } else {
-                    val bundle = buildEscudoActualizado()
-                    val navController = view.findNavController()
-                    navController.navigate(
-                        R.id.action_escudoFragment_to_RVEscudoFragment,
-                        bundle
-                    )
+                    val escudoActualizado = buildEscudoActualizado()
+                    // TODO: Enviar el escudo actualizado a retrofit
+                    findNavController().navigate(R.id.action_escudoFragment_to_RVEscudoFragment)
                 }
             }
         }
@@ -86,7 +81,7 @@ class EscudoFragment : Fragment() {
         etPeso.setText(escudo.weight.toString())
     }
 
-    private fun FragmentEscudoBinding.buildEscudoActualizado(): Bundle {
+    private fun FragmentEscudoBinding.buildEscudoActualizado(): Escudo {
         escudo.name = etNombreEscudo.text.toString()
         escudo.quality = etCalidad.text.toString().toInt()
         escudo.description = etDescripcion.text.toString()
@@ -95,10 +90,7 @@ class EscudoFragment : Fragment() {
         escudo.parry = etParada.text.toString().toInt()
         escudo.value = etValor.text.toString().toInt()
         escudo.weight = etPeso.text.toString().toDouble()
-        val bundle = Bundle()
-        bundle.putParcelable("escudoActualizado", escudo)
-        bundle.putParcelable("personaje", personaje)
-        return bundle
+        return escudo
     }
 
     private fun FragmentEscudoBinding.faltaAlgunDato() =

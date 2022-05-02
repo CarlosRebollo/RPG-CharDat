@@ -21,15 +21,14 @@ class AddEscudoFragment : Fragment() {
 
     private var _binding: FragmentAddEscudoBinding? = null
     private val binding get() = _binding!!
-    private lateinit var personaje: Personaje
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
         _binding = FragmentAddEscudoBinding.inflate(inflater, container, false)
-        personaje = arguments?.getParcelable("personaje")!!
         return binding.root
     }
 
@@ -45,11 +44,9 @@ class AddEscudoFragment : Fragment() {
                 if (faltaAlgunDato()) {
                     Toast.makeText(context, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
                 } else {
-                    val bundle = buildEscudo()
-                    findNavController().navigate(
-                        R.id.action_addEscudoFragment_to_RVEscudoFragment,
-                        bundle
-                    )
+                    val escudo = buildEscudo()
+                    // TODO: Guardar en retrofit
+                    findNavController().navigate(R.id.action_addEscudoFragment_to_RVEscudoFragment)
                 }
             }
         }
@@ -60,7 +57,7 @@ class AddEscudoFragment : Fragment() {
         menu.clear()
     }
 
-    private fun FragmentAddEscudoBinding.buildEscudo(): Bundle {
+    private fun FragmentAddEscudoBinding.buildEscudo(): Escudo {
         val nombreEscudo = etNombreEscudo.text.toString()
         val calidadEscudo = etCalidad.text.toString().toInt()
         val descripcionEscudo = etDescripcion.text.toString()
@@ -69,7 +66,7 @@ class AddEscudoFragment : Fragment() {
         val paradaEscudo = etParada.text.toString().toInt()
         val valorEscudo = etValor.text.toString().toInt()
         val pesoEscudo = etPeso.text.toString().toDouble()
-        val escudo = Escudo(
+        return Escudo(
             0,
             nombreEscudo,
             valorEscudo,
@@ -79,12 +76,8 @@ class AddEscudoFragment : Fragment() {
             damageEscudo,
             paradaEscudo,
             descripcionEscudo,
-            personaje.id
+            0 // TODO: Añadir id personaje que viene de navigation
         )
-        val bundle = Bundle()
-        bundle.putParcelable("escudoCreado", escudo)
-        bundle.putParcelable("personaje", personaje)
-        return bundle
     }
 
     private fun FragmentAddEscudoBinding.faltaAlgunDato() =
