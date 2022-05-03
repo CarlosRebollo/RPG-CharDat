@@ -48,6 +48,7 @@ class MainMenuFragment : Fragment() {
             idPersonaje
         )
         lifecycleScope.launch {
+            ensureActive()
             viewModel.uiState.collect { value ->
                 binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
                 value.personajeByID

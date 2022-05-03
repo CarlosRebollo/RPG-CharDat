@@ -18,6 +18,7 @@ class PersonajeRepository @Inject constructor(
 
     fun getPersonaje(id: Int): Flow<NetworkResult<Personaje>> {
         return flow {
+            emit(fetchPersonajeConTodoCached(id))
             emit(NetworkResult.Loading())
             emit(personajeRemoteDataSource.fetchPersonaje(id))
         }.flowOn(Dispatchers.IO)
@@ -25,6 +26,7 @@ class PersonajeRepository @Inject constructor(
 
     fun getPersonajes(): Flow<NetworkResult<List<Personaje>>> {
         return flow {
+            emit(fetchedPersonajesCached())
             emit(NetworkResult.Loading())
             emit(personajeRemoteDataSource.fetchPersonajes())
         }.flowOn(Dispatchers.IO)
