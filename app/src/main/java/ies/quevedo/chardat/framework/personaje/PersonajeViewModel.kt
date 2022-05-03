@@ -27,11 +27,12 @@ class PersonajeViewModel @Inject constructor(
 
     fun handleEvent(
         event: PersonajeContract.Event,
-        personaje: Personaje?
+        personaje: Personaje?,
+        personajeId: Int
     ) {
         when (event) {
             PersonajeContract.Event.FetchPersonaje -> {
-                personaje?.let { fetchPersonaje(it.id) }
+                fetchPersonaje(personajeId)
             }
             PersonajeContract.Event.FetchPersonajes -> {
                 fetchPersonajes()
@@ -43,7 +44,7 @@ class PersonajeViewModel @Inject constructor(
                 personaje?.let { putPersonaje(it) }
             }
             PersonajeContract.Event.DeletePersonaje -> {
-                personaje?.let { deletePersonaje(it.id) }
+                deletePersonaje(personajeId)
             }
             PersonajeContract.Event.ShowMessage -> {
                 _uiState.update { it.copy(error = null) }
@@ -53,7 +54,7 @@ class PersonajeViewModel @Inject constructor(
 
     private fun fetchPersonaje(id: Int) {
         viewModelScope.launch {
-            personajeRepository.getPersonajeConTodo(id)
+            personajeRepository.getPersonaje(id)
                 .catch(action = { cause -> _uiError.send(cause.message ?: "Error") })
                 .collect { result ->
                     when (result) {
@@ -62,7 +63,7 @@ class PersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            it.copy(personaje = result.data, isLoading = false)
+                            it.copy(personajeByID = result.data, isLoading = false)
                         }
                     }
                 }
@@ -71,7 +72,7 @@ class PersonajeViewModel @Inject constructor(
 
     private fun fetchPersonajes() {
         viewModelScope.launch {
-            personajeRepository.getPersonajesConTodo()
+            personajeRepository.getPersonajes()
                 .catch(action = { cause -> _uiError.send(cause.message ?: "Error") })
                 .collect { result ->
                     when (result) {
@@ -80,7 +81,7 @@ class PersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            it.copy(personajes = result.data ?: emptyList(), isLoading = false)
+                            it.copy(listaPersonajes = result.data ?: emptyList(), isLoading = false)
                         }
                     }
                 }
@@ -98,7 +99,7 @@ class PersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            it.copy(personaje = result.data, isLoading = false)
+                            it.copy(personajeByID = result.data, isLoading = false)
                         }
                     }
                 }
@@ -116,7 +117,7 @@ class PersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            it.copy(personaje = result.data, isLoading = false)
+                            it.copy(personajeByID = result.data, isLoading = false)
                         }
                     }
                 }
@@ -135,7 +136,7 @@ class PersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            it.copy(personaje = result.data, isLoading = false)
+                            it.copy(personajeByID = result.data, isLoading = false)
                         }
                     }
                 }

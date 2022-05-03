@@ -8,7 +8,7 @@ interface DAOPersonaje {
 
     @Transaction
     @Query("SELECT * FROM personaje WHERE id = :id")
-    fun getPersonaje(id: Int): PersonajeConTodo
+    fun getPersonaje(id: Int): PersonajeEntity
 
     @Transaction
     @Query("SELECT * FROM personaje")
@@ -18,13 +18,7 @@ interface DAOPersonaje {
     fun insertPersonaje(personaje: PersonajeEntity)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAll(
-        personajes: List<PersonajeEntity>,
-        armaduras: List<ArmaduraEntity>,
-        armas: List<ArmaEntity>,
-        escudos: List<EscudoEntity>,
-        objetos: List<ObjetoEntity>
-    )
+    fun insertAll(personajes: List<PersonajeEntity>)
 
     @Update
     fun updatePersonaje(personaje: PersonajeEntity)
@@ -39,11 +33,5 @@ interface DAOPersonaje {
     )
 
     @Delete
-    fun deleteAll(
-        personajes: List<PersonajeEntity>,
-        armaduras: List<ArmaduraEntity>,
-        armas: List<ArmaEntity>,
-        escudos: List<EscudoEntity>,
-        objetos: List<ObjetoEntity>
-    )
+    fun deleteAll(personajes: List<PersonajeEntity>)
 }

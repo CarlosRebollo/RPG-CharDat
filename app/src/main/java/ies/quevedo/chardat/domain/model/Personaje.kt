@@ -1,7 +1,5 @@
 package ies.quevedo.chardat.domain.model
 
-import java.time.LocalDate
-
 data class Personaje(
     val id: Int,
     var name: String,
@@ -28,7 +26,7 @@ data class Personaje(
     var RF: Int,
     var RM: Int,
     var RP: Int,
-    var creationDate: LocalDate,
+    var creationDate: String,
     var armas: List<Arma>?,
     var armaduras: List<Armadura>?,
     var escudos: List<Escudo>?,

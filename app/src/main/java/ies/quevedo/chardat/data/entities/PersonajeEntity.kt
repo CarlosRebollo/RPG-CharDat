@@ -32,5 +32,5 @@ data class PersonajeEntity(
     val RF: Int,
     val RM: Int,
     val RP: Int,
-    val creationDate: LocalDate
+    val creationDate: String
 )

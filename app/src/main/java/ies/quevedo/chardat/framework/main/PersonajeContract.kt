@@ -14,8 +14,8 @@ interface PersonajeContract {
     }
 
     data class State(
-        val personajes: List<Personaje> = emptyList(),
-        val personaje: Personaje? = null,
+        val personajeByID: Personaje? = null,
+        val listaPersonajes: List<Personaje>? = null,
         val isLoading: Boolean = false,
         val error: String? = null
     )

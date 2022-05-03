@@ -126,7 +126,7 @@ class AddPersonajeFragment3 : Fragment() {
             rfPersonaje,
             rmPersonaje,
             rpPersonaje,
-            LocalDate.now(),
+            LocalDate.now().toString(),
             Collections.emptyList(),
             Collections.emptyList(),
             Collections.emptyList(),

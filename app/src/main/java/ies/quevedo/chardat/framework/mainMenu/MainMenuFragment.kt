@@ -5,31 +5,64 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentMainMenuBinding
+import ies.quevedo.chardat.domain.model.Personaje
+import ies.quevedo.chardat.framework.main.PersonajeContract
+import ies.quevedo.chardat.framework.personaje.PersonajeViewModel
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainMenuFragment : Fragment() {
 
-    private val viewModel by viewModels<MainMenuViewModel>()
+    private val viewModel by viewModels<PersonajeViewModel>()
     private var _binding: FragmentMainMenuBinding? = null
     private val binding get() = _binding!!
+    private lateinit var personaje: Personaje
+    private var idPersonaje: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
+        idPersonaje = arguments?.getInt("idPersonaje")!!
         _binding = FragmentMainMenuBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.handleEvent(
+            PersonajeContract.Event.FetchPersonaje,
+            null,
+            idPersonaje
+        )
+        lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
+                value.personajeByID
+                personaje = value.personajeByID!!
+                value.error?.let {
+                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                    viewModel.handleEvent(PersonajeContract.Event.ShowMessage, null, 0)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
         setListenerActions()
     }
 
@@ -40,29 +73,41 @@ class MainMenuFragment : Fragment() {
 
     private fun setListenerActions() {
         with(binding) {
-//            setImageClass()
-//            tvName.text = personaje.name
-//            tvClase.text = personaje.clase
+            setImageClass(personaje)
+            tvName.text = personaje.name
+            tvClase.text = personaje.clase
+            var action: NavDirections
             ivInfo.setOnClickListener {
-                findNavController().navigate(R.id.action_mainMenuFragment_to_personajeFragment)
+                action =
+                    MainMenuFragmentDirections.actionMainMenuFragmentToPersonajeFragment(idPersonaje)
+                findNavController().navigate(action)
             }
             ivArmas.setOnClickListener {
-                findNavController().navigate(R.id.action_mainMenuFragment_to_RVArmaFragment)
+                action =
+                    MainMenuFragmentDirections.actionMainMenuFragmentToRVArmaFragment(idPersonaje)
+                findNavController().navigate(action)
             }
             ivArmaduras.setOnClickListener {
-                findNavController().navigate(R.id.action_mainMenuFragment_to_RVArmaduraFragment)
+                action = MainMenuFragmentDirections.actionMainMenuFragmentToRVArmaduraFragment(
+                    idPersonaje
+                )
+                findNavController().navigate(action)
             }
             ivEscudos.setOnClickListener {
-                findNavController().navigate(R.id.action_mainMenuFragment_to_RVEscudoFragment)
+                action =
+                    MainMenuFragmentDirections.actionMainMenuFragmentToRVEscudoFragment(idPersonaje)
+                findNavController().navigate(action)
             }
             ivObjetos.setOnClickListener {
-                findNavController().navigate(R.id.action_mainMenuFragment_to_RVObjetoFragment)
+                action =
+                    MainMenuFragmentDirections.actionMainMenuFragmentToRVObjetoFragment(idPersonaje)
+                findNavController().navigate(action)
             }
         }
     }
 
-    /*private fun setImageClass() {
-        when (personaje.clase) {
+    private fun setImageClass(personaje: Personaje?) {
+        when (personaje?.clase) {
             "GUERRERO" -> binding.ivClaseBanner.setImageResource(R.drawable.guerrero_banner)
             "GUERRERO ACRÓBATA" -> binding.ivClaseBanner.setImageResource(R.drawable.guerrero_acrobata_banner)
             "PALADÍN" -> binding.ivClaseBanner.setImageResource(R.drawable.paladin_banner)
@@ -84,5 +129,5 @@ class MainMenuFragment : Fragment() {
             "GUERRERO MENTALISTA" -> binding.ivClaseBanner.setImageResource(R.drawable.guerrero_mentalista_banner)
             "NOVEL" -> binding.ivClaseBanner.setImageResource(R.drawable.novel_banner)
         }
-    }*/
+    }
 }
