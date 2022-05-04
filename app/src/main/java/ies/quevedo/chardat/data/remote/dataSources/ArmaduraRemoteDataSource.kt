@@ -10,10 +10,15 @@ class ArmaduraRemoteDataSource @Inject constructor(
     private val armaduraService: ArmaduraService
 ) : BaseApiResponse() {
 
+    suspend fun fetchArmadura(idArmadura: Int): NetworkResult<Armadura> {
+        return safeApiCall(
+            apiCall = { armaduraService.getArmaduraByID(idArmadura) },
+        )
+    }
+
     suspend fun fetchArmaduras(idPJ: Int): NetworkResult<List<Armadura>> {
         return safeApiCall(
             apiCall = { armaduraService.getArmaduras(idPJ) },
-
         )
     }
 

@@ -19,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentArmasBinding
+import ies.quevedo.chardat.domain.model.Arma
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -29,9 +30,11 @@ class RVArmaFragment : Fragment() {
     private lateinit var adapter: RVArmaAdapter
     private var _binding: FragmentArmasBinding? = null
     private val binding get() = _binding!!
+    private var idPersonaje: Int = arguments?.getInt("idPersonaje") ?: 0
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentArmasBinding.inflate(inflater, container, false)
@@ -51,10 +54,11 @@ class RVArmaFragment : Fragment() {
             ::goWeaponDetails
         )
         binding.rvArmas.adapter = adapter
-        val idPersonaje = arguments?.getInt("idPersonaje") ?: 0
-        pedirArmasDelPersonaje(idPersonaje)
+        pedirArmasDelPersonaje()
         binding.fbtRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_RVArmaFragment_to_addArmaFragment)
+            val action =
+                RVArmaFragmentDirections.actionRVArmaFragmentToAddArmaFragment(idPersonaje)
+            findNavController().navigate(action)
         }
         swipeToDelete()
     }
@@ -74,13 +78,44 @@ class RVArmaFragment : Fragment() {
         })
     }
 
-    private fun pedirArmasDelPersonaje(idPersonaje: Int) {
+    private fun pedirArmasDelPersonaje() {
         viewModel.handleEvent(ArmaListContract.Event.FetchArmas(idPersonaje))
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { value ->
                 binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
                 if (value.listaArmas != null) {
                     adapter.submitList(value.listaArmas)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun deleteArma(arma: Arma) {
+        viewModel.handleEvent(ArmaListContract.Event.DeleteArma(arma.id))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.armaBorrada != null) {
+                    pedirArmasDelPersonaje()
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun recoverArma() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.armaRecuperada != null) {
+                    pedirArmasDelPersonaje()
                 }
             }
         }
@@ -109,37 +144,14 @@ class RVArmaFragment : Fragment() {
                     direction: Int
                 ) {
                     val arma = adapter.currentList[viewHolder.absoluteAdapterPosition]
-                    viewModel.handleEvent(ArmaListContract.Event.DeleteArma(arma.id))
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.uiState.collect { value ->
-                            if (value.arma != null) {
-                                adapter.notifyDataSetChanged()
-                            }
-                        }
-                    }
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.uiError.collect {
-                            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                        }
-                    }
+                    deleteArma(arma)
                     Snackbar.make(
                         binding.root,
                         "Se ha eliminado: ${arma.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
                         viewModel.handleEvent(ArmaListContract.Event.PostArma(arma))
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            viewModel.uiState.collect { value ->
-                                if (value.arma != null) {
-                                    adapter.notifyDataSetChanged()
-                                }
-                            }
-                        }
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            viewModel.uiError.collect {
-                                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                            }
-                        }
+                        recoverArma()
                     }.show()
                 }
             }).attachToRecyclerView(binding.rvArmas)
@@ -149,7 +161,8 @@ class RVArmaFragment : Fragment() {
     private fun goWeaponDetails(position: Int) {
         val arma = adapter.currentList[position]
         if (arma != null) {
-            findNavController().navigate(R.id.action_RVArmaFragment_to_armaFragment)
+            val action = RVArmaFragmentDirections.actionRVArmaFragmentToArmaFragment(arma.id, idPersonaje)
+            findNavController().navigate(action)
         } else {
             Toast.makeText(context, "No se ha podido obtener el arma", Toast.LENGTH_SHORT).show()
         }

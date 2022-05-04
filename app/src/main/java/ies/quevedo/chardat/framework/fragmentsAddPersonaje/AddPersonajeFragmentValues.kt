@@ -48,24 +48,7 @@ class AddPersonajeFragmentValues : Fragment() {
                     Toast.makeText(context, "Falta algun dato", Toast.LENGTH_SHORT).show()
                 } else {
                     val personajeCreado = buildPersonaje()
-                    viewModel.handleEvent(AddPersonajeContract.Event.PostPersonaje(personajeCreado))
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.uiState.collect { value ->
-                            if (value.personaje != null) {
-                                findNavController().navigate(
-                                    R.id.action_addPersonajeFragment3_to_RVPersonajeFragment
-                                )
-                                findNavController().popBackStack(R.id.addPersonajeFragment1, true)
-                                findNavController().popBackStack(R.id.addPersonajeFragment2, true)
-                                findNavController().popBackStack(R.id.addPersonajeFragment3, true)
-                            }
-                        }
-                    }
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.uiError.collect {
-                            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                        }
-                    }
+                    insertPersonajeAndGoBack(personajeCreado)
                 }
             }
         }
@@ -74,6 +57,27 @@ class AddPersonajeFragmentValues : Fragment() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.clear()
+    }
+
+    private fun insertPersonajeAndGoBack(personajeCreado: Personaje) {
+        viewModel.handleEvent(AddPersonajeContract.Event.PostPersonaje(personajeCreado))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.personaje != null) {
+                    findNavController().navigate(
+                        R.id.action_addPersonajeFragment3_to_RVPersonajeFragment
+                    )
+                    findNavController().popBackStack(R.id.addPersonajeFragment1, true)
+                    findNavController().popBackStack(R.id.addPersonajeFragment2, true)
+                    findNavController().popBackStack(R.id.addPersonajeFragment3, true)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun FragmentAddPersonaje3Binding.faltaAlgunDato() =

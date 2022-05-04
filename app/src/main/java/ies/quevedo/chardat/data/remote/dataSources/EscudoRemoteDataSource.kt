@@ -10,6 +10,12 @@ class EscudoRemoteDataSource @Inject constructor(
     private val escudoService: EscudoService
 ) : BaseApiResponse() {
 
+    suspend fun fetchEscudo(idEscudo: Int): NetworkResult<Escudo> {
+        return safeApiCall(
+            apiCall = { escudoService.getEscudoByID(idEscudo) }
+        )
+    }
+
     suspend fun fetchEscudos(idPJ: Int): NetworkResult<List<Escudo>> {
         return safeApiCall(
             apiCall = { escudoService.getEscudos(idPJ) }

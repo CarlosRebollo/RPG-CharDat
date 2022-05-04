@@ -9,20 +9,25 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentArmaBinding
 import ies.quevedo.chardat.domain.model.Arma
-import ies.quevedo.chardat.domain.model.Personaje
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ShowArmaFragment : Fragment() {
 
+    private val viewModel by viewModels<ShowArmaViewModel>()
     private var _binding: FragmentArmaBinding? = null
     private val binding get() = _binding!!
-    private lateinit var arma: Arma
-    private lateinit var personaje: Personaje
+    private var idArma: Int? = arguments?.getInt("idArma")
+    private var idPersonaje: Int? = arguments?.getInt("idPersonaje")
+    private var arma: Arma? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,18 +35,16 @@ class ShowArmaFragment : Fragment() {
     ): View {
         setHasOptionsMenu(true)
         _binding = FragmentArmaBinding.inflate(inflater, container, false)
-        personaje = arguments?.getParcelable("personaje")!!
-        arma = arguments?.getParcelable("arma")!!
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        pedirArma()
         with(binding) {
-            rellenarCamposDeArma()
-            // TODO: Buscar el arma por su id y cargar sus datos en la funcion rellenarCamposDeArma()
             btCancelar.setOnClickListener {
                 activity?.onBackPressed()
+                findNavController().popBackStack(R.id.armaFragment, true)
             }
             btModificar.setOnClickListener {
                 if (faltaAlgunDato()) {
@@ -49,8 +52,7 @@ class ShowArmaFragment : Fragment() {
                         .show()
                 } else {
                     val armaActualizada = buildArmaActualizada()
-                    // TODO: Enviar la actualización a retrofit
-                    findNavController().navigate(R.id.action_armaFragment_to_RVArmaFragment)
+                    updateArmaAndGoBack(armaActualizada)
                 }
             }
         }
@@ -73,28 +75,68 @@ class ShowArmaFragment : Fragment() {
         menu.clear()
     }
 
-    private fun FragmentArmaBinding.rellenarCamposDeArma() {
-        etNombreArma.setText(arma.name)
-        etCalidad.setText(arma.quality.toString())
-        etDescripcion.setText(arma.description)
-        etTurno.setText(arma.turn.toString())
-        etHabilidadDeAtaque.setText(arma.attackHability.toString())
-        etDamage.setText(arma.damage.toString())
-        etParada.setText(arma.parry.toString())
-        etValor.setText(arma.value.toString())
-        etPeso.setText(arma.weight.toString())
+    private fun updateArmaAndGoBack(armaActualizada: Arma?) {
+        viewModel.handleEvent(ShowArmaContract.Event.PutArma(armaActualizada))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.armaActualizada != null) {
+                    val action =
+                        ShowArmaFragmentDirections.actionArmaFragmentToRVArmaFragment(
+                            idPersonaje ?: 0
+                        )
+                    findNavController().navigate(action)
+                    findNavController().popBackStack(R.id.armaFragment, true)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
-    private fun FragmentArmaBinding.buildArmaActualizada(): Arma {
-        arma.name = etNombreArma.text.toString()
-        arma.quality = etCalidad.text.toString().toInt()
-        arma.description = etDescripcion.text.toString()
-        arma.turn = etTurno.text.toString().toInt()
-        arma.attackHability = etHabilidadDeAtaque.text.toString().toInt()
-        arma.damage = etDamage.text.toString().toInt()
-        arma.parry = etParada.text.toString().toInt()
-        arma.value = etValor.text.toString().toInt()
-        arma.weight = etPeso.text.toString().toDouble()
+    private fun pedirArma() {
+        viewModel.handleEvent(ShowArmaContract.Event.FetchArma(idArma ?: 0))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.arma != null) {
+                    arma = value.arma
+                    rellenarCamposDeArma()
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun rellenarCamposDeArma() {
+        with(binding) {
+            etNombreArma.setText(arma?.name)
+            etCalidad.setText(arma?.quality.toString())
+            etDescripcion.setText(arma?.description)
+            etTurno.setText(arma?.turn.toString())
+            etHabilidadDeAtaque.setText(arma?.attackHability.toString())
+            etDamage.setText(arma?.damage.toString())
+            etParada.setText(arma?.parry.toString())
+            etValor.setText(arma?.value.toString())
+            etPeso.setText(arma?.weight.toString())
+        }
+    }
+
+    private fun FragmentArmaBinding.buildArmaActualizada(): Arma? {
+        arma?.name = etNombreArma.text.toString()
+        arma?.quality = etCalidad.text.toString().toInt()
+        arma?.description = etDescripcion.text.toString()
+        arma?.turn = etTurno.text.toString().toInt()
+        arma?.attackHability = etHabilidadDeAtaque.text.toString().toInt()
+        arma?.damage = etDamage.text.toString().toInt()
+        arma?.parry = etParada.text.toString().toInt()
+        arma?.value = etValor.text.toString().toInt()
+        arma?.weight = etPeso.text.toString().toDouble()
         return arma
     }
 

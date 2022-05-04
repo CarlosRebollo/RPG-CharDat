@@ -13,6 +13,13 @@ class ObjetoRepository @Inject constructor(
     private val objetoRemoteDataSource: ObjetoRemoteDataSource
 ) {
 
+    fun getObjeto(idObjeto: Int): Flow<NetworkResult<Objeto>> {
+        return flow {
+            emit(NetworkResult.Loading())
+            emit(objetoRemoteDataSource.fetchObjeto(idObjeto))
+        }.flowOn(Dispatchers.IO)
+    }
+
     fun getObjetos(idPJ: Int): Flow<NetworkResult<List<Objeto>>> {
         return flow {
             emit(NetworkResult.Loading())

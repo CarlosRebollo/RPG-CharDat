@@ -13,14 +13,21 @@ class ArmaRepository @Inject constructor(
     private val armaRemoteDataSource: ArmaRemoteDataSource
 ) {
 
-    suspend fun getArmas(idPJ: Int): Flow<NetworkResult<List<Arma>>> {
+    fun getArma(idArma: Int): Flow<NetworkResult<Arma>> {
+        return flow {
+            emit(NetworkResult.Loading())
+            emit(armaRemoteDataSource.fetchArma(idArma))
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun getArmas(idPJ: Int): Flow<NetworkResult<List<Arma>>> {
         return flow {
             emit(NetworkResult.Loading())
             emit(armaRemoteDataSource.fetchArmas(idPJ))
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun insertArma(arma: Arma): Flow<NetworkResult<Arma>> {
+    fun insertArma(arma: Arma): Flow<NetworkResult<Arma>> {
         return flow {
             emit(NetworkResult.Loading())
             emit(armaRemoteDataSource.postArma(arma))
@@ -28,14 +35,14 @@ class ArmaRepository @Inject constructor(
     }
 
 
-    suspend fun updateArma(arma: Arma): Flow<NetworkResult<Arma>> {
+    fun updateArma(arma: Arma): Flow<NetworkResult<Arma>> {
         return flow {
             emit(NetworkResult.Loading())
             emit(armaRemoteDataSource.putArma(arma))
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun deleteArma(idArma: Int): Flow<NetworkResult<Arma>> {
+    fun deleteArma(idArma: Int): Flow<NetworkResult<Arma>> {
         return flow {
             emit(NetworkResult.Loading())
             emit(armaRemoteDataSource.deleteArma(idArma))

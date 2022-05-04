@@ -7,7 +7,7 @@ import retrofit2.http.*
 interface PersonajeService {
 
     @GET("api/personajes/{id}")
-    suspend fun getPersonaje(@Path("id") id: Int): Response<Personaje>
+    suspend fun getPersonajeByID(@Path("id") id: Int): Response<Personaje>
 
     @GET("api/personajes")
     suspend fun getPersonajes(): Response<List<Personaje>>

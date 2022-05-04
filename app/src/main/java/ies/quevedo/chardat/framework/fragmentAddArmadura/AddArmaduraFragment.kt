@@ -9,17 +9,21 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentAddArmaduraBinding
 import ies.quevedo.chardat.domain.model.Armadura
-import ies.quevedo.chardat.domain.model.Personaje
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class AddArmaduraFragment : Fragment() {
 
+    private val viewModel by viewModels<AddArmaduraViewModel>()
     private var _binding: FragmentAddArmaduraBinding? = null
     private val binding get() = _binding!!
-    private lateinit var personaje: Personaje
+    private var idPersonaje: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,18 +37,19 @@ class AddArmaduraFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            idPersonaje = arguments?.getInt("idPersonaje")
             rellenarCalidad()
             rellenarArmaduras()
             btCancelar.setOnClickListener {
-                findNavController().navigateUp()
+                activity?.onBackPressed()
+                findNavController().popBackStack(R.id.armaduraFragment, true)
             }
             btCrear.setOnClickListener {
                 if (faltaAlgunDato()) {
                     Toast.makeText(context, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
                 } else {
-                    val armadura = buildArmadura()
-                    // TODO: Guardar en retrofit
-                    findNavController().navigate(R.id.action_addArmaduraFragment_to_RVArmaduraFragment)
+                    val armaduraCreada = buildArmadura()
+                    insertArmaduraAndGoBack(armaduraCreada)
                 }
             }
         }
@@ -53,6 +58,25 @@ class AddArmaduraFragment : Fragment() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.clear()
+    }
+
+    private fun insertArmaduraAndGoBack(armaduraCreada: Armadura) {
+        viewModel.handleEvent(AddArmaduraContract.Event.PostArmadura(armaduraCreada))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.armadura != null) {
+                    findNavController().navigate(
+                        R.id.action_addArmaduraFragment_to_RVArmaduraFragment
+                    )
+                    findNavController().popBackStack(R.id.addArmaduraFragment, true)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun FragmentAddArmaduraBinding.buildArmadura(): Armadura {
@@ -84,7 +108,7 @@ class AddArmaduraFragment : Fragment() {
             fri,
             ene,
             descripcionArmadura,
-            personaje.id
+            idPersonaje ?: 0
         )
     }
 

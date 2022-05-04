@@ -7,19 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentObjetoBinding
 import ies.quevedo.chardat.domain.model.Objeto
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.util.*
 
 @AndroidEntryPoint
 class ShowObjetoFragment : Fragment() {
 
+    private val viewModel by viewModels<ShowObjetoViewModel>()
     private var _binding: FragmentObjetoBinding? = null
     private val binding get() = _binding!!
-    private lateinit var objeto: Objeto
+    private var idObjeto: Int = arguments?.getInt("idObjeto") ?: 0
+    private var idPersonaje: Int = arguments?.getInt("idPersonaje") ?: 0
+    private var objeto: Objeto? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,11 +39,11 @@ class ShowObjetoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        pedirObjeto()
         with(binding) {
-            rellenarCamposDeObjeto()
-            // TODO: Buscar el objeto por su id y cargar sus datos en la funcion rellenarCamposDeObjeto()
             btCancelar.setOnClickListener {
                 activity?.onBackPressed()
+                findNavController().popBackStack(R.id.objetoFragment, true)
             }
             btModificar.setOnClickListener {
                 if (faltaAlgunDato()) {
@@ -44,8 +51,7 @@ class ShowObjetoFragment : Fragment() {
                         .show()
                 } else {
                     val objetoActualizado = buildObjetoActualizado()
-                    // TODO: Actualizar objeto en retrofit
-                    findNavController().navigate(R.id.action_objetoFragment_to_RVObjetoFragment)
+                    updateObjetoAndGoBack(objetoActualizado)
                 }
             }
         }
@@ -56,20 +62,60 @@ class ShowObjetoFragment : Fragment() {
         menu.clear()
     }
 
-    private fun FragmentObjetoBinding.rellenarCamposDeObjeto() {
-        etNombreObjeto.setText(objeto.name)
-        etDescripcion.setText(objeto.description)
-        etValor.setText(objeto.value.toString())
-        etCantidad.setText(objeto.amount.toString())
-        etPeso.setText(objeto.weight.toString())
+    private fun pedirObjeto() {
+        viewModel.handleEvent(ShowObjetoContract.Event.FetchObjeto(idObjeto))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.objeto != null) {
+                    objeto = value.objeto
+                    rellenarCamposDeObjeto()
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
-    private fun FragmentObjetoBinding.buildObjetoActualizado(): Objeto {
-        objeto.name = etNombreObjeto.text.toString().uppercase(Locale.getDefault())
-        objeto.description = etDescripcion.text.toString()
-        objeto.value = etValor.text.toString().toInt()
-        objeto.amount = etCantidad.text.toString().toInt()
-        objeto.weight = etPeso.text.toString().toDouble()
+    private fun updateObjetoAndGoBack(objetoActualizado: Objeto?) {
+        viewModel.handleEvent(ShowObjetoContract.Event.PutObjeto(objetoActualizado))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.objetoActualizado != null) {
+                    val action =
+                        ShowObjetoFragmentDirections.actionObjetoFragmentToRVObjetoFragment(
+                            idPersonaje
+                        )
+                    findNavController().navigate(action)
+                    findNavController().popBackStack(R.id.objetoFragment, true)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun rellenarCamposDeObjeto() {
+        with(binding) {
+            etNombreObjeto.setText(objeto?.name)
+            etDescripcion.setText(objeto?.description)
+            etValor.setText(objeto?.value.toString())
+            etCantidad.setText(objeto?.amount.toString())
+            etPeso.setText(objeto?.weight.toString())
+        }
+    }
+
+    private fun FragmentObjetoBinding.buildObjetoActualizado(): Objeto? {
+        objeto?.name = etNombreObjeto.text.toString().uppercase(Locale.getDefault())
+        objeto?.description = etDescripcion.text.toString()
+        objeto?.value = etValor.text.toString().toInt()
+        objeto?.amount = etCantidad.text.toString().toInt()
+        objeto?.weight = etPeso.text.toString().toDouble()
         return objeto
     }
 

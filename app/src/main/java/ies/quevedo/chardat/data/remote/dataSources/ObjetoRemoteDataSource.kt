@@ -10,6 +10,12 @@ class ObjetoRemoteDataSource @Inject constructor(
     private val objetoService: ObjetoService
 ) : BaseApiResponse() {
 
+    suspend fun fetchObjeto(idObjeto: Int): NetworkResult<Objeto> {
+        return safeApiCall(
+            apiCall = { objetoService.getObjetoByID(idObjeto) }
+        )
+    }
+
     suspend fun fetchObjetos(idPJ: Int): NetworkResult<List<Objeto>> {
         return safeApiCall(
             apiCall = { objetoService.getObjetos(idPJ) }

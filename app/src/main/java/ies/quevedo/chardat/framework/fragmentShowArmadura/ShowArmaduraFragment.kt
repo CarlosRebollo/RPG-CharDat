@@ -9,20 +9,25 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentArmaduraBinding
 import ies.quevedo.chardat.domain.model.Armadura
-import ies.quevedo.chardat.domain.model.Personaje
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ShowArmaduraFragment : Fragment() {
 
+    private val viewModel by viewModels<ShowArmaduraViewModel>()
     private var _binding: FragmentArmaduraBinding? = null
     private val binding get() = _binding!!
-    private lateinit var armadura: Armadura
-    private lateinit var personaje: Personaje
+    private var idArmadura = arguments?.getInt("idArmadura")
+    private var idPersonaje = arguments?.getInt("idPersonaje")
+    private var armadura: Armadura? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,18 +35,16 @@ class ShowArmaduraFragment : Fragment() {
     ): View {
         setHasOptionsMenu(true)
         _binding = FragmentArmaduraBinding.inflate(inflater, container, false)
-        personaje = arguments?.getParcelable("personaje")!!
-        armadura = arguments?.getParcelable("armadura")!!
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        pedirArmadura()
         with(binding) {
-            rellenarCamposDeArmadura()
-            // TODO: Buscar la armadura por su id y cargar sus datos en la funcion rellenarCamposDeArmadura()
             btCancelar.setOnClickListener {
                 activity?.onBackPressed()
+                findNavController().popBackStack(R.id.armaduraFragment, true)
             }
             btModificar.setOnClickListener {
                 if (faltaAlgunDato()) {
@@ -49,8 +52,7 @@ class ShowArmaduraFragment : Fragment() {
                         .show()
                 } else {
                     val armaduraActualizada = buildArmaduraActualizada()
-                    // TODO: Guardar en retrofit
-                    findNavController().navigate(R.id.action_armaduraFragment_to_RVArmaduraFragment)
+                    updateArmaduraAndGoBack(armaduraActualizada)
                 }
             }
         }
@@ -73,36 +75,76 @@ class ShowArmaduraFragment : Fragment() {
         menu.clear()
     }
 
-    private fun FragmentArmaduraBinding.rellenarCamposDeArmadura() {
-        etNombreArmadura.setText(armadura.name)
-        etCalidad.setText(armadura.quality.toString())
-        etDescripcion.setText(armadura.description)
-        etFIL.setText(armadura.fil.toString())
-        etCON.setText(armadura.con.toString())
-        etPEN.setText(armadura.pen.toString())
-        etCAL.setText(armadura.cal.toString())
-        etELE.setText(armadura.ele.toString())
-        etFRI.setText(armadura.fri.toString())
-        etENE.setText(armadura.ene.toString())
-        etArmadura.setText(armadura.armor.toString())
-        etValor.setText(armadura.value.toString())
-        etPeso.setText(armadura.weight.toString())
+    private fun pedirArmadura() {
+        viewModel.handleEvent(ShowArmaduraContract.Event.FetchArmadura(idArmadura ?: 0))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.armadura != null) {
+                    armadura = value.armadura
+                    rellenarCamposDeArmadura()
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
-    private fun FragmentArmaduraBinding.buildArmaduraActualizada(): Armadura {
-        armadura.name = etNombreArmadura.text.toString()
-        armadura.quality = etCalidad.text.toString().toInt()
-        armadura.description = etDescripcion.text.toString()
-        armadura.fil = etFIL.text.toString().toInt()
-        armadura.con = etCON.text.toString().toInt()
-        armadura.pen = etPEN.text.toString().toInt()
-        armadura.cal = etCAL.text.toString().toInt()
-        armadura.ele = etELE.text.toString().toInt()
-        armadura.fri = etFRI.text.toString().toInt()
-        armadura.ene = etENE.text.toString().toInt()
-        armadura.armor = etArmadura.text.toString().toInt()
-        armadura.value = etValor.text.toString().toInt()
-        armadura.weight = etPeso.text.toString().toDouble()
+    private fun updateArmaduraAndGoBack(armaduraActualizada: Armadura?) {
+        viewModel.handleEvent(ShowArmaduraContract.Event.PutArmadura(armaduraActualizada))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.armaduraActualizada != null) {
+                    val action =
+                        ShowArmaduraFragmentDirections.actionArmaduraFragmentToRVArmaduraFragment(
+                            idPersonaje ?: 0
+                        )
+                    findNavController().navigate(action)
+                    findNavController().popBackStack(R.id.armaduraFragment, true)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun rellenarCamposDeArmadura() {
+        with(binding) {
+            etNombreArmadura.setText(armadura?.name)
+            etCalidad.setText(armadura?.quality.toString())
+            etDescripcion.setText(armadura?.description)
+            etFIL.setText(armadura?.fil.toString())
+            etCON.setText(armadura?.con.toString())
+            etPEN.setText(armadura?.pen.toString())
+            etCAL.setText(armadura?.cal.toString())
+            etELE.setText(armadura?.ele.toString())
+            etFRI.setText(armadura?.fri.toString())
+            etENE.setText(armadura?.ene.toString())
+            etArmadura.setText(armadura?.armor.toString())
+            etValor.setText(armadura?.value.toString())
+            etPeso.setText(armadura?.weight.toString())
+        }
+    }
+
+    private fun FragmentArmaduraBinding.buildArmaduraActualizada(): Armadura? {
+        armadura?.name = etNombreArmadura.text.toString()
+        armadura?.quality = etCalidad.text.toString().toInt()
+        armadura?.description = etDescripcion.text.toString()
+        armadura?.fil = etFIL.text.toString().toInt()
+        armadura?.con = etCON.text.toString().toInt()
+        armadura?.pen = etPEN.text.toString().toInt()
+        armadura?.cal = etCAL.text.toString().toInt()
+        armadura?.ele = etELE.text.toString().toInt()
+        armadura?.fri = etFRI.text.toString().toInt()
+        armadura?.ene = etENE.text.toString().toInt()
+        armadura?.armor = etArmadura.text.toString().toInt()
+        armadura?.value = etValor.text.toString().toInt()
+        armadura?.weight = etPeso.text.toString().toDouble()
         return armadura
     }
 

@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.fragmentListArmas
+package ies.quevedo.chardat.framework.fragmentShowArma
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,31 +13,30 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class RVArmaViewModel @Inject constructor(
+class ShowArmaViewModel @Inject constructor(
     private val armaRepository: ArmaRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<ArmaListContract.State> by lazy {
-        MutableStateFlow(ArmaListContract.State())
+    private val _uiState: MutableStateFlow<ShowArmaContract.State> by lazy {
+        MutableStateFlow(ShowArmaContract.State())
     }
-    val uiState: StateFlow<ArmaListContract.State> = _uiState
+    val uiState: StateFlow<ShowArmaContract.State> = _uiState
 
     private val _uiError = Channel<String>()
     val uiError = _uiError.receiveAsFlow()
 
     fun handleEvent(
-        event: ArmaListContract.Event,
+        event: ShowArmaContract.Event,
     ) {
         when (event) {
-            is ArmaListContract.Event.FetchArmas -> fetchArmas(event.idPersonaje)
-            is ArmaListContract.Event.PostArma -> postArma(event.arma)
-            is ArmaListContract.Event.DeleteArma -> deleteArma(event.idArma)
+            is ShowArmaContract.Event.FetchArma -> fetchArma(event.idArma)
+            is ShowArmaContract.Event.PutArma -> event.arma?.let { putArma(it) }
         }
     }
 
-    private fun fetchArmas(id: Int) {
+    private fun fetchArma(idArma: Int) {
         viewModelScope.launch {
-            armaRepository.getArmas(id)
+            armaRepository.getArma(idArma)
                 .catch(action = { cause ->
                     _uiError.send(cause.message ?: "Error")
                     Timber.tag("Error").e(cause)
@@ -50,19 +49,16 @@ class RVArmaViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            ArmaListContract.State(
-                                listaArmas = result.data ?: emptyList(),
-                                isLoading = false
-                            )
+                            ShowArmaContract.State(arma = result.data, isLoading = false)
                         }
                     }
                 }
         }
     }
 
-    private fun postArma(arma: Arma) {
+    private fun putArma(arma: Arma) {
         viewModelScope.launch {
-            armaRepository.insertArma(arma)
+            armaRepository.updateArma(arma)
                 .catch(action = { cause ->
                     _uiError.send(cause.message ?: "Error")
                     Timber.tag("Error").e(cause)
@@ -75,32 +71,7 @@ class RVArmaViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            ArmaListContract.State(
-                                armaRecuperada = result.data,
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-        }
-    }
-
-    private fun deleteArma(idArma: Int) {
-        viewModelScope.launch {
-            armaRepository.deleteArma(idArma)
-                .catch(action = { cause ->
-                    _uiError.send(cause.message ?: "Error")
-                    Timber.tag("Error").e(cause)
-                })
-                .collect { result ->
-                    when (result) {
-                        is NetworkResult.Error -> {
-                            _uiState.update { it.copy(error = result.message) }
-                            Timber.tag("Error").e(result.message)
-                        }
-                        is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
-                        is NetworkResult.Success -> _uiState.update {
-                            ArmaListContract.State(armaBorrada = result.data, isLoading = false)
+                            ShowArmaContract.State(armaActualizada = result.data, isLoading = false)
                         }
                     }
                 }

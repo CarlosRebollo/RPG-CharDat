@@ -9,17 +9,23 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentAddEscudoBinding
 import ies.quevedo.chardat.domain.model.Escudo
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AddEscudoFragment : Fragment() {
 
+    private val viewModel by viewModels<AddEscudoViewModel>()
     private var _binding: FragmentAddEscudoBinding? = null
     private val binding get() = _binding!!
+    private var idPersonaje: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,18 +40,19 @@ class AddEscudoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            idPersonaje = arguments?.getInt("idPersonaje")
             rellenarCalidad()
             rellenarEscudos()
             btCancelar.setOnClickListener {
-                findNavController().navigateUp()
+                activity?.onBackPressed()
+                findNavController().popBackStack(R.id.addEscudoFragment, true)
             }
             btCrear.setOnClickListener {
                 if (faltaAlgunDato()) {
                     Toast.makeText(context, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
                 } else {
-                    val escudo = buildEscudo()
-                    // TODO: Guardar en retrofit
-                    findNavController().navigate(R.id.action_addEscudoFragment_to_RVEscudoFragment)
+                    val escudoCreado = buildEscudo()
+                    insertEscudoAndGoBack(escudoCreado)
                 }
             }
         }
@@ -54,6 +61,23 @@ class AddEscudoFragment : Fragment() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.clear()
+    }
+
+    private fun insertEscudoAndGoBack(escudoCreado: Escudo) {
+        viewModel.handleEvent(AddEscudoContract.Event.PostEscudo(escudoCreado))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.escudo != null) {
+                    findNavController().navigate(R.id.action_addEscudoFragment_to_RVEscudoFragment)
+                    findNavController().popBackStack(R.id.addEscudoFragment, true)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun FragmentAddEscudoBinding.buildEscudo(): Escudo {
@@ -75,7 +99,7 @@ class AddEscudoFragment : Fragment() {
             damageEscudo,
             paradaEscudo,
             descripcionEscudo,
-            0 // TODO: Añadir id personaje que viene de navigation
+            idPersonaje ?: 0
         )
     }
 

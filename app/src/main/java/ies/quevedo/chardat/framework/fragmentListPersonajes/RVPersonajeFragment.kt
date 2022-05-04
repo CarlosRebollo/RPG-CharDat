@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentPersonajesBinding
+import ies.quevedo.chardat.domain.model.Personaje
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
@@ -92,6 +93,38 @@ class RVPersonajeFragment : Fragment() {
         }
     }
 
+    private fun recoverPersonaje(personaje: Personaje) {
+        viewModel.handleEvent(PersonajeListContract.Event.PostPersonaje(personaje))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.personajeRecuperado != null) {
+                    pedirPersonajes()
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun deletePersonaje(personaje: Personaje) {
+        viewModel.handleEvent(PersonajeListContract.Event.DeletePersonaje(personaje.id))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.personajeBorrado != null) {
+                    pedirPersonajes()
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
     private fun swipeToDelete() {
         binding.apply {
             ItemTouchHelper(object :
@@ -107,37 +140,13 @@ class RVPersonajeFragment : Fragment() {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val personaje = adapter.currentList[viewHolder.absoluteAdapterPosition]
-                    viewModel.handleEvent(PersonajeListContract.Event.DeletePersonaje(personaje.id))
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.uiState.collect { value ->
-                            if (value.personajeBorrado != null) {
-                                pedirPersonajes()
-                            }
-                        }
-                    }
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.uiError.collect {
-                            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                        }
-                    }
+                    deletePersonaje(personaje)
                     Snackbar.make(
                         binding.root,
                         "Se ha eliminado: ${personaje.name.uppercase(Locale.getDefault())}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
-                        viewModel.handleEvent(PersonajeListContract.Event.PostPersonaje(personaje))
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            viewModel.uiState.collect { value ->
-                                if (value.personajeRecuperado != null) {
-                                    pedirPersonajes()
-                                }
-                            }
-                        }
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            viewModel.uiError.collect {
-                                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                            }
-                        }
+                        recoverPersonaje(personaje)
                     }.show()
                 }
             }).attachToRecyclerView(binding.rvPersonajes)

@@ -9,18 +9,25 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentEscudoBinding
 import ies.quevedo.chardat.domain.model.Escudo
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ShowEscudoFragment : Fragment() {
 
+    private val viewModel by viewModels<ShowEscudoViewModel>()
     private var _binding: FragmentEscudoBinding? = null
     private val binding get() = _binding!!
-    private lateinit var escudo: Escudo
+    private var idEscudo: Int = arguments?.getInt("idEscudo") ?: 0
+    private var idPersonaje: Int = arguments?.getInt("idPersonaje") ?: 0
+    private var escudo: Escudo? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,11 +40,11 @@ class ShowEscudoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        pedirEscudo()
         with(binding) {
-            rellenarCamposDeEscudo()
-            // TODO: Buscar el escudo por su id y cargar sus datos en la funcion rellenarCamposDeEscudo()
             btCancelar.setOnClickListener {
                 activity?.onBackPressed()
+                findNavController().popBackStack(R.id.escudoFragment, true)
             }
             btModificar.setOnClickListener {
                 if (faltaAlgunDato()) {
@@ -45,8 +52,7 @@ class ShowEscudoFragment : Fragment() {
                         .show()
                 } else {
                     val escudoActualizado = buildEscudoActualizado()
-                    // TODO: Enviar el escudo actualizado a retrofit
-                    findNavController().navigate(R.id.action_escudoFragment_to_RVEscudoFragment)
+                    updateEscudoAndGoBack(escudoActualizado)
                 }
             }
         }
@@ -69,26 +75,66 @@ class ShowEscudoFragment : Fragment() {
         menu.clear()
     }
 
-    private fun FragmentEscudoBinding.rellenarCamposDeEscudo() {
-        etNombreEscudo.setText(escudo.name)
-        etCalidad.setText(escudo.quality.toString())
-        etDescripcion.setText(escudo.description)
-        etHabilidadDeAtaque.setText(escudo.attackHability.toString())
-        etDamage.setText(escudo.damage.toString())
-        etParada.setText(escudo.parry.toString())
-        etValor.setText(escudo.value.toString())
-        etPeso.setText(escudo.weight.toString())
+    private fun pedirEscudo() {
+        viewModel.handleEvent(ShowEscudoContract.Event.FetchEscudo(idEscudo))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.escudo != null) {
+                    escudo = value.escudo
+                    rellenarCamposDeEscudo()
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
-    private fun FragmentEscudoBinding.buildEscudoActualizado(): Escudo {
-        escudo.name = etNombreEscudo.text.toString()
-        escudo.quality = etCalidad.text.toString().toInt()
-        escudo.description = etDescripcion.text.toString()
-        escudo.attackHability = etHabilidadDeAtaque.text.toString().toInt()
-        escudo.damage = etDamage.text.toString().toInt()
-        escudo.parry = etParada.text.toString().toInt()
-        escudo.value = etValor.text.toString().toInt()
-        escudo.weight = etPeso.text.toString().toDouble()
+    private fun updateEscudoAndGoBack(escudoActualizado: Escudo?) {
+        viewModel.handleEvent(ShowEscudoContract.Event.PutEscudo(escudoActualizado))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.escudo != null) {
+                    val action =
+                        ShowEscudoFragmentDirections.actionEscudoFragmentToRVEscudoFragment(
+                            idPersonaje
+                        )
+                    findNavController().navigate(action)
+                    findNavController().popBackStack(R.id.escudoFragment, true)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun rellenarCamposDeEscudo() {
+        with(binding) {
+            etNombreEscudo.setText(escudo?.name)
+            etCalidad.setText(escudo?.quality.toString())
+            etDescripcion.setText(escudo?.description)
+            etHabilidadDeAtaque.setText(escudo?.attackHability.toString())
+            etDamage.setText(escudo?.damage.toString())
+            etParada.setText(escudo?.parry.toString())
+            etValor.setText(escudo?.value.toString())
+            etPeso.setText(escudo?.weight.toString())
+        }
+    }
+
+    private fun FragmentEscudoBinding.buildEscudoActualizado(): Escudo? {
+        escudo?.name = etNombreEscudo.text.toString()
+        escudo?.quality = etCalidad.text.toString().toInt()
+        escudo?.description = etDescripcion.text.toString()
+        escudo?.attackHability = etHabilidadDeAtaque.text.toString().toInt()
+        escudo?.damage = etDamage.text.toString().toInt()
+        escudo?.parry = etParada.text.toString().toInt()
+        escudo?.value = etValor.text.toString().toInt()
+        escudo?.weight = etPeso.text.toString().toDouble()
         return escudo
     }
 

@@ -9,17 +9,23 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentAddArmaBinding
 import ies.quevedo.chardat.domain.model.Arma
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AddArmaFragment : Fragment() {
 
+    private val viewModel by viewModels<AddArmaViewModel>()
     private var _binding: FragmentAddArmaBinding? = null
     private val binding get() = _binding!!
+    private var idPersonaje: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,20 +39,19 @@ class AddArmaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            idPersonaje = arguments?.getInt("idPersonaje")
             rellenarCalidad()
             rellenarArmas()
             btCancelar.setOnClickListener {
-                findNavController().navigateUp()
+                activity?.onBackPressed()
+                findNavController().popBackStack(R.id.armaFragment, true)
             }
             btCrear.setOnClickListener {
                 if (faltaAlgunDato()) {
                     Toast.makeText(context, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
                 } else {
-                    val arma = buildArma()
-                    // TODO: Guardar arma en retrofit
-                    findNavController().navigate(
-                        R.id.action_addArmaFragment_to_RVArmaFragment
-                    )
+                    val armaCreada = buildArma()
+                    insertArmaAndGoBack(armaCreada)
                 }
             }
         }
@@ -55,6 +60,25 @@ class AddArmaFragment : Fragment() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.clear()
+    }
+
+    private fun insertArmaAndGoBack(armaCreada: Arma) {
+        viewModel.handleEvent(AddArmaContract.Event.PostArma(armaCreada))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                if (value.arma != null) {
+                    findNavController().navigate(
+                        R.id.action_addArmaFragment_to_RVArmaFragment
+                    )
+                    findNavController().popBackStack(R.id.addArmaFragment, true)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun FragmentAddArmaBinding.buildArma(): Arma {
@@ -78,7 +102,7 @@ class AddArmaFragment : Fragment() {
             damageArma,
             paradaArma,
             descripcionArma,
-            0 // TODO: Poner el id del personaje que se trae del navigation
+            idPersonaje ?: 0
         )
     }
 

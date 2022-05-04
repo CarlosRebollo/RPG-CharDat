@@ -77,6 +77,9 @@
         <argument
             android:name="idArma"
             app:argType="integer" />
+        <argument
+            android:name="idPersonaje"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/addPersonajeFragment1"
@@ -224,6 +227,9 @@
         <argument
             android:name="idArmadura"
             app:argType="integer" />
+        <argument
+            android:name="idPersonaje"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/RVEscudoFragment"
@@ -263,6 +269,9 @@
         <argument
             android:name="idEscudo"
             app:argType="integer" />
+        <argument
+            android:name="idPersonaje"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/RVObjetoFragment"
@@ -301,6 +310,9 @@
             app:destination="@id/RVObjetoFragment" />
         <argument
             android:name="idObjeto"
+            app:argType="integer" />
+        <argument
+            android:name="idPersonaje"
             app:argType="integer" />
     </fragment>
 </navigation>

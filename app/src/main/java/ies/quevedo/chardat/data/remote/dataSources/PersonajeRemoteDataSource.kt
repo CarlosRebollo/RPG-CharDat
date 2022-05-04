@@ -12,7 +12,7 @@ class PersonajeRemoteDataSource @Inject constructor(
 
     suspend fun fetchPersonaje(id: Int): NetworkResult<Personaje> {
         return safeApiCall(
-            apiCall = { personajeService.getPersonaje(id) }
+            apiCall = { personajeService.getPersonajeByID(id) }
         )
     }
 

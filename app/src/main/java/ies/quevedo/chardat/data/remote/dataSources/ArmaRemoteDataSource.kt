@@ -10,6 +10,12 @@ class ArmaRemoteDataSource @Inject constructor(
     private val armaService: ArmaService
 ) : BaseApiResponse() {
 
+    suspend fun fetchArma(idArma: Int): NetworkResult<Arma> {
+        return safeApiCall(
+            apiCall = { armaService.getArmaByID(idArma) }
+        )
+    }
+
     suspend fun fetchArmas(idPJ: Int): NetworkResult<List<Arma>> {
         return safeApiCall(
             apiCall = { armaService.getArmas(idPJ) }

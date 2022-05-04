@@ -13,14 +13,21 @@ class EscudoRepository @Inject constructor(
     private val escudoRemoteDataSource: EscudoRemoteDataSource
 ) {
 
-    suspend fun getEscudos(idPJ: Int): Flow<NetworkResult<List<Escudo>>> {
+    fun getEscudo(idEscudo: Int): Flow<NetworkResult<Escudo>> {
+        return flow {
+            emit(NetworkResult.Loading())
+            emit(escudoRemoteDataSource.fetchEscudo(idEscudo))
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun getEscudos(idPJ: Int): Flow<NetworkResult<List<Escudo>>> {
         return flow {
             emit(NetworkResult.Loading())
             emit(escudoRemoteDataSource.fetchEscudos(idPJ))
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun insertEscudo(escudo: Escudo): Flow<NetworkResult<Escudo>> {
+    fun insertEscudo(escudo: Escudo): Flow<NetworkResult<Escudo>> {
         return flow {
             emit(NetworkResult.Loading())
             emit(escudoRemoteDataSource.postEscudo(escudo))
@@ -28,14 +35,14 @@ class EscudoRepository @Inject constructor(
     }
 
 
-    suspend fun updateEscudo(escudo: Escudo): Flow<NetworkResult<Escudo>> {
+    fun updateEscudo(escudo: Escudo): Flow<NetworkResult<Escudo>> {
         return flow {
             emit(NetworkResult.Loading())
             emit(escudoRemoteDataSource.putEscudo(escudo))
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun deleteEscudo(idEscudo: Int): Flow<NetworkResult<Escudo>> {
+    fun deleteEscudo(idEscudo: Int): Flow<NetworkResult<Escudo>> {
         return flow {
             emit(NetworkResult.Loading())
             emit(escudoRemoteDataSource.deleteEscudo(idEscudo))

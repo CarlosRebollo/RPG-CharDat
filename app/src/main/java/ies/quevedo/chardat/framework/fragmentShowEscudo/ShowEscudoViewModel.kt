@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.fragmentListEscudos
+package ies.quevedo.chardat.framework.fragmentShowEscudo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,31 +13,30 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class RVEscudoViewModel @Inject constructor(
+class ShowEscudoViewModel @Inject constructor(
     private val escudoRepository: EscudoRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<EscudoListContract.State> by lazy {
-        MutableStateFlow(EscudoListContract.State())
+    private val _uiState: MutableStateFlow<ShowEscudoContract.State> by lazy {
+        MutableStateFlow(ShowEscudoContract.State())
     }
-    val uiState: StateFlow<EscudoListContract.State> = _uiState
+    val uiState: StateFlow<ShowEscudoContract.State> = _uiState
 
     private val _uiError = Channel<String>()
     val uiError = _uiError.receiveAsFlow()
 
     fun handleEvent(
-        event: EscudoListContract.Event,
+        event: ShowEscudoContract.Event,
     ) {
         when (event) {
-            is EscudoListContract.Event.FetchEscudos -> fetchEscudos(event.idPersonaje)
-            is EscudoListContract.Event.PostEscudo -> postEscudo(event.escudo)
-            is EscudoListContract.Event.DeleteEscudo -> deleteEscudo(event.idEscudo)
+            is ShowEscudoContract.Event.FetchEscudo -> fetchEscudo(event.idEscudo)
+            is ShowEscudoContract.Event.PutEscudo -> event.escudo?.let { putEscudo(it) }
         }
     }
 
-    private fun fetchEscudos(idPersonaje: Int) {
+    private fun fetchEscudo(idEscudo: Int) {
         viewModelScope.launch {
-            escudoRepository.getEscudos(idPersonaje)
+            escudoRepository.getEscudo(idEscudo)
                 .catch(action = { cause ->
                     _uiError.send(cause.message ?: "Error")
                     Timber.tag("Error").e(cause)
@@ -50,19 +49,16 @@ class RVEscudoViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            EscudoListContract.State(
-                                listaEscudos = result.data ?: emptyList(),
-                                isLoading = false
-                            )
+                            ShowEscudoContract.State(escudo = result.data, isLoading = false)
                         }
                     }
                 }
         }
     }
 
-    private fun postEscudo(escudo: Escudo) {
+    private fun putEscudo(escudo: Escudo) {
         viewModelScope.launch {
-            escudoRepository.insertEscudo(escudo)
+            escudoRepository.updateEscudo(escudo)
                 .catch(action = { cause ->
                     _uiError.send(cause.message ?: "Error")
                     Timber.tag("Error").e(cause)
@@ -75,32 +71,10 @@ class RVEscudoViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            EscudoListContract.State(
-                                escudoRecuperado = result.data,
+                            ShowEscudoContract.State(
+                                escudoActualizado = result.data,
                                 isLoading = false
                             )
-                        }
-                    }
-                }
-        }
-    }
-
-    private fun deleteEscudo(idEscudo: Int) {
-        viewModelScope.launch {
-            escudoRepository.deleteEscudo(idEscudo)
-                .catch(action = { cause ->
-                    _uiError.send(cause.message ?: "Error")
-                    Timber.tag("Error").e(cause)
-                })
-                .collect { result ->
-                    when (result) {
-                        is NetworkResult.Error -> {
-                            _uiState.update { it.copy(error = result.message) }
-                            Timber.tag("Error").e(result.message)
-                        }
-                        is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
-                        is NetworkResult.Success -> _uiState.update {
-                            EscudoListContract.State(escudoBorrado = result.data, isLoading = false)
                         }
                     }
                 }

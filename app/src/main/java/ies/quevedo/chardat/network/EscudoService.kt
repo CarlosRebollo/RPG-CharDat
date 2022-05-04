@@ -6,6 +6,9 @@ import retrofit2.http.*
 
 interface EscudoService {
 
+    @GET("/api/escudos/one/{id}")
+    suspend fun getEscudoByID(@Path("id") id: Int): Response<Escudo>
+
     @GET("api/escudos/all/{id}")
     suspend fun getEscudos(@Path("id") id: Int): Response<List<Escudo>>
 

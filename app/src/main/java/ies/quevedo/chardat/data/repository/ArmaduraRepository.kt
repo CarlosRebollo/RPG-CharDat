@@ -13,6 +13,13 @@ class ArmaduraRepository @Inject constructor(
     private val armaduraRemoteDataSource: ArmaduraRemoteDataSource
 ) {
 
+    fun getArmadura(idArmadura: Int): Flow<NetworkResult<Armadura>> {
+        return flow {
+            emit(NetworkResult.Loading())
+            emit(armaduraRemoteDataSource.fetchArmadura(idArmadura))
+        }.flowOn(Dispatchers.IO)
+    }
+
     fun getArmaduras(idPJ: Int): Flow<NetworkResult<List<Armadura>>> {
         return flow {
             emit(NetworkResult.Loading())

@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.fragmentListArmaduras
+package ies.quevedo.chardat.framework.fragmentShowArmadura
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,31 +13,30 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class RVArmaduraViewModel @Inject constructor(
+class ShowArmaduraViewModel @Inject constructor(
     private val armaduraRepository: ArmaduraRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<ArmaduraListContract.State> by lazy {
-        MutableStateFlow(ArmaduraListContract.State())
+    private val _uiState: MutableStateFlow<ShowArmaduraContract.State> by lazy {
+        MutableStateFlow(ShowArmaduraContract.State())
     }
-    val uiState: StateFlow<ArmaduraListContract.State> = _uiState
+    val uiState: StateFlow<ShowArmaduraContract.State> = _uiState
 
     private val _uiError = Channel<String>()
     val uiError = _uiError.receiveAsFlow()
 
     fun handleEvent(
-        event: ArmaduraListContract.Event,
+        event: ShowArmaduraContract.Event,
     ) {
         when (event) {
-            is ArmaduraListContract.Event.FetchArmaduras -> fetchArmaduras(event.idPersonaje)
-            is ArmaduraListContract.Event.PostArmadura -> postArmadura(event.armadura)
-            is ArmaduraListContract.Event.DeleteArmadura -> deleteArmadura(event.idArmadura)
+            is ShowArmaduraContract.Event.FetchArmadura -> fetchArmadura(event.idArmadura)
+            is ShowArmaduraContract.Event.PutArmadura -> event.armadura?.let { putArmadura(it) }
         }
     }
 
-    private fun fetchArmaduras(id: Int) {
+    private fun fetchArmadura(idArmadura: Int) {
         viewModelScope.launch {
-            armaduraRepository.getArmaduras(id)
+            armaduraRepository.getArmadura(idArmadura)
                 .catch(action = { cause ->
                     _uiError.send(cause.message ?: "Error")
                     Timber.tag("Error").e(cause)
@@ -50,19 +49,16 @@ class RVArmaduraViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            ArmaduraListContract.State(
-                                listaArmaduras = result.data ?: emptyList(),
-                                isLoading = false
-                            )
+                            ShowArmaduraContract.State(armadura = result.data, isLoading = false)
                         }
                     }
                 }
         }
     }
 
-    private fun postArmadura(armadura: Armadura) {
+    private fun putArmadura(armadura: Armadura) {
         viewModelScope.launch {
-            armaduraRepository.insertArmadura(armadura)
+            armaduraRepository.updateArmadura(armadura)
                 .catch(action = { cause ->
                     _uiError.send(cause.message ?: "Error")
                     Timber.tag("Error").e(cause)
@@ -75,33 +71,8 @@ class RVArmaduraViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            ArmaduraListContract.State(
-                                armaduraRecuperada = result.data,
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-        }
-    }
-
-    private fun deleteArmadura(idArmadura: Int) {
-        viewModelScope.launch {
-            armaduraRepository.deleteArmadura(idArmadura)
-                .catch(action = { cause ->
-                    _uiError.send(cause.message ?: "Error")
-                    Timber.tag("Error").e(cause)
-                })
-                .collect { result ->
-                    when (result) {
-                        is NetworkResult.Error -> {
-                            _uiState.update { it.copy(error = result.message) }
-                            Timber.tag("Error").e(result.message)
-                        }
-                        is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
-                        is NetworkResult.Success -> _uiState.update {
-                            ArmaduraListContract.State(
-                                armaduraBorrada = result.data,
+                            ShowArmaduraContract.State(
+                                armaduraActualizada = result.data,
                                 isLoading = false
                             )
                         }

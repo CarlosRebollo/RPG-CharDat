@@ -6,6 +6,9 @@ import retrofit2.http.*
 
 interface ArmaduraService {
 
+    @GET("/api/armaduras/one/{id}")
+    suspend fun getArmaduraByID(@Path("id") id: Int): Response<Armadura>
+
     @GET("/api/armaduras/all/{id}")
     suspend fun getArmaduras(@Path("id") id: Int): Response<List<Armadura>>
 

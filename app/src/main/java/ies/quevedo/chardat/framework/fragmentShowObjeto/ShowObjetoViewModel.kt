@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.fragmentListObjetos
+package ies.quevedo.chardat.framework.fragmentShowObjeto
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,31 +13,30 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class RVObjetoViewModel @Inject constructor(
+class ShowObjetoViewModel @Inject constructor(
     private val objetoRepository: ObjetoRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<ObjetoListContract.State> by lazy {
-        MutableStateFlow(ObjetoListContract.State())
+    private val _uiState: MutableStateFlow<ShowObjetoContract.State> by lazy {
+        MutableStateFlow(ShowObjetoContract.State())
     }
-    val uiState: StateFlow<ObjetoListContract.State> = _uiState
+    val uiState: StateFlow<ShowObjetoContract.State> = _uiState
 
     private val _uiError = Channel<String>()
     val uiError = _uiError.receiveAsFlow()
 
     fun handleEvent(
-        event: ObjetoListContract.Event,
+        event: ShowObjetoContract.Event,
     ) {
         when (event) {
-            is ObjetoListContract.Event.FetchObjetos -> fetchObjetos(event.idPersonaje)
-            is ObjetoListContract.Event.PostObjeto -> postObjeto(event.objeto)
-            is ObjetoListContract.Event.DeleteObjeto -> deleteObjeto(event.idObjeto)
+            is ShowObjetoContract.Event.FetchObjeto -> fetchObjeto(event.idObjeto)
+            is ShowObjetoContract.Event.PutObjeto -> event.objeto?.let { putEscudo(it) }
         }
     }
 
-    private fun fetchObjetos(idPersonaje: Int) {
+    private fun fetchObjeto(idObjeto: Int) {
         viewModelScope.launch {
-            objetoRepository.getObjetos(idPersonaje)
+            objetoRepository.getObjeto(idObjeto)
                 .catch(action = { cause ->
                     _uiError.send(cause.message ?: "Error")
                     Timber.tag("Error").e(cause)
@@ -50,19 +49,16 @@ class RVObjetoViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            ObjetoListContract.State(
-                                listaObjetos = result.data ?: emptyList(),
-                                isLoading = false
-                            )
+                            ShowObjetoContract.State(objeto = result.data, isLoading = false)
                         }
                     }
                 }
         }
     }
 
-    private fun postObjeto(objeto: Objeto) {
+    private fun putEscudo(objeto: Objeto) {
         viewModelScope.launch {
-            objetoRepository.insertObjeto(objeto)
+            objetoRepository.updateObjeto(objeto)
                 .catch(action = { cause ->
                     _uiError.send(cause.message ?: "Error")
                     Timber.tag("Error").e(cause)
@@ -75,32 +71,10 @@ class RVObjetoViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            ObjetoListContract.State(
-                                objetoRecuperado = result.data,
+                            ShowObjetoContract.State(
+                                objetoActualizado = result.data,
                                 isLoading = false
                             )
-                        }
-                    }
-                }
-        }
-    }
-
-    private fun deleteObjeto(idObjeto: Int) {
-        viewModelScope.launch {
-            objetoRepository.deleteObjeto(idObjeto)
-                .catch(action = { cause ->
-                    _uiError.send(cause.message ?: "Error")
-                    Timber.tag("Error").e(cause)
-                })
-                .collect { result ->
-                    when (result) {
-                        is NetworkResult.Error -> {
-                            _uiState.update { it.copy(error = result.message) }
-                            Timber.tag("Error").e(result.message)
-                        }
-                        is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
-                        is NetworkResult.Success -> _uiState.update {
-                            ObjetoListContract.State(objetoBorrado = result.data, isLoading = false)
                         }
                     }
                 }
