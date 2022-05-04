@@ -8,7 +8,7 @@ interface DAOPersonaje {
 
     @Transaction
     @Query("SELECT * FROM personaje WHERE id = :id")
-    fun getPersonaje(id: Int): PersonajeEntity
+    fun getPersonaje(id: Int): PersonajeConTodo?
 
     @Transaction
     @Query("SELECT * FROM personaje")

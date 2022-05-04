@@ -78,8 +78,8 @@ class AddPersonajeFragment3 : Fragment() {
                 etStamina.text.isNullOrBlank()
 
     private fun FragmentAddPersonaje3Binding.buildPersonaje(): Personaje {
-        val nombrePersonaje = arguments?.getString("nombre")
-        val clasePersonaje = arguments?.getString("clase")
+        val nombrePersonaje = arguments?.getString("nombre") ?: ""
+        val clasePersonaje = arguments?.getString("clase") ?: ""
         val descripcionPersonaje = arguments?.getString("descripcion")
         val agilidadPersonaje = arguments?.getInt("agilidad")
         val constitucionPersonaje = arguments?.getInt("constitucion")
@@ -102,9 +102,9 @@ class AddPersonajeFragment3 : Fragment() {
         val staminaPersonaje = etStamina.text.toString().toInt()
         return Personaje(
             0,
-            nombrePersonaje!!,
+            nombrePersonaje,
+            clasePersonaje,
             nivelPersonaje,
-            clasePersonaje!!,
             descripcionPersonaje!!,
             hpPersonaje,
             hpPersonaje,

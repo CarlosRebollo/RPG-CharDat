@@ -18,7 +18,7 @@ class PersonajeRepository @Inject constructor(
 
     fun getPersonaje(id: Int): Flow<NetworkResult<Personaje>> {
         return flow {
-            emit(fetchPersonajeConTodoCached(id))
+//            emit(fetchPersonajeConTodoCached(id))
             emit(NetworkResult.Loading())
             emit(personajeRemoteDataSource.fetchPersonaje(id))
         }.flowOn(Dispatchers.IO)
@@ -26,7 +26,8 @@ class PersonajeRepository @Inject constructor(
 
     fun getPersonajes(): Flow<NetworkResult<List<Personaje>>> {
         return flow {
-            emit(fetchedPersonajesCached())
+//            emit(fetchedPersonajesCached())
+            // TODO: no buscar en room, solo traer del retrofit y cargarse el rrom (pero no borrarlo)
             emit(NetworkResult.Loading())
             emit(personajeRemoteDataSource.fetchPersonajes())
         }.flowOn(Dispatchers.IO)
@@ -53,7 +54,7 @@ class PersonajeRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    private fun fetchPersonajeConTodoCached(id: Int): NetworkResult<Personaje> {
+    /*private fun fetchPersonajeConTodoCached(id: Int): NetworkResult<Personaje> {
         return daoPersonaje.getPersonaje(id)
             .let { personaje -> NetworkResult.Success(personaje.toPersonaje()) }
     }
@@ -61,5 +62,5 @@ class PersonajeRepository @Inject constructor(
     private fun fetchedPersonajesCached(): NetworkResult<List<Personaje>> {
         return daoPersonaje.getPersonajes()
             .let { personajes -> NetworkResult.Success(personajes.map { it.toPersonaje() }) }
-    }
+    }*/
 }

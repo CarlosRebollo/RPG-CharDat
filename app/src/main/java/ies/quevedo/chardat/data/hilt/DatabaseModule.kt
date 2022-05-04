@@ -20,7 +20,7 @@ object DatabaseModule {
     fun providesDatabase(
         @ApplicationContext context: Context
     ) = Room.databaseBuilder(context, CharDatRoomDatabase::class.java, Constants.DB_NAME)
-        .fallbackToDestructiveMigrationFrom(4)
+        .fallbackToDestructiveMigration()
         .build()
 
     @Provides

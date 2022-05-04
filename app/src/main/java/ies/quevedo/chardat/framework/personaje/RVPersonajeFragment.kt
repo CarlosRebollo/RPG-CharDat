@@ -51,15 +51,11 @@ class RVPersonajeFragment : Fragment() {
             ::goMainMenu
         )
         binding.rvPersonajes.adapter = adapter
-        viewModel.handleEvent(PersonajeContract.Event.FetchPersonajes, null, 0)
+        viewModel.handleEvent(PersonajeContract.Event.FetchPersonajes)
         lifecycleScope.launch {
             viewModel.uiState.collect { value ->
                 binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
                 adapter.submitList(value.listaPersonajes)
-                value.error?.let {
-                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                    viewModel.handleEvent(PersonajeContract.Event.ShowMessage, null, 0)
-                }
             }
         }
         lifecycleScope.launch {

@@ -13,7 +13,7 @@ import ies.quevedo.chardat.data.utils.Converters
         ArmaduraEntity::class,
         EscudoEntity::class,
         ObjetoEntity::class],
-    version = 12,
+    version = 13,
     exportSchema = true
 )
 @TypeConverters(Converters::class)

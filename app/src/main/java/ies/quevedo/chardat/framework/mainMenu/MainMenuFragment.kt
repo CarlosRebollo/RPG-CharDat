@@ -17,7 +17,6 @@ import ies.quevedo.chardat.databinding.FragmentMainMenuBinding
 import ies.quevedo.chardat.domain.model.Personaje
 import ies.quevedo.chardat.framework.main.PersonajeContract
 import ies.quevedo.chardat.framework.personaje.PersonajeViewModel
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -27,7 +26,7 @@ class MainMenuFragment : Fragment() {
     private val viewModel by viewModels<PersonajeViewModel>()
     private var _binding: FragmentMainMenuBinding? = null
     private val binding get() = _binding!!
-    private lateinit var personaje: Personaje
+    private var personaje: Personaje? = null
     private var idPersonaje: Int = 0
 
     override fun onCreateView(
@@ -43,20 +42,12 @@ class MainMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.handleEvent(
-            PersonajeContract.Event.FetchPersonaje,
-            null,
-            idPersonaje
+            PersonajeContract.Event.FetchPersonaje(idPersonaje)
         )
         lifecycleScope.launch {
-            ensureActive()
             viewModel.uiState.collect { value ->
                 binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
-                value.personajeByID
-                personaje = value.personajeByID!!
-                value.error?.let {
-                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                    viewModel.handleEvent(PersonajeContract.Event.ShowMessage, null, 0)
-                }
+                value.personaje?.let { personaje = it }
             }
         }
         lifecycleScope.launch {
@@ -75,8 +66,8 @@ class MainMenuFragment : Fragment() {
     private fun setListenerActions() {
         with(binding) {
             setImageClass(personaje)
-            tvName.text = personaje.name
-            tvClase.text = personaje.clase
+            tvName.text = personaje?.name
+            tvClase.text = personaje?.clase
             var action: NavDirections
             ivInfo.setOnClickListener {
                 action =

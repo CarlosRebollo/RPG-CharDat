@@ -3,8 +3,8 @@ package ies.quevedo.chardat.domain.model
 data class Personaje(
     val id: Int,
     var name: String,
-    var level: Int,
     var clase: String,
+    var level: Int,
     var description: String,
     var currentHP: Int,
     var totalHP: Int,

@@ -5,16 +5,15 @@ import ies.quevedo.chardat.domain.model.Personaje
 interface PersonajeContract {
 
     sealed class Event {
-        object FetchPersonaje : Event()
+        class FetchPersonaje(val id : Int) : Event()
         object FetchPersonajes : Event()
-        object PostPersonaje : Event()
-        object PutPersonaje : Event()
-        object DeletePersonaje : Event()
-        object ShowMessage : Event()
+        class PostPersonaje(val personaje: Personaje) : Event()
+        class PutPersonaje(val personaje: Personaje) : Event()
+        class DeletePersonaje(val id: Int) : Event()
     }
 
     data class State(
-        val personajeByID: Personaje? = null,
+        val personaje: Personaje? = null,
         val listaPersonajes: List<Personaje>? = null,
         val isLoading: Boolean = false,
         val error: String? = null

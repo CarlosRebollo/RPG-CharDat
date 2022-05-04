@@ -25,29 +25,28 @@ class PersonajeViewModel @Inject constructor(
     private val _uiError = Channel<String>()
     val uiError = _uiError.receiveAsFlow()
 
+    init {
+
+    }
+
     fun handleEvent(
         event: PersonajeContract.Event,
-        personaje: Personaje?,
-        personajeId: Int
     ) {
         when (event) {
-            PersonajeContract.Event.FetchPersonaje -> {
-                fetchPersonaje(personajeId)
+            is PersonajeContract.Event.FetchPersonaje -> {
+                fetchPersonaje(event.id)
             }
             PersonajeContract.Event.FetchPersonajes -> {
                 fetchPersonajes()
             }
-            PersonajeContract.Event.PostPersonaje -> {
-                personaje?.let { postPersonaje(it) }
+            is PersonajeContract.Event.PostPersonaje -> {
+                postPersonaje(event.personaje)
             }
-            PersonajeContract.Event.PutPersonaje -> {
-                personaje?.let { putPersonaje(it) }
+            is PersonajeContract.Event.PutPersonaje -> {
+                putPersonaje(event.personaje)
             }
-            PersonajeContract.Event.DeletePersonaje -> {
-                deletePersonaje(personajeId)
-            }
-            PersonajeContract.Event.ShowMessage -> {
-                _uiState.update { it.copy(error = null) }
+            is PersonajeContract.Event.DeletePersonaje -> {
+                deletePersonaje(event.id)
             }
         }
     }
@@ -55,7 +54,10 @@ class PersonajeViewModel @Inject constructor(
     private fun fetchPersonaje(id: Int) {
         viewModelScope.launch {
             personajeRepository.getPersonaje(id)
-                .catch(action = { cause -> _uiError.send(cause.message ?: "Error") })
+                .catch(action = { cause ->
+                    _uiError.send(cause.message ?: "Error")
+                    //TODO: Poner logs por cada Toast de error
+                })
                 .collect { result ->
                     when (result) {
                         is NetworkResult.Error -> {
@@ -63,7 +65,7 @@ class PersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            it.copy(personajeByID = result.data, isLoading = false)
+                            PersonajeContract.State(personaje = result.data, isLoading = false)
                         }
                     }
                 }
@@ -99,7 +101,7 @@ class PersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            it.copy(personajeByID = result.data, isLoading = false)
+                            it.copy(personaje = result.data, isLoading = false)
                         }
                     }
                 }
@@ -117,7 +119,7 @@ class PersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            it.copy(personajeByID = result.data, isLoading = false)
+                            it.copy(personaje = result.data, isLoading = false)
                         }
                     }
                 }
@@ -136,7 +138,7 @@ class PersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            it.copy(personajeByID = result.data, isLoading = false)
+                            it.copy(personaje = result.data, isLoading = false)
                         }
                     }
                 }
