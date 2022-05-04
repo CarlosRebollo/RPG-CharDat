@@ -32,7 +32,6 @@ class RVPersonajeViewModel @Inject constructor(
             is PersonajeListContract.Event.FetchPersonaje -> fetchPersonaje(event.id)
             PersonajeListContract.Event.FetchPersonajes -> fetchPersonajes()
             is PersonajeListContract.Event.PostPersonaje -> postPersonaje(event.personaje)
-            is PersonajeListContract.Event.PutPersonaje -> putPersonaje(event.personaje)
             is PersonajeListContract.Event.DeletePersonaje -> deletePersonaje(event.id)
         }
     }
@@ -96,34 +95,11 @@ class RVPersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            PersonajeListContract.State(personaje = result.data, isLoading = false)
+                            PersonajeListContract.State(personajeRecuperado = result.data, isLoading = false)
                         }
                     }
                 }
         }
-    }
-
-    private fun putPersonaje(personaje: Personaje) {
-        viewModelScope.launch {
-            personajeRepository.updatePersonaje(personaje)
-                .catch(action = { cause ->
-                    _uiError.send(cause.message ?: "Error")
-                    Timber.tag("Error").e(cause)
-                })
-                .collect { result ->
-                    when (result) {
-                        is NetworkResult.Error -> {
-                            _uiState.update { it.copy(error = result.message) }
-                            Timber.tag("Error").e(result.message)
-                        }
-                        is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
-                        is NetworkResult.Success -> _uiState.update {
-                            PersonajeListContract.State(personaje = result.data, isLoading = false)
-                        }
-                    }
-                }
-        }
-
     }
 
     private fun deletePersonaje(idPersonaje: Int) {
@@ -141,7 +117,7 @@ class RVPersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            PersonajeListContract.State(personaje = result.data, isLoading = false)
+                            PersonajeListContract.State(personajeBorrado = result.data, isLoading = false)
                         }
                     }
                 }

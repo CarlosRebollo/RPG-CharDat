@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.objeto
+package ies.quevedo.chardat.framework.fragmentListEscudos
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -15,16 +15,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
-import ies.quevedo.chardat.databinding.FragmentObjetosBinding
-import ies.quevedo.chardat.domain.model.Objeto
-import ies.quevedo.chardat.domain.model.Personaje
+import ies.quevedo.chardat.databinding.FragmentEscudosBinding
 
 @AndroidEntryPoint
-class RVObjetoFragment : Fragment() {
+class RVEscudoFragment : Fragment() {
 
-    private val viewModel by viewModels<ObjetoViewModel>()
-    private lateinit var adapter: RVObjetoAdapter
-    private var _binding: FragmentObjetosBinding? = null
+    private val viewModel by viewModels<RVEscudoViewModel>()
+    private lateinit var adapter: RVEscudoAdapter
+    private var _binding: FragmentEscudosBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -32,18 +30,18 @@ class RVObjetoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentObjetosBinding.inflate(inflater, container, false)
+        _binding = FragmentEscudosBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = RVObjetoAdapter(
-            ::goObjectDetails
+        adapter = RVEscudoAdapter(
+            ::goShieldDetails
         )
-        binding.rvObjetos.adapter = adapter
+        binding.rvEscudos.adapter = adapter
         binding.fbtRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_RVObjetoFragment_to_addObjetoFragment)
+            findNavController().navigate(R.id.action_RVEscudoFragment_to_addEscudoFragment)
         }
         binding.apply {
             ItemTouchHelper(object :
@@ -61,17 +59,17 @@ class RVObjetoFragment : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     direction: Int
                 ) {
-                    val objeto = adapter.currentList[viewHolder.absoluteAdapterPosition]
+                    val escudo = adapter.currentList[viewHolder.absoluteAdapterPosition]
                     Snackbar.make(
                         binding.root,
-                        "Se ha eliminado: ${objeto.name}",
+                        "Se ha eliminado: ${escudo.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
                         adapter.notifyItemInserted(viewHolder.absoluteAdapterPosition)
                         adapter.notifyDataSetChanged()
                     }.show()
                 }
-            }).attachToRecyclerView(binding.rvObjetos)
+            }).attachToRecyclerView(binding.rvEscudos)
         }
     }
 
@@ -90,12 +88,12 @@ class RVObjetoFragment : Fragment() {
         })
     }
 
-    private fun goObjectDetails(position: Int) {
-        val objeto = adapter.currentList[position]
-        if (objeto != null) {
-            findNavController().navigate(R.id.action_RVObjetoFragment_to_objetoFragment)
+    private fun goShieldDetails(position: Int) {
+        val escudo = adapter.currentList[position]
+        if (escudo != null) {
+            findNavController().navigate(R.id.action_RVEscudoFragment_to_escudoFragment)
         } else {
-            Toast.makeText(context, "No se ha podido obtener el objeto", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "No se ha podido obtener el escudo", Toast.LENGTH_SHORT).show()
         }
     }
 }

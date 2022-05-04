@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.objeto
+package ies.quevedo.chardat.framework.fragmentAddObjeto
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentAddObjetoBinding
 import ies.quevedo.chardat.domain.model.Objeto
-import ies.quevedo.chardat.domain.model.Personaje
 import java.util.*
 
 @AndroidEntryPoint

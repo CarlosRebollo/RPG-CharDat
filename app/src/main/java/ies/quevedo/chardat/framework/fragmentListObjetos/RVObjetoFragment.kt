@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.arma
+package ies.quevedo.chardat.framework.fragmentListObjetos
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -15,34 +15,33 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
-import ies.quevedo.chardat.databinding.FragmentArmasBinding
-import ies.quevedo.chardat.domain.model.Arma
-import ies.quevedo.chardat.domain.model.Personaje
+import ies.quevedo.chardat.databinding.FragmentObjetosBinding
 
 @AndroidEntryPoint
-class RVArmaFragment : Fragment() {
+class RVObjetoFragment : Fragment() {
 
-    private val viewModel by viewModels<ArmaViewModel>()
-    private lateinit var adapter: RVArmaAdapter
-    private var _binding: FragmentArmasBinding? = null
+    private val viewModel by viewModels<RVObjetoViewModel>()
+    private lateinit var adapter: RVObjetoAdapter
+    private var _binding: FragmentObjetosBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentArmasBinding.inflate(inflater, container, false)
+        _binding = FragmentObjetosBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = RVArmaAdapter(
-            ::goWeaponDetails
+        adapter = RVObjetoAdapter(
+            ::goObjectDetails
         )
-        binding.rvArmas.adapter = adapter
+        binding.rvObjetos.adapter = adapter
         binding.fbtRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_RVArmaFragment_to_addArmaFragment)
+            findNavController().navigate(R.id.action_RVObjetoFragment_to_addObjetoFragment)
         }
         binding.apply {
             ItemTouchHelper(object :
@@ -60,17 +59,17 @@ class RVArmaFragment : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     direction: Int
                 ) {
-                    val arma = adapter.currentList[viewHolder.absoluteAdapterPosition]
+                    val objeto = adapter.currentList[viewHolder.absoluteAdapterPosition]
                     Snackbar.make(
                         binding.root,
-                        "Se ha eliminado: ${arma.name}",
+                        "Se ha eliminado: ${objeto.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
                         adapter.notifyItemInserted(viewHolder.absoluteAdapterPosition)
                         adapter.notifyDataSetChanged()
                     }.show()
                 }
-            }).attachToRecyclerView(binding.rvArmas)
+            }).attachToRecyclerView(binding.rvObjetos)
         }
     }
 
@@ -89,12 +88,12 @@ class RVArmaFragment : Fragment() {
         })
     }
 
-    private fun goWeaponDetails(position: Int) {
-        val arma = adapter.currentList[position]
-        if (arma != null) {
-            findNavController().navigate(R.id.action_RVArmaFragment_to_armaFragment)
+    private fun goObjectDetails(position: Int) {
+        val objeto = adapter.currentList[position]
+        if (objeto != null) {
+            findNavController().navigate(R.id.action_RVObjetoFragment_to_objetoFragment)
         } else {
-            Toast.makeText(context, "No se ha podido obtener el arma", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "No se ha podido obtener el objeto", Toast.LENGTH_SHORT).show()
         }
     }
 }

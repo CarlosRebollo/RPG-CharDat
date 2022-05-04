@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.arma
+package ies.quevedo.chardat.framework.fragmentAddArma
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentAddArmaBinding
 import ies.quevedo.chardat.domain.model.Arma
-import ies.quevedo.chardat.domain.model.Personaje
 
 @AndroidEntryPoint
 class AddArmaFragment : Fragment() {

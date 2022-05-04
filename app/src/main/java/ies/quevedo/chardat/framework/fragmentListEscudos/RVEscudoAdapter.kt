@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.arma
+package ies.quevedo.chardat.framework.fragmentListEscudos
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +8,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.CardItemFragmentBinding
-import ies.quevedo.chardat.domain.model.Arma
+import ies.quevedo.chardat.domain.model.Escudo
 
-class RVArmaAdapter(
-    private val goWeaponDetails: (Int) -> Unit
-) : ListAdapter<Arma,
-        RVArmaAdapter.ItemViewHolder>(ArmaDiffCallback()) {
+class RVEscudoAdapter(
+    private val goShieldDetails: (Int) -> Unit
+) : ListAdapter<Escudo, RVEscudoAdapter.ItemViewHolder>(EscudoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
@@ -25,28 +24,28 @@ class RVArmaAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         with(holder) {
             val item = getItem(position)
-            bind(item, goWeaponDetails)
+            bind(item, goShieldDetails)
         }
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = CardItemFragmentBinding.bind(itemView)
         fun bind(
-            item: Arma,
-            goWeaponDetails: (Int) -> Unit
+            item: Escudo,
+            goShieldDetails: (Int) -> Unit
         ) = with(binding) {
             tvName.text = item.name
             tvDescription.text = item.description
-            cardPersonaje.setOnClickListener { goWeaponDetails(absoluteAdapterPosition) }
+            cardPersonaje.setOnClickListener { goShieldDetails(absoluteAdapterPosition) }
         }
     }
 
-    class ArmaDiffCallback : DiffUtil.ItemCallback<Arma>() {
-        override fun areItemsTheSame(oldItem: Arma, newItem: Arma): Boolean {
+    class EscudoDiffCallback : DiffUtil.ItemCallback<Escudo>() {
+        override fun areItemsTheSame(oldItem: Escudo, newItem: Escudo): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Arma, newItem: Arma): Boolean {
+        override fun areContentsTheSame(oldItem: Escudo, newItem: Escudo): Boolean {
             return oldItem == newItem
         }
     }

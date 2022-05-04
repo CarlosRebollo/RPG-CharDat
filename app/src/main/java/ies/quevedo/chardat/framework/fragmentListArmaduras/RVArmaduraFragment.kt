@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.armadura
+package ies.quevedo.chardat.framework.fragmentListArmaduras
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -16,13 +16,11 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentArmadurasBinding
-import ies.quevedo.chardat.domain.model.Armadura
-import ies.quevedo.chardat.domain.model.Personaje
 
 @AndroidEntryPoint
 class RVArmaduraFragment : Fragment() {
 
-    private val viewModel by viewModels<ArmaduraViewModel>()
+    private val viewModel by viewModels<RVArmaduraViewModel>()
     private lateinit var adapter: RVArmaduraAdapter
     private var _binding: FragmentArmadurasBinding? = null
     private val binding get() = _binding!!

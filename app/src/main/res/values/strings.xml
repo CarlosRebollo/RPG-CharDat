@@ -56,4 +56,9 @@
     <string name="objeto">Objeto</string>
     <string name="cantidad">Cantidad</string>
     <string name="arma">Arma</string>
+    <string name="info">Stats</string>
+    <string name="armas">Armas</string>
+    <string name="armaduras">Armaduras</string>
+    <string name="objetos">Objetos</string>
+    <string name="escudos">Escudos</string>
 </resources>

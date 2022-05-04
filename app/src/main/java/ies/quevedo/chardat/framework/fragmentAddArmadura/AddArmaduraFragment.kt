@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.armadura
+package ies.quevedo.chardat.framework.fragmentAddArmadura
 
 import android.os.Bundle
 import android.view.LayoutInflater

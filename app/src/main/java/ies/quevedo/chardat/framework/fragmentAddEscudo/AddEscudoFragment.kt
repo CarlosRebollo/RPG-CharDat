@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.escudo
+package ies.quevedo.chardat.framework.fragmentAddEscudo
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentAddEscudoBinding
 import ies.quevedo.chardat.domain.model.Escudo
-import ies.quevedo.chardat.domain.model.Personaje
 
 @AndroidEntryPoint
 class AddEscudoFragment : Fragment() {

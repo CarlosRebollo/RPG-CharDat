@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.armadura
+package ies.quevedo.chardat.framework.fragmentShowArmadura
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +17,7 @@ import ies.quevedo.chardat.domain.model.Armadura
 import ies.quevedo.chardat.domain.model.Personaje
 
 @AndroidEntryPoint
-class ArmaduraFragment : Fragment() {
+class ShowArmaduraFragment : Fragment() {
 
     private var _binding: FragmentArmaduraBinding? = null
     private val binding get() = _binding!!

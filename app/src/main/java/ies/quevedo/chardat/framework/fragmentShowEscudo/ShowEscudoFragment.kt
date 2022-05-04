@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.escudo
+package ies.quevedo.chardat.framework.fragmentShowEscudo
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,10 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentEscudoBinding
 import ies.quevedo.chardat.domain.model.Escudo
-import ies.quevedo.chardat.domain.model.Personaje
 
 @AndroidEntryPoint
-class EscudoFragment : Fragment() {
+class ShowEscudoFragment : Fragment() {
 
     private var _binding: FragmentEscudoBinding? = null
     private val binding get() = _binding!!

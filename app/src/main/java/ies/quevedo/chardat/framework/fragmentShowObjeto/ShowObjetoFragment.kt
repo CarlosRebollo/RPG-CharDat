@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.objeto
+package ies.quevedo.chardat.framework.fragmentShowObjeto
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,11 +12,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentObjetoBinding
 import ies.quevedo.chardat.domain.model.Objeto
-import ies.quevedo.chardat.domain.model.Personaje
 import java.util.*
 
 @AndroidEntryPoint
-class ObjetoFragment : Fragment() {
+class ShowObjetoFragment : Fragment() {
 
     private var _binding: FragmentObjetoBinding? = null
     private val binding get() = _binding!!

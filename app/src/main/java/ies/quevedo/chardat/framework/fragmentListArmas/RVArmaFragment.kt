@@ -1,8 +1,10 @@
-package ies.quevedo.chardat.framework.fragmentListPersonajes
+package ies.quevedo.chardat.framework.fragmentListArmas
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -16,72 +18,69 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
-import ies.quevedo.chardat.databinding.FragmentPersonajesBinding
+import ies.quevedo.chardat.databinding.FragmentArmasBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.*
 
 @AndroidEntryPoint
-class RVPersonajeFragment : Fragment() {
+class RVArmaFragment : Fragment() {
 
-    private val viewModel by viewModels<RVPersonajeViewModel>()
-    private lateinit var adapter: RVPersonajeAdapter
-    private var _binding: FragmentPersonajesBinding? = null
+    private val viewModel by viewModels<RVArmaViewModel>()
+    private lateinit var adapter: RVArmaAdapter
+    private var _binding: FragmentArmasBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPersonajesBinding.inflate(inflater, container, false)
+        _binding = FragmentArmasBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val layoutManager = LinearLayoutManager(context)
-        binding.rvPersonajes.addItemDecoration(
+        binding.rvArmas.addItemDecoration(
             DividerItemDecoration(
-                binding.rvPersonajes.context,
+                binding.rvArmas.context,
                 layoutManager.orientation
             )
         )
-        adapter = RVPersonajeAdapter(
-            ::goMainMenu
+        adapter = RVArmaAdapter(
+            ::goWeaponDetails
         )
-        binding.rvPersonajes.adapter = adapter
-        pedirPersonajes()
+        binding.rvArmas.adapter = adapter
+        val idPersonaje = arguments?.getInt("idPersonaje") ?: 0
+        pedirArmasDelPersonaje(idPersonaje)
         binding.fbtRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_RVPersonajeFragment_to_addPersonajeFragment1)
+            findNavController().navigate(R.id.action_RVArmaFragment_to_addArmaFragment)
         }
         swipeToDelete()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    override fun onCreateOptionsMenu(menu: android.view.Menu, inflater: android.view.MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_item, menu)
-        val search = menu.findItem(R.id.filter)
-        val searchView = search?.actionView as? SearchView
-        searchView?.maxWidth = Int.MAX_VALUE
-        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(filtro: String): Boolean {
-                return true
+        val actionSearch = menu.findItem(R.id.filter).actionView as SearchView
+        actionSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
             }
 
-            override fun onQueryTextChange(filtro: String): Boolean {
-                return true
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
             }
         })
-        searchView?.isSubmitButtonEnabled = true
     }
 
-    private fun pedirPersonajes() {
-        viewModel.handleEvent(PersonajeListContract.Event.FetchPersonajes)
+    private fun pedirArmasDelPersonaje(idPersonaje: Int) {
+        viewModel.handleEvent(ArmaListContract.Event.FetchArmas(idPersonaje))
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { value ->
                 binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
-                if (value.listaPersonajes != null) {
-                    adapter.submitList(value.listaPersonajes)
+                if (value.listaArmas != null) {
+                    adapter.submitList(value.listaArmas)
                 }
             }
         }
@@ -105,13 +104,16 @@ class RVPersonajeFragment : Fragment() {
                 }
 
                 @SuppressLint("NotifyDataSetChanged")
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val personaje = adapter.currentList[viewHolder.absoluteAdapterPosition]
-                    viewModel.handleEvent(PersonajeListContract.Event.DeletePersonaje(personaje.id))
+                override fun onSwiped(
+                    viewHolder: RecyclerView.ViewHolder,
+                    direction: Int
+                ) {
+                    val arma = adapter.currentList[viewHolder.absoluteAdapterPosition]
+                    viewModel.handleEvent(ArmaListContract.Event.DeleteArma(arma.id))
                     viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.uiState.collect { value ->
-                            if (value.personajeBorrado != null) {
-                                pedirPersonajes()
+                            if (value.arma != null) {
+                                adapter.notifyDataSetChanged()
                             }
                         }
                     }
@@ -122,14 +124,14 @@ class RVPersonajeFragment : Fragment() {
                     }
                     Snackbar.make(
                         binding.root,
-                        "Se ha eliminado: ${personaje.name.uppercase(Locale.getDefault())}",
+                        "Se ha eliminado: ${arma.name}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
-                        viewModel.handleEvent(PersonajeListContract.Event.PostPersonaje(personaje))
+                        viewModel.handleEvent(ArmaListContract.Event.PostArma(arma))
                         viewLifecycleOwner.lifecycleScope.launch {
                             viewModel.uiState.collect { value ->
-                                if (value.personajeRecuperado != null) {
-                                    pedirPersonajes()
+                                if (value.arma != null) {
+                                    adapter.notifyDataSetChanged()
                                 }
                             }
                         }
@@ -140,19 +142,16 @@ class RVPersonajeFragment : Fragment() {
                         }
                     }.show()
                 }
-            }).attachToRecyclerView(binding.rvPersonajes)
+            }).attachToRecyclerView(binding.rvArmas)
         }
     }
 
-    private fun goMainMenu(position: Int) {
-        val personaje = adapter.currentList[position]
-        if (personaje != null) {
-            val action = RVPersonajeFragmentDirections
-                .actionRVPersonajeFragmentToMainMenuFragment(personaje.id)
-            findNavController().navigate(action)
+    private fun goWeaponDetails(position: Int) {
+        val arma = adapter.currentList[position]
+        if (arma != null) {
+            findNavController().navigate(R.id.action_RVArmaFragment_to_armaFragment)
         } else {
-            Toast.makeText(context, "No se ha podido obtener el personaje", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(context, "No se ha podido obtener el arma", Toast.LENGTH_SHORT).show()
         }
     }
 }

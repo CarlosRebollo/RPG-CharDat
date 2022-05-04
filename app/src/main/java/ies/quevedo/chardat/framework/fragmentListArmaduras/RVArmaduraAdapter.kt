@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.escudo
+package ies.quevedo.chardat.framework.fragmentListArmaduras
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.CardItemFragmentBinding
-import ies.quevedo.chardat.domain.model.Escudo
+import ies.quevedo.chardat.domain.model.Armadura
 
-class RVEscudoAdapter(
-    private val goShieldDetails: (Int) -> Unit
-) : ListAdapter<Escudo, RVEscudoAdapter.ItemViewHolder>(EscudoDiffCallback()) {
+class RVArmaduraAdapter(
+    private val goArmorDetails: (Int) -> Unit
+) : ListAdapter<Armadura, RVArmaduraAdapter.ItemViewHolder>(ArmaduraDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
@@ -24,28 +24,28 @@ class RVEscudoAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         with(holder) {
             val item = getItem(position)
-            bind(item, goShieldDetails)
+            bind(item, goArmorDetails)
         }
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = CardItemFragmentBinding.bind(itemView)
         fun bind(
-            item: Escudo,
-            goShieldDetails: (Int) -> Unit
+            item: Armadura,
+            goArmorDetails: (Int) -> Unit
         ) = with(binding) {
             tvName.text = item.name
             tvDescription.text = item.description
-            cardPersonaje.setOnClickListener { goShieldDetails(absoluteAdapterPosition) }
+            cardPersonaje.setOnClickListener { goArmorDetails(absoluteAdapterPosition) }
         }
     }
 
-    class EscudoDiffCallback : DiffUtil.ItemCallback<Escudo>() {
-        override fun areItemsTheSame(oldItem: Escudo, newItem: Escudo): Boolean {
+    class ArmaduraDiffCallback : DiffUtil.ItemCallback<Armadura>() {
+        override fun areItemsTheSame(oldItem: Armadura, newItem: Armadura): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Escudo, newItem: Escudo): Boolean {
+        override fun areContentsTheSame(oldItem: Armadura, newItem: Armadura): Boolean {
             return oldItem == newItem
         }
     }

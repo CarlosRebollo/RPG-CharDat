@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.arma
+package ies.quevedo.chardat.framework.fragmentShowArma
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +17,7 @@ import ies.quevedo.chardat.domain.model.Arma
 import ies.quevedo.chardat.domain.model.Personaje
 
 @AndroidEntryPoint
-class ArmaFragment : Fragment() {
+class ShowArmaFragment : Fragment() {
 
     private var _binding: FragmentArmaBinding? = null
     private val binding get() = _binding!!
