@@ -1,7 +1,10 @@
-package ies.quevedo.chardat.framework.personaje
+package ies.quevedo.chardat.framework.fragmentsAddPersonaje
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
@@ -10,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentAddPersonaje1Binding
 
-class AddPersonajeFragment1 : Fragment() {
+class AddPersonajeFragmentText : Fragment() {
 
     private var _binding: FragmentAddPersonaje1Binding? = null
     private val binding get() = _binding!!
@@ -27,7 +30,6 @@ class AddPersonajeFragment1 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            // He intentado hacerlo con el enum pero no he encontrado la forma de hacerlo
             val listaDeClases: Array<String> = listaDeClases()
             val adapter = ArrayAdapter(requireContext(), R.layout.list_item, listaDeClases)
             (etClases as? AutoCompleteTextView)?.setAdapter(adapter)
@@ -39,11 +41,7 @@ class AddPersonajeFragment1 : Fragment() {
                     Toast.makeText(requireContext(), "Rellena todos los campos", Toast.LENGTH_SHORT)
                         .show()
                 } else {
-                    val bundle = buildPersonaje()
-                    findNavController().navigate(
-                        R.id.action_addPersonajeFragment1_to_addPersonajeFragment2,
-                        bundle
-                    )
+                    navigateNextWithData()
                 }
             }
         }
@@ -54,15 +52,17 @@ class AddPersonajeFragment1 : Fragment() {
         menu.clear()
     }
 
-    private fun FragmentAddPersonaje1Binding.buildPersonaje(): Bundle {
-        val nombrePersonaje = etNombrePersonaje.text.toString()
-        val clasePersonaje = etClases.text.toString()
-        val descripcionPersonaje = etDescripcion.text.toString()
-        val bundle = Bundle()
-        bundle.putString("clase", clasePersonaje)
-        bundle.putString("nombre", nombrePersonaje)
-        bundle.putString("descripcion", descripcionPersonaje)
-        return bundle
+    private fun FragmentAddPersonaje1Binding.navigateNextWithData() {
+        val clase = etClases.text.toString()
+        val nombre = etNombrePersonaje.text.toString()
+        val descripcion = etDescripcion.text.toString()
+        val action =
+            AddPersonajeFragmentTextDirections.actionAddPersonajeFragment1ToAddPersonajeFragment2(
+                clase,
+                nombre,
+                descripcion
+            )
+        findNavController().navigate(action)
     }
 
     private fun FragmentAddPersonaje1Binding.faltaAlgunDato() =

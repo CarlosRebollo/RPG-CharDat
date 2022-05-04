@@ -80,7 +80,7 @@
     </fragment>
     <fragment
         android:id="@+id/addPersonajeFragment1"
-        android:name="ies.quevedo.chardat.framework.personaje.AddPersonajeFragment1"
+        android:name="ies.quevedo.chardat.framework.fragmentsAddPersonaje.AddPersonajeFragmentText"
         android:label="fragment_add_personaje"
         tools:layout="@layout/fragment_add_personaje1">
         <action
@@ -99,7 +99,7 @@
     </fragment>
     <fragment
         android:id="@+id/RVPersonajeFragment"
-        android:name="ies.quevedo.chardat.framework.personaje.RVPersonajeFragment"
+        android:name="ies.quevedo.chardat.framework.fragmentListPersonajes.RVPersonajeFragment"
         android:label="fragment_personajes_list"
         tools:layout="@layout/fragment_personajes">
         <action
@@ -113,7 +113,7 @@
     </fragment>
     <fragment
         android:id="@+id/addPersonajeFragment2"
-        android:name="ies.quevedo.chardat.framework.personaje.AddPersonajeFragment2"
+        android:name="ies.quevedo.chardat.framework.fragmentsAddPersonaje.AddPersonajeFragmentStats"
         android:label="fragment_add_personaje2"
         tools:layout="@layout/fragment_add_personaje2">
         <action
@@ -132,7 +132,7 @@
     </fragment>
     <fragment
         android:id="@+id/addPersonajeFragment3"
-        android:name="ies.quevedo.chardat.framework.personaje.AddPersonajeFragment3"
+        android:name="ies.quevedo.chardat.framework.fragmentsAddPersonaje.AddPersonajeFragmentValues"
         android:label="fragment_add_personaje3"
         tools:layout="@layout/fragment_add_personaje3">
         <action

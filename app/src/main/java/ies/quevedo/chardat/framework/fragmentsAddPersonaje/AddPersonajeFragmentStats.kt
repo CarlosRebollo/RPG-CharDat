@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.personaje
+package ies.quevedo.chardat.framework.fragmentsAddPersonaje
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +15,7 @@ import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentAddPersonaje2Binding
 
 @AndroidEntryPoint
-class AddPersonajeFragment2 : Fragment() {
+class AddPersonajeFragmentStats : Fragment() {
 
     private var _binding: FragmentAddPersonaje2Binding? = null
     private val binding get() = _binding!!
@@ -41,11 +41,7 @@ class AddPersonajeFragment2 : Fragment() {
                 if (faltaAlgunDato()) {
                     Toast.makeText(context, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
                 } else {
-                    val bundle = buildPersonaje()
-                    findNavController().navigate(
-                        R.id.action_addPersonajeFragment2_to_addPersonajeFragment3,
-                        bundle
-                    )
+                    navigateNextWithData()
                 }
             }
         }
@@ -54,6 +50,35 @@ class AddPersonajeFragment2 : Fragment() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.clear()
+    }
+
+    private fun FragmentAddPersonaje2Binding.navigateNextWithData() {
+        val clase = arguments?.getString("clase") ?: ""
+        val nombre = arguments?.getString("nombre") ?: ""
+        val descripcion = arguments?.getString("descripcion") ?: ""
+        val agilidad = etAGI.text.toString().toInt()
+        val constitucion = etCON.text.toString().toInt()
+        val destreza = etDES.text.toString().toInt()
+        val fuerza = etFUE.text.toString().toInt()
+        val inteligencia = etINT.text.toString().toInt()
+        val percepcion = etPER.text.toString().toInt()
+        val poder = etPOD.text.toString().toInt()
+        val voluntad = etVOL.text.toString().toInt()
+        val action =
+            AddPersonajeFragmentStatsDirections.actionAddPersonajeFragment2ToAddPersonajeFragment3(
+                clase,
+                nombre,
+                descripcion,
+                agilidad,
+                constitucion,
+                destreza,
+                fuerza,
+                inteligencia,
+                percepcion,
+                poder,
+                voluntad
+            )
+        findNavController().navigate(action)
     }
 
     private fun FragmentAddPersonaje2Binding.rellenarNumeros() {
@@ -78,31 +103,4 @@ class AddPersonajeFragment2 : Fragment() {
                 etPER.text.isNullOrBlank() ||
                 etPOD.text.isNullOrBlank() ||
                 etVOL.text.isNullOrBlank()
-
-    private fun FragmentAddPersonaje2Binding.buildPersonaje(): Bundle {
-        val clasePersonaje = arguments?.getString("clase")
-        val nombrePersonaje = arguments?.getString("nombre")
-        val descripcionPersonaje = arguments?.getString("descripcion")
-        val agilidadPersonaje = etAGI.text.toString().toInt()
-        val constitucionPersonaje = etCON.text.toString().toInt()
-        val destrezaPersonaje = etDES.text.toString().toInt()
-        val fuerzaPersonaje = etFUE.text.toString().toInt()
-        val inteligenciaPersonaje = etINT.text.toString().toInt()
-        val percepcionPersonaje = etPER.text.toString().toInt()
-        val poderPersonaje = etPOD.text.toString().toInt()
-        val voluntadPersonaje = etVOL.text.toString().toInt()
-        val bundle = Bundle()
-        bundle.putString("clase", clasePersonaje)
-        bundle.putString("nombre", nombrePersonaje)
-        bundle.putString("descripcion", descripcionPersonaje)
-        bundle.putInt("agilidad", agilidadPersonaje)
-        bundle.putInt("constitucion", constitucionPersonaje)
-        bundle.putInt("destreza", destrezaPersonaje)
-        bundle.putInt("fuerza", fuerzaPersonaje)
-        bundle.putInt("inteligencia", inteligenciaPersonaje)
-        bundle.putInt("percepcion", percepcionPersonaje)
-        bundle.putInt("poder", poderPersonaje)
-        bundle.putInt("voluntad", voluntadPersonaje)
-        return bundle
-    }
 }

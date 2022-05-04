@@ -15,15 +15,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentMainMenuBinding
 import ies.quevedo.chardat.domain.model.Personaje
-import ies.quevedo.chardat.framework.main.PersonajeContract
-import ies.quevedo.chardat.framework.personaje.PersonajeViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainMenuFragment : Fragment() {
 
-    private val viewModel by viewModels<PersonajeViewModel>()
+    private val viewModel by viewModels<MainMenuViewModel>()
     private var _binding: FragmentMainMenuBinding? = null
     private val binding get() = _binding!!
     private var personaje: Personaje? = null
@@ -34,23 +32,22 @@ class MainMenuFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
-        idPersonaje = arguments?.getInt("idPersonaje")!!
         _binding = FragmentMainMenuBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.handleEvent(
-            PersonajeContract.Event.FetchPersonaje(idPersonaje)
-        )
-        lifecycleScope.launch {
+        idPersonaje = arguments?.getInt("idPersonaje")!!
+        viewModel.handleEvent(MainMenuContract.Event.FetchPersonaje(idPersonaje))
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { value ->
                 binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
-                value.personaje?.let { personaje = it }
+                personaje = value.personaje
+                rellenarDatosDelPersonaje()
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiError.collect {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
@@ -65,9 +62,6 @@ class MainMenuFragment : Fragment() {
 
     private fun setListenerActions() {
         with(binding) {
-            setImageClass(personaje)
-            tvName.text = personaje?.name
-            tvClase.text = personaje?.clase
             var action: NavDirections
             ivInfo.setOnClickListener {
                 action =
@@ -95,6 +89,14 @@ class MainMenuFragment : Fragment() {
                     MainMenuFragmentDirections.actionMainMenuFragmentToRVObjetoFragment(idPersonaje)
                 findNavController().navigate(action)
             }
+        }
+    }
+
+    private fun rellenarDatosDelPersonaje() {
+        with(binding) {
+            setImageClass(personaje)
+            tvName.text = personaje?.name
+            tvClase.text = personaje?.clase
         }
     }
 

@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.personaje
+package ies.quevedo.chardat.framework.fragmentListPersonajes
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -17,7 +17,6 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentPersonajesBinding
-import ies.quevedo.chardat.framework.main.PersonajeContract
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
@@ -25,7 +24,7 @@ import java.util.*
 @AndroidEntryPoint
 class RVPersonajeFragment : Fragment() {
 
-    private val viewModel by viewModels<PersonajeViewModel>()
+    private val viewModel by viewModels<RVPersonajeViewModel>()
     private lateinit var adapter: RVPersonajeAdapter
     private var _binding: FragmentPersonajesBinding? = null
     private val binding get() = _binding!!
@@ -51,21 +50,7 @@ class RVPersonajeFragment : Fragment() {
             ::goMainMenu
         )
         binding.rvPersonajes.adapter = adapter
-        viewModel.handleEvent(PersonajeContract.Event.FetchPersonajes)
-        lifecycleScope.launch {
-            viewModel.uiState.collect { value ->
-                binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
-                adapter.submitList(value.listaPersonajes)
-            }
-        }
-        lifecycleScope.launch {
-            viewModel.uiError.collect {
-                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-            }
-        }
-        binding.fbtRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_RVPersonajeFragment_to_addPersonajeFragment1)
-        }
+        pedirPersonajes()
         swipeToDelete()
     }
 
@@ -87,6 +72,24 @@ class RVPersonajeFragment : Fragment() {
         searchView?.isSubmitButtonEnabled = true
     }
 
+    private fun pedirPersonajes() {
+        viewModel.handleEvent(PersonajeContract.Event.FetchPersonajes)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { value ->
+                binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
+                adapter.submitList(value.listaPersonajes)
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiError.collect {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+        binding.fbtRegister.setOnClickListener {
+            findNavController().navigate(R.id.action_RVPersonajeFragment_to_addPersonajeFragment1)
+        }
+    }
+
     private fun swipeToDelete() {
         binding.apply {
             ItemTouchHelper(object :
@@ -102,17 +105,37 @@ class RVPersonajeFragment : Fragment() {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val personaje = adapter.currentList[viewHolder.absoluteAdapterPosition]
-                    adapter.currentList.remove(personaje)
-                    adapter.notifyItemRemoved(viewHolder.absoluteAdapterPosition)
-                    adapter.notifyDataSetChanged()
+                    viewModel.handleEvent(PersonajeContract.Event.DeletePersonaje(personaje.id))
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.uiState.collect { value ->
+                            if (value.personaje != null) {
+                                pedirPersonajes()
+                            }
+                        }
+                    }
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.uiError.collect {
+                            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                        }
+                    }
                     Snackbar.make(
                         binding.root,
                         "Se ha eliminado: ${personaje.name.uppercase(Locale.getDefault())}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
-                        adapter.currentList.add(personaje)
-                        adapter.notifyItemInserted(viewHolder.absoluteAdapterPosition)
-                        adapter.notifyDataSetChanged()
+                        viewModel.handleEvent(PersonajeContract.Event.PostPersonaje(personaje))
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            viewModel.uiState.collect { value ->
+                                if (value.personaje != null) {
+                                    pedirPersonajes()
+                                }
+                            }
+                        }
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            viewModel.uiError.collect {
+                                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                            }
+                        }
                     }.show()
                 }
             }).attachToRecyclerView(binding.rvPersonajes)

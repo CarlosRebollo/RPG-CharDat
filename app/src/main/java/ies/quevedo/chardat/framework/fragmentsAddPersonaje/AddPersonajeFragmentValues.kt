@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.personaje
+package ies.quevedo.chardat.framework.fragmentsAddPersonaje
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,17 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
 import ies.quevedo.chardat.databinding.FragmentAddPersonaje3Binding
 import ies.quevedo.chardat.domain.model.Personaje
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.*
 
 @AndroidEntryPoint
-class AddPersonajeFragment3 : Fragment() {
+class AddPersonajeFragmentValues : Fragment() {
 
+    private val viewModel by viewModels<AddPersonajeViewModel>()
     private var _binding: FragmentAddPersonaje3Binding? = null
     private val binding get() = _binding!!
 
@@ -43,17 +48,24 @@ class AddPersonajeFragment3 : Fragment() {
                     Toast.makeText(context, "Falta algun dato", Toast.LENGTH_SHORT).show()
                 } else {
                     val personajeCreado = buildPersonaje()
-                    personajeCreado.armaduras = Collections.emptyList()
-                    personajeCreado.armas = Collections.emptyList()
-                    personajeCreado.escudos = Collections.emptyList()
-                    personajeCreado.objetos = Collections.emptyList()
-                    // TODO: Guardar el personaje en retrofit
-                    findNavController().navigate(
-                        R.id.action_addPersonajeFragment3_to_RVPersonajeFragment
-                    )
-                    findNavController().popBackStack(R.id.addPersonajeFragment1, true)
-                    findNavController().popBackStack(R.id.addPersonajeFragment2, true)
-                    findNavController().popBackStack(R.id.addPersonajeFragment3, true)
+                    viewModel.handleEvent(AddPersonajeContract.Event.PostPersonaje(personajeCreado))
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.uiState.collect { value ->
+                            if (value.personaje != null) {
+                                findNavController().navigate(
+                                    R.id.action_addPersonajeFragment3_to_RVPersonajeFragment
+                                )
+                                findNavController().popBackStack(R.id.addPersonajeFragment1, true)
+                                findNavController().popBackStack(R.id.addPersonajeFragment2, true)
+                                findNavController().popBackStack(R.id.addPersonajeFragment3, true)
+                            }
+                        }
+                    }
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.uiError.collect {
+                            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                        }
+                    }
                 }
             }
         }
