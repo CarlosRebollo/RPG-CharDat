@@ -17,23 +17,23 @@ class RVPersonajeViewModel @Inject constructor(
     private val personajeRepository: PersonajeRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<PersonajeContract.State> by lazy {
-        MutableStateFlow(PersonajeContract.State())
+    private val _uiState: MutableStateFlow<PersonajeListContract.State> by lazy {
+        MutableStateFlow(PersonajeListContract.State())
     }
-    val uiState: StateFlow<PersonajeContract.State> = _uiState
+    val uiState: StateFlow<PersonajeListContract.State> = _uiState
 
     private val _uiError = Channel<String>()
     val uiError = _uiError.receiveAsFlow()
 
     fun handleEvent(
-        event: PersonajeContract.Event,
+        event: PersonajeListContract.Event,
     ) {
         when (event) {
-            is PersonajeContract.Event.FetchPersonaje -> fetchPersonaje(event.id)
-            PersonajeContract.Event.FetchPersonajes -> fetchPersonajes()
-            is PersonajeContract.Event.PostPersonaje -> postPersonaje(event.personaje)
-            is PersonajeContract.Event.PutPersonaje -> putPersonaje(event.personaje)
-            is PersonajeContract.Event.DeletePersonaje -> deletePersonaje(event.id)
+            is PersonajeListContract.Event.FetchPersonaje -> fetchPersonaje(event.id)
+            PersonajeListContract.Event.FetchPersonajes -> fetchPersonajes()
+            is PersonajeListContract.Event.PostPersonaje -> postPersonaje(event.personaje)
+            is PersonajeListContract.Event.PutPersonaje -> putPersonaje(event.personaje)
+            is PersonajeListContract.Event.DeletePersonaje -> deletePersonaje(event.id)
         }
     }
 
@@ -52,7 +52,7 @@ class RVPersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            PersonajeContract.State(personaje = result.data, isLoading = false)
+                            PersonajeListContract.State(personaje = result.data, isLoading = false)
                         }
                     }
                 }
@@ -74,7 +74,7 @@ class RVPersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            PersonajeContract.State(listaPersonajes = result.data ?: emptyList(), isLoading = false)
+                            PersonajeListContract.State(listaPersonajes = result.data ?: emptyList(), isLoading = false)
                         }
                     }
                 }
@@ -96,7 +96,7 @@ class RVPersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            PersonajeContract.State(personaje = result.data, isLoading = false)
+                            PersonajeListContract.State(personaje = result.data, isLoading = false)
                         }
                     }
                 }
@@ -118,7 +118,7 @@ class RVPersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            PersonajeContract.State(personaje = result.data, isLoading = false)
+                            PersonajeListContract.State(personaje = result.data, isLoading = false)
                         }
                     }
                 }
@@ -141,7 +141,7 @@ class RVPersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            PersonajeContract.State(personaje = result.data, isLoading = false)
+                            PersonajeListContract.State(personaje = result.data, isLoading = false)
                         }
                     }
                 }

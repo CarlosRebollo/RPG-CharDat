@@ -1,11 +1,10 @@
-package ies.quevedo.chardat.framework.mainMenu
+package ies.quevedo.chardat.framework.fragmentMainMenu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ies.quevedo.chardat.data.repository.PersonajeRepository
 import ies.quevedo.chardat.data.utils.NetworkResult
-import ies.quevedo.chardat.framework.fragmentListPersonajes.PersonajeContract
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

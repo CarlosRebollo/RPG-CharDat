@@ -1,4 +1,4 @@
-package ies.quevedo.chardat.framework.mainMenu
+package ies.quevedo.chardat.framework.fragmentMainMenu
 
 import android.os.Bundle
 import android.view.LayoutInflater

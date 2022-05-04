@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainMenuFragment"
-        android:name="ies.quevedo.chardat.framework.mainMenu.MainMenuFragment"
+        android:name="ies.quevedo.chardat.framework.fragmentMainMenu.MainMenuFragment"
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu">
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/personajeFragment"
-        android:name="ies.quevedo.chardat.framework.personaje.PersonajeFragment"
+        android:name="ies.quevedo.chardat.framework.fragmentShowPersonaje.ShowPersonajeFragment"
         android:label="fragment_personaje"
         tools:layout="@layout/fragment_personaje">
         <action

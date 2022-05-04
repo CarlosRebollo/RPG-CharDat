@@ -2,7 +2,7 @@ package ies.quevedo.chardat.framework.fragmentListPersonajes
 
 import ies.quevedo.chardat.domain.model.Personaje
 
-interface PersonajeContract {
+interface PersonajeListContract {
 
     sealed class Event {
         class FetchPersonaje(val id: Int) : Event()

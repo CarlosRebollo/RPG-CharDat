@@ -51,6 +51,9 @@ class RVPersonajeFragment : Fragment() {
         )
         binding.rvPersonajes.adapter = adapter
         pedirPersonajes()
+        binding.fbtRegister.setOnClickListener {
+            findNavController().navigate(R.id.action_RVPersonajeFragment_to_addPersonajeFragment1)
+        }
         swipeToDelete()
     }
 
@@ -73,7 +76,7 @@ class RVPersonajeFragment : Fragment() {
     }
 
     private fun pedirPersonajes() {
-        viewModel.handleEvent(PersonajeContract.Event.FetchPersonajes)
+        viewModel.handleEvent(PersonajeListContract.Event.FetchPersonajes)
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { value ->
                 binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
@@ -84,9 +87,6 @@ class RVPersonajeFragment : Fragment() {
             viewModel.uiError.collect {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
-        }
-        binding.fbtRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_RVPersonajeFragment_to_addPersonajeFragment1)
         }
     }
 
@@ -105,7 +105,7 @@ class RVPersonajeFragment : Fragment() {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val personaje = adapter.currentList[viewHolder.absoluteAdapterPosition]
-                    viewModel.handleEvent(PersonajeContract.Event.DeletePersonaje(personaje.id))
+                    viewModel.handleEvent(PersonajeListContract.Event.DeletePersonaje(personaje.id))
                     viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.uiState.collect { value ->
                             if (value.personaje != null) {
@@ -123,7 +123,7 @@ class RVPersonajeFragment : Fragment() {
                         "Se ha eliminado: ${personaje.name.uppercase(Locale.getDefault())}",
                         Snackbar.LENGTH_LONG
                     ).setAction("Deshacer") {
-                        viewModel.handleEvent(PersonajeContract.Event.PostPersonaje(personaje))
+                        viewModel.handleEvent(PersonajeListContract.Event.PostPersonaje(personaje))
                         viewLifecycleOwner.lifecycleScope.launch {
                             viewModel.uiState.collect { value ->
                                 if (value.personaje != null) {
