@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ies.quevedo.chardat.R
@@ -26,6 +25,7 @@ class ShowPersonajeFragment : Fragment() {
     private val viewModel by viewModels<ShowPersonajeViewModel>()
     private var _binding: FragmentPersonajeBinding? = null
     private val binding get() = _binding!!
+    private var idPersonaje: Int? = null
     private var personaje: Personaje? = null
 
     override fun onCreateView(
@@ -39,9 +39,9 @@ class ShowPersonajeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        idPersonaje = arguments?.getInt("idPersonaje") ?: 0
         with(binding) {
-            val idPersonaje = arguments?.getInt("idPersonaje")
-            idPersonaje?.let { pedirPersonajeByID(it) }
+            pedirPersonajeByID(idPersonaje ?: 0)
             btCancelar.setOnClickListener {
                 activity?.onBackPressed()
                 findNavController().popBackStack(R.id.personajeFragment, true)

@@ -30,7 +30,7 @@ class RVObjetoFragment : Fragment() {
     private lateinit var adapter: RVObjetoAdapter
     private var _binding: FragmentObjetosBinding? = null
     private val binding get() = _binding!!
-    private var idPersonaje: Int = arguments?.getInt("idPersonaje") ?: 0
+    private var idPersonaje: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +43,7 @@ class RVObjetoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        idPersonaje = arguments?.getInt("idPersonaje") ?: 0
         val layoutManager = LinearLayoutManager(context)
         binding.rvObjetos.addItemDecoration(
             DividerItemDecoration(
@@ -58,7 +59,7 @@ class RVObjetoFragment : Fragment() {
         binding.fbtRegister.setOnClickListener {
             val action =
                 RVObjetoFragmentDirections.actionRVObjetoFragmentToAddObjetoFragment(
-                    idPersonaje
+                    idPersonaje ?: 0
                 )
             findNavController().navigate(action)
         }
@@ -81,7 +82,7 @@ class RVObjetoFragment : Fragment() {
     }
 
     private fun pedirObjetosDelPersonaje() {
-        viewModel.handleEvent(ObjetoListContract.Event.FetchObjetos(idPersonaje))
+        viewModel.handleEvent(ObjetoListContract.Event.FetchObjetos(idPersonaje ?: 0))
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { value ->
                 binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
@@ -174,7 +175,7 @@ class RVObjetoFragment : Fragment() {
             val action =
                 RVObjetoFragmentDirections.actionRVObjetoFragmentToObjetoFragment(
                     objeto.id,
-                    idPersonaje
+                    idPersonaje ?: 0
                 )
             findNavController().navigate(action)
         } else {

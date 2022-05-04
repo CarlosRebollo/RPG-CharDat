@@ -29,7 +29,7 @@ class RVArmaduraFragment : Fragment() {
     private lateinit var adapter: RVArmaduraAdapter
     private var _binding: FragmentArmadurasBinding? = null
     private val binding get() = _binding!!
-    private var idPersonaje: Int = arguments?.getInt("idPersonaje") ?: 0
+    private var idPersonaje: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +42,7 @@ class RVArmaduraFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        idPersonaje = arguments?.getInt("idPersonaje") ?: 0
         val layoutManager = LinearLayoutManager(context)
         binding.rvArmaduras.addItemDecoration(
             DividerItemDecoration(
@@ -56,7 +57,7 @@ class RVArmaduraFragment : Fragment() {
         pedirArmadurasDelPersonaje()
         binding.fbtRegister.setOnClickListener {
             val action = RVArmaduraFragmentDirections.actionRVArmaduraFragmentToAddArmaduraFragment(
-                idPersonaje
+                idPersonaje ?: 0
             )
             findNavController().navigate(action)
         }
@@ -79,7 +80,7 @@ class RVArmaduraFragment : Fragment() {
     }
 
     private fun pedirArmadurasDelPersonaje() {
-        viewModel.handleEvent(ArmaduraListContract.Event.FetchArmaduras(idPersonaje))
+        viewModel.handleEvent(ArmaduraListContract.Event.FetchArmaduras(idPersonaje ?: 0))
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { value ->
                 binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
@@ -156,7 +157,7 @@ class RVArmaduraFragment : Fragment() {
             val action =
                 RVArmaduraFragmentDirections.actionRVArmaduraFragmentToArmaduraFragment(
                     armadura.id,
-                    idPersonaje
+                    idPersonaje ?: 0
                 )
             findNavController().navigate(action)
         } else {

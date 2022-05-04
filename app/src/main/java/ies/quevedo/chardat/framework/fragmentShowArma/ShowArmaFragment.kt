@@ -25,8 +25,8 @@ class ShowArmaFragment : Fragment() {
     private val viewModel by viewModels<ShowArmaViewModel>()
     private var _binding: FragmentArmaBinding? = null
     private val binding get() = _binding!!
-    private var idArma: Int? = arguments?.getInt("idArma")
-    private var idPersonaje: Int? = arguments?.getInt("idPersonaje")
+    private var idArma: Int? = null
+    private var idPersonaje: Int? = null
     private var arma: Arma? = null
 
     override fun onCreateView(
@@ -40,6 +40,8 @@ class ShowArmaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        idArma = arguments?.getInt("idArma") ?: 0
+        idPersonaje = arguments?.getInt("idPersonaje") ?: 0
         pedirArma()
         with(binding) {
             btCancelar.setOnClickListener {
@@ -102,7 +104,7 @@ class ShowArmaFragment : Fragment() {
             viewModel.uiState.collect { value ->
                 if (value.arma != null) {
                     arma = value.arma
-                    rellenarCamposDeArma()
+                    rellenarCamposDeArma(value.arma)
                 }
             }
         }
@@ -113,17 +115,17 @@ class ShowArmaFragment : Fragment() {
         }
     }
 
-    private fun rellenarCamposDeArma() {
+    private fun rellenarCamposDeArma(arma: Arma) {
         with(binding) {
-            etNombreArma.setText(arma?.name)
-            etCalidad.setText(arma?.quality.toString())
-            etDescripcion.setText(arma?.description)
-            etTurno.setText(arma?.turn.toString())
-            etHabilidadDeAtaque.setText(arma?.attackHability.toString())
-            etDamage.setText(arma?.damage.toString())
-            etParada.setText(arma?.parry.toString())
-            etValor.setText(arma?.value.toString())
-            etPeso.setText(arma?.weight.toString())
+            etNombreArma.setText(arma.name)
+            etCalidad.setText(arma.quality.toString())
+            etDescripcion.setText(arma.description)
+            etTurno.setText(arma.turn.toString())
+            etHabilidadDeAtaque.setText(arma.attackHability.toString())
+            etDamage.setText(arma.damage.toString())
+            etParada.setText(arma.parry.toString())
+            etValor.setText(arma.value.toString())
+            etPeso.setText(arma.weight.toString())
         }
     }
 

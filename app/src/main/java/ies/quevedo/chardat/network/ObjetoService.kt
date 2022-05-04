@@ -7,10 +7,10 @@ import retrofit2.http.*
 interface ObjetoService {
 
     @GET("/api/objetos/one/{id}")
-    suspend fun getObjetoByID(@Path("id") id: Int): Response<Objeto>
+    suspend fun getObjetoByID(@Path("id") idObjeto: Int): Response<Objeto>
 
     @GET("api/objetos/all/{id}")
-    suspend fun getObjetos(@Path("id") id: Int): Response<List<Objeto>>
+    suspend fun getObjetos(@Path("id") idPersonaje: Int): Response<List<Objeto>>
 
     @POST("api/objetos")
     suspend fun postObjeto(@Body objeto: Objeto): Response<Objeto>

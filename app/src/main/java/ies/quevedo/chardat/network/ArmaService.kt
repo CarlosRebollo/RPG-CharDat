@@ -7,7 +7,7 @@ import retrofit2.http.*
 interface ArmaService {
 
     @GET("/api/armas/one/{id}")
-    suspend fun getArmaByID(@Path("id") id: Int): Response<Arma>
+    suspend fun getArmaByID(@Path("id") idArma: Int): Response<Arma>
 
     @GET("api/armas/all/{id}")
     suspend fun getArmas(@Path("id") idPersonaje: Int): Response<List<Arma>>

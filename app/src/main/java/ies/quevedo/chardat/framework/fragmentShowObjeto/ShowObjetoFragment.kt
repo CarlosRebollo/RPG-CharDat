@@ -24,8 +24,8 @@ class ShowObjetoFragment : Fragment() {
     private val viewModel by viewModels<ShowObjetoViewModel>()
     private var _binding: FragmentObjetoBinding? = null
     private val binding get() = _binding!!
-    private var idObjeto: Int = arguments?.getInt("idObjeto") ?: 0
-    private var idPersonaje: Int = arguments?.getInt("idPersonaje") ?: 0
+    private var idObjeto: Int? = null
+    private var idPersonaje: Int? = null
     private var objeto: Objeto? = null
 
     override fun onCreateView(
@@ -63,7 +63,7 @@ class ShowObjetoFragment : Fragment() {
     }
 
     private fun pedirObjeto() {
-        viewModel.handleEvent(ShowObjetoContract.Event.FetchObjeto(idObjeto))
+        viewModel.handleEvent(ShowObjetoContract.Event.FetchObjeto(idObjeto ?: 0))
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { value ->
                 if (value.objeto != null) {
@@ -86,7 +86,7 @@ class ShowObjetoFragment : Fragment() {
                 if (value.objetoActualizado != null) {
                     val action =
                         ShowObjetoFragmentDirections.actionObjetoFragmentToRVObjetoFragment(
-                            idPersonaje
+                            idPersonaje ?: 0,
                         )
                     findNavController().navigate(action)
                     findNavController().popBackStack(R.id.objetoFragment, true)

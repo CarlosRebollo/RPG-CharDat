@@ -39,8 +39,8 @@ class AddEscudoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        idPersonaje = arguments?.getInt("idPersonaje") ?: 0
         with(binding) {
-            idPersonaje = arguments?.getInt("idPersonaje")
             rellenarCalidad()
             rellenarEscudos()
             btCancelar.setOnClickListener {

@@ -30,7 +30,7 @@ class RVArmaFragment : Fragment() {
     private lateinit var adapter: RVArmaAdapter
     private var _binding: FragmentArmasBinding? = null
     private val binding get() = _binding!!
-    private var idPersonaje: Int = arguments?.getInt("idPersonaje") ?: 0
+    private var idPersonaje: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +43,7 @@ class RVArmaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        idPersonaje = arguments?.getInt("idPersonaje") ?: 0
         val layoutManager = LinearLayoutManager(context)
         binding.rvArmas.addItemDecoration(
             DividerItemDecoration(
@@ -57,7 +58,7 @@ class RVArmaFragment : Fragment() {
         pedirArmasDelPersonaje()
         binding.fbtRegister.setOnClickListener {
             val action =
-                RVArmaFragmentDirections.actionRVArmaFragmentToAddArmaFragment(idPersonaje)
+                RVArmaFragmentDirections.actionRVArmaFragmentToAddArmaFragment(idPersonaje ?: 0)
             findNavController().navigate(action)
         }
         swipeToDelete()
@@ -79,7 +80,7 @@ class RVArmaFragment : Fragment() {
     }
 
     private fun pedirArmasDelPersonaje() {
-        viewModel.handleEvent(ArmaListContract.Event.FetchArmas(idPersonaje))
+        viewModel.handleEvent(ArmaListContract.Event.FetchArmas(idPersonaje ?: 0))
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { value ->
                 binding.loading.visibility = if (value.isLoading) View.VISIBLE else View.GONE
@@ -161,7 +162,8 @@ class RVArmaFragment : Fragment() {
     private fun goWeaponDetails(position: Int) {
         val arma = adapter.currentList[position]
         if (arma != null) {
-            val action = RVArmaFragmentDirections.actionRVArmaFragmentToArmaFragment(arma.id, idPersonaje)
+            val action =
+                RVArmaFragmentDirections.actionRVArmaFragmentToArmaFragment(arma.id, idPersonaje ?: 0)
             findNavController().navigate(action)
         } else {
             Toast.makeText(context, "No se ha podido obtener el arma", Toast.LENGTH_SHORT).show()

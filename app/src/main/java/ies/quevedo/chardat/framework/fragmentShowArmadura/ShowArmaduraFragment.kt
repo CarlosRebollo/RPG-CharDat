@@ -25,8 +25,8 @@ class ShowArmaduraFragment : Fragment() {
     private val viewModel by viewModels<ShowArmaduraViewModel>()
     private var _binding: FragmentArmaduraBinding? = null
     private val binding get() = _binding!!
-    private var idArmadura = arguments?.getInt("idArmadura")
-    private var idPersonaje = arguments?.getInt("idPersonaje")
+    private var idArmadura: Int? = null
+    private var idPersonaje: Int? = null
     private var armadura: Armadura? = null
 
     override fun onCreateView(
@@ -40,6 +40,8 @@ class ShowArmaduraFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        idArmadura = arguments?.getInt("idArmadura") ?: 0
+        idPersonaje = arguments?.getInt("idPersonaje") ?: 0
         pedirArmadura()
         with(binding) {
             btCancelar.setOnClickListener {

@@ -30,7 +30,7 @@ class RVEscudoFragment : Fragment() {
     private lateinit var adapter: RVEscudoAdapter
     private var _binding: FragmentEscudosBinding? = null
     private val binding get() = _binding!!
-    private var idPersonaje: Int = arguments?.getInt("idPersonaje") ?: 0
+    private var idPersonaje: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +43,7 @@ class RVEscudoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        idPersonaje = arguments?.getInt("idPersonaje") ?: 0
         val layoutManager = LinearLayoutManager(context)
         binding.rvEscudos.addItemDecoration(
             DividerItemDecoration(
@@ -163,7 +164,10 @@ class RVEscudoFragment : Fragment() {
         val escudo = adapter.currentList[position]
         if (escudo != null) {
             val action =
-                RVEscudoFragmentDirections.actionRVEscudoFragmentToEscudoFragment(escudo.id, idPersonaje)
+                RVEscudoFragmentDirections.actionRVEscudoFragmentToEscudoFragment(
+                    escudo.id,
+                    idPersonaje ?: 0
+                )
             findNavController().navigate(action)
         } else {
             Toast.makeText(context, "No se ha podido obtener el escudo", Toast.LENGTH_SHORT).show()

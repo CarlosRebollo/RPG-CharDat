@@ -7,10 +7,10 @@ import retrofit2.http.*
 interface ArmaduraService {
 
     @GET("/api/armaduras/one/{id}")
-    suspend fun getArmaduraByID(@Path("id") id: Int): Response<Armadura>
+    suspend fun getArmaduraByID(@Path("id") idEscudo: Int): Response<Armadura>
 
     @GET("/api/armaduras/all/{id}")
-    suspend fun getArmaduras(@Path("id") id: Int): Response<List<Armadura>>
+    suspend fun getArmaduras(@Path("id") idPersonaje: Int): Response<List<Armadura>>
 
     @POST("/api/armaduras")
     suspend fun postArmadura(@Body armadura: Armadura): Response<Armadura>

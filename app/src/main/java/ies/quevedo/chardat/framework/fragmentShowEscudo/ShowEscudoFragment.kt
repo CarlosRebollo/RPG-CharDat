@@ -25,8 +25,8 @@ class ShowEscudoFragment : Fragment() {
     private val viewModel by viewModels<ShowEscudoViewModel>()
     private var _binding: FragmentEscudoBinding? = null
     private val binding get() = _binding!!
-    private var idEscudo: Int = arguments?.getInt("idEscudo") ?: 0
-    private var idPersonaje: Int = arguments?.getInt("idPersonaje") ?: 0
+    private var idEscudo: Int? = null
+    private var idPersonaje: Int? = null
     private var escudo: Escudo? = null
 
     override fun onCreateView(
@@ -40,6 +40,8 @@ class ShowEscudoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        idEscudo = arguments?.getInt("idEscudo") ?: 0
+        idPersonaje = arguments?.getInt("idPersonaje") ?: 0
         pedirEscudo()
         with(binding) {
             btCancelar.setOnClickListener {
@@ -76,7 +78,7 @@ class ShowEscudoFragment : Fragment() {
     }
 
     private fun pedirEscudo() {
-        viewModel.handleEvent(ShowEscudoContract.Event.FetchEscudo(idEscudo))
+        viewModel.handleEvent(ShowEscudoContract.Event.FetchEscudo(idEscudo ?: 0))
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { value ->
                 if (value.escudo != null) {
@@ -99,7 +101,7 @@ class ShowEscudoFragment : Fragment() {
                 if (value.escudo != null) {
                     val action =
                         ShowEscudoFragmentDirections.actionEscudoFragmentToRVEscudoFragment(
-                            idPersonaje
+                            idPersonaje ?: 0
                         )
                     findNavController().navigate(action)
                     findNavController().popBackStack(R.id.escudoFragment, true)

@@ -39,7 +39,7 @@ class AddObjetoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            idPersonaje = arguments?.getInt("idPersonaje")
+            idPersonaje = arguments?.getInt("idPersonaje") ?: 0
             btCancelar.setOnClickListener {
                 activity?.onBackPressed()
                 findNavController().popBackStack(R.id.addObjetoFragment, true)
