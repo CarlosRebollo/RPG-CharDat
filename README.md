@@ -1,2 +1,2 @@
 # RPG CharDat
- Android app for RPG Character management.
+ Android app for Anima Role-playing Game Character management.
