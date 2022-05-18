@@ -1,6 +1,5 @@
 package ies.quevedo.chardat.data.repository
 
-import ies.quevedo.chardat.data.local.DAOPersonaje
 import ies.quevedo.chardat.data.remote.dataSources.PersonajeRemoteDataSource
 import ies.quevedo.chardat.data.utils.NetworkResult
 import ies.quevedo.chardat.domain.model.Personaje

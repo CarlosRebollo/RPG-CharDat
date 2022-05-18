@@ -3,7 +3,6 @@ package ies.quevedo.chardat.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import ies.quevedo.chardat.data.local.*
 import ies.quevedo.chardat.data.entities.*
 import ies.quevedo.chardat.data.utils.Converters
 

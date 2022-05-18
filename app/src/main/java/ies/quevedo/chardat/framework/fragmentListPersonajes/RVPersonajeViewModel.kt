@@ -73,7 +73,9 @@ class RVPersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            PersonajeListContract.State(listaPersonajes = result.data ?: emptyList(), isLoading = false)
+                            PersonajeListContract.State(
+                                listaPersonajes = result.data ?: emptyList(), isLoading = false
+                            )
                         }
                     }
                 }
@@ -95,7 +97,10 @@ class RVPersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            PersonajeListContract.State(personajeRecuperado = result.data, isLoading = false)
+                            PersonajeListContract.State(
+                                personajeRecuperado = result.data,
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -117,7 +122,10 @@ class RVPersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            PersonajeListContract.State(personajeBorrado = result.data, isLoading = false)
+                            PersonajeListContract.State(
+                                personajeBorrado = result.data,
+                                isLoading = false
+                            )
                         }
                     }
                 }

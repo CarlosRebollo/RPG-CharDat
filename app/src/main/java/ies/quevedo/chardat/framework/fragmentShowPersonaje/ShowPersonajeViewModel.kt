@@ -6,7 +6,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ies.quevedo.chardat.data.repository.PersonajeRepository
 import ies.quevedo.chardat.data.utils.NetworkResult
 import ies.quevedo.chardat.domain.model.Personaje
-import ies.quevedo.chardat.framework.fragmentListPersonajes.PersonajeListContract
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -72,7 +71,10 @@ class ShowPersonajeViewModel @Inject constructor(
                         }
                         is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is NetworkResult.Success -> _uiState.update {
-                            ShowPersonajeContract.State(personajeActualizado = result.data, isLoading = false)
+                            ShowPersonajeContract.State(
+                                personajeActualizado = result.data,
+                                isLoading = false
+                            )
                         }
                     }
                 }

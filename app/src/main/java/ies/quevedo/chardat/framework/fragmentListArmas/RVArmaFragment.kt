@@ -163,7 +163,10 @@ class RVArmaFragment : Fragment() {
         val arma = adapter.currentList[position]
         if (arma != null) {
             val action =
-                RVArmaFragmentDirections.actionRVArmaFragmentToArmaFragment(arma.id, idPersonaje ?: 0)
+                RVArmaFragmentDirections.actionRVArmaFragmentToArmaFragment(
+                    arma.id,
+                    idPersonaje ?: 0
+                )
             findNavController().navigate(action)
         } else {
             Toast.makeText(context, "No se ha podido obtener el arma", Toast.LENGTH_SHORT).show()
